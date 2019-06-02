@@ -21,8 +21,8 @@ public class EncryptorUtil {
     }
 
     public static void main(String[] args) {
-        encrypt("waterworld1127", "test");
-        decrypt("7BVfEBPCQ3drhCx4KtGFgDnD09VfPaCF", "test");
+        encrypt("", "test");
+        decrypt("tFKs7gO+mFpEXBqWwAUq0AMBPDMNvdUh", "test");
     }
 
 }

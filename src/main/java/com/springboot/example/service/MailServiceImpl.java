@@ -1,4 +1,4 @@
-package com.springboot.example.demo;
+package com.springboot.example.service;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -16,6 +16,7 @@ import javax.mail.internet.MimeMessage;
 import java.io.File;
 import java.io.PrintWriter;
 import java.io.StringWriter;
+import java.util.Map;
 
 @Service
 public class MailServiceImpl implements MailService {
@@ -90,8 +91,7 @@ public class MailServiceImpl implements MailService {
     }
 
     @Override
-    public void sendInlineResourceMail(String to, String subject, String content, /*Map<String, String> rscIdFilePathMap*/
-                    String rscId, String res) {
+    public void sendInlineResourceMail(String to, String subject, String content, Map<String, String> resIdFilePathMap) {
         MimeMessage message = mailSender.createMimeMessage();
         try {
             MimeMessageHelper helper = new MimeMessageHelper(message, true);
@@ -100,9 +100,9 @@ public class MailServiceImpl implements MailService {
             helper.setSubject(subject);
             helper.setText(content, true);
 
-            // for (String rscId: rscIdFilePathMap.keySet()) {
-                helper.addInline(rscId, new FileSystemResource(new File(res)));
-            // }
+            for (String resId: resIdFilePathMap.keySet()) {
+                helper.addInline(resId, new FileSystemResource(new File(resIdFilePathMap.get(resId))));
+            }
 
             mailSender.send(message);
             logger.info(">>>>> SEND HTML MAIL WITH INLINE RESOURCE SUCCESS");

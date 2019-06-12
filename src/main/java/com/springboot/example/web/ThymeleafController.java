@@ -1,5 +1,6 @@
-package com.springboot.example.demo;
+package com.springboot.example.web;
 
+import com.springboot.example.domain.User;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;

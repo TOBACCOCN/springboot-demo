@@ -1,4 +1,4 @@
-package com.springboot.example.demo;
+package com.springboot.example;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -18,7 +18,7 @@ public class JasyptTests {
     private String redisPassword;
 
     @Test
-    public void testJasypt() {
+    public void jasypt() {
         logger.info(">>>>> REDIS_PASSWORD: {}", redisPassword);
     }
 

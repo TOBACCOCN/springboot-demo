@@ -1,5 +1,6 @@
-package com.springboot.example.demo;
+package com.springboot.example.web;
 
+import com.springboot.example.domain.User;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;

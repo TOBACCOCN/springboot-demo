@@ -1,4 +1,4 @@
-package com.springboot.example.demo;
+package com.springboot.example;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -29,7 +29,7 @@ public class SpringBootDemoApplication {
 
     public static void main(String[] args) {
         SpringApplication.run(SpringBootDemoApplication.class, args);
-        logger.info("staticValue: {}", staticValue);
+        logger.info(">>>>> STATIC_VALUE: {}", staticValue);
     }
 
 }

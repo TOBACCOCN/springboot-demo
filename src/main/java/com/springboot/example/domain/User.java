@@ -1,4 +1,4 @@
-package com.springboot.example.demo;
+package com.springboot.example.domain;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -21,7 +21,7 @@ public class User implements Serializable {
 
     public String name;
 
-    public int age;
+    public Integer age;
 
     public String address;
 

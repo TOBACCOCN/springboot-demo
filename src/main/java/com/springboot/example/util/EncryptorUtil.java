@@ -1,4 +1,4 @@
-package com.springboot.example.demo;
+package com.springboot.example.util;
 
 import org.jasypt.util.text.BasicTextEncryptor;
 import org.slf4j.Logger;
@@ -21,7 +21,7 @@ public class EncryptorUtil {
     }
 
     public static void main(String[] args) {
-        encrypt("", "test");
+        encrypt("test", "test");
         decrypt("tFKs7gO+mFpEXBqWwAUq0AMBPDMNvdUh", "test");
     }
 

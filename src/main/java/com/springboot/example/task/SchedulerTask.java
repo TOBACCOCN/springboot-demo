@@ -1,4 +1,4 @@
-package com.springboot.example.demo;
+package com.springboot.example.task;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -19,12 +19,12 @@ public class SchedulerTask {
 
     @Scheduled(cron = "*/6 * * * * ?")
     public void process() {
-        logger.info(">>>>> this is scheduler task running: {}", count++);
+        logger.info(">>>>> SCHEDULER TASK RUNNING: {}", count++);
     }
 
     @Scheduled(fixedRate = 6000)
     public void reportCurrentTime() {
-        logger.info(">>>>> now is: {}", LocalDateTime.now().format(dateTimeFormatter));
+        logger.info(">>>>> NOW IS: {}", LocalDateTime.now().format(dateTimeFormatter));
     }
 
 }

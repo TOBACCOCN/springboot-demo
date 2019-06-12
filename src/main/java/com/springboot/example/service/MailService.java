@@ -1,4 +1,6 @@
-package com.springboot.example.demo;
+package com.springboot.example.service;
+
+import java.util.Map;
 
 public interface MailService {
 
@@ -8,7 +10,6 @@ public interface MailService {
 
     void sendAttachmentsMail(String to, String subject, String content, String filePath);
 
-    // void sendInlineResourceMail(String to, String subject, String content, Map<String, String> rscIdFilePathMap);
-    void sendInlineResourceMail(String to, String subject, String content, String rscId, String res);
+    void sendInlineResourceMail(String to, String subject, String content, Map<String, String> rscIdFilePathMap);
 
 }

@@ -13,9 +13,9 @@ import javax.annotation.PostConstruct;
 @SpringBootApplication
 @PropertySource(value = "classpath:application.properties", encoding = "UTF-8")
 @EnableScheduling
-public class SpringBootDemoApplication {
+public class SpringBootExampleApplication {
 
-    private static Logger logger = LoggerFactory.getLogger(SpringBootDemoApplication.class);
+    private static Logger logger = LoggerFactory.getLogger(SpringBootExampleApplication.class);
 
     @Value("${value}")
     private String value;
@@ -28,7 +28,7 @@ public class SpringBootDemoApplication {
     }
 
     public static void main(String[] args) {
-        SpringApplication.run(SpringBootDemoApplication.class, args);
+        SpringApplication.run(SpringBootExampleApplication.class, args);
         logger.info(">>>>> STATIC_VALUE: {}", staticValue);
     }
 

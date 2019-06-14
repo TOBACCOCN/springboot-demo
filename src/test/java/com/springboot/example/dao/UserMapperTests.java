@@ -1,9 +1,8 @@
-package com.springboot.example;
+package com.springboot.example.dao;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.springboot.example.dao.UserMapper;
 import com.springboot.example.domain.User;
 import org.junit.Test;
 import org.junit.runner.RunWith;

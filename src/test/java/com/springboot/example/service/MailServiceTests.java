@@ -1,6 +1,5 @@
-package com.springboot.example;
+package com.springboot.example.service;
 
-import com.springboot.example.service.MailService;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.slf4j.Logger;
@@ -17,9 +16,9 @@ import java.util.UUID;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
-public class MailTests {
+public class MailServiceTests {
 
-    private static Logger logger = LoggerFactory.getLogger(MailTests.class);
+    private static Logger logger = LoggerFactory.getLogger(MailServiceTests.class);
 
     @Autowired
     private MailService mailService;

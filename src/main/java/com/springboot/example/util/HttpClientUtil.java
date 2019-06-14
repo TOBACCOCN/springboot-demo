@@ -1,6 +1,6 @@
-package com.example.demo.util;
+package com.springboot.example.util;
 
-import com.alibaba.fastjson.JSON;
+import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.HttpStatus;
 import org.apache.http.NameValuePair;
@@ -8,19 +8,16 @@ import org.apache.http.client.HttpClient;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
-import org.apache.http.entity.ContentType;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.util.EntityUtils;
-import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -68,9 +65,20 @@ public class HttpClientUtil {
         headerMap.forEach(httpPost::addHeader);
         List<NameValuePair> nameValuePairList = new ArrayList<>();
         paramMap.forEach((key, value) -> nameValuePairList.add(new BasicNameValuePair(key, value)));
-        UrlEncodedFormEntity entity = new UrlEncodedFormEntity(nameValuePairList, StandardCharsets.UTF_8);
-        httpPost.setEntity(entity);
+        HttpEntity entity = new UrlEncodedFormEntity(nameValuePairList, StandardCharsets.UTF_8);
+        return getResponse(httpClient, httpPost, entity);
+    }
 
+    /**
+     * 设置请求体信息并执行请求
+     *
+     * @param httpClient 请求客户端
+     * @param httpPost   请求对象
+     * @param entity     请求体
+     * @return 响应信息
+     */
+    private static String getResponse(HttpClient httpClient, HttpPost httpPost, HttpEntity entity) throws IOException {
+        httpPost.setEntity(entity);
         String result = "";
         logger.info(">>>>> SENDING HTTP_POST");
         HttpResponse response = httpClient.execute(httpPost);
@@ -93,49 +101,8 @@ public class HttpClientUtil {
         HttpClient httpClient = HttpClients.createDefault();
         HttpPost httpPost = new HttpPost(url);
         headerMap.forEach(httpPost::addHeader);
-        StringEntity entity = new StringEntity(json, StandardCharsets.UTF_8);
-        httpPost.setEntity(entity);
-
-        String result = "";
-        logger.info(">>>>> SENDING HTTP_POST");
-        HttpResponse response = httpClient.execute(httpPost);
-        if (response.getStatusLine().getStatusCode() == HttpStatus.SC_OK) {
-            logger.info(">>>>> RESPONSE SUCCESS");
-            result = EntityUtils.toString(response.getEntity(), StandardCharsets.UTF_8);
-        }
-        return result;
-    }
-
-    @Test
-    public void httpGet() throws IOException {
-        String url = "https://www.baidu.com";
-        String result = httpGet(url);
-        logger.info(">>>>> RESULT: {}", result);
-    }
-
-    @Test
-    public void httpPost() throws IOException {
-        String url = "http://127.0.0.1:9527/hello";
-        Map<String, String> headerMap = new HashMap<>();
-        headerMap.put("Content-Type", ContentType.APPLICATION_FORM_URLENCODED.toString());
-        Map<String, String> paramMap = new HashMap<>();
-        paramMap.put("foo", "bar");
-        paramMap.put("bar", "barz");
-        String result = httpPost(url, headerMap, paramMap);
-        logger.info(">>>>> RESULT: {}", result);
-    }
-
-    @Test
-    public void httpPostJSON() throws IOException {
-        String url = "http://127.0.0.1:9527/helloJSON";
-        Map<String, String> headerMap = new HashMap<>();
-        headerMap.put("Content-Type", ContentType.APPLICATION_JSON.toString());
-        Map<String, String> paramMap = new HashMap<>();
-        paramMap.put("foo", "bar");
-        paramMap.put("bar", "barz");
-        String json = JSON.toJSONString(paramMap);
-        String result = httpPostJSON(url, headerMap, json);
-        logger.info(">>>>> RESULT: {}", result);
+        HttpEntity entity = new StringEntity(json, StandardCharsets.UTF_8);
+        return getResponse(httpClient, httpPost, entity);
     }
 
 }

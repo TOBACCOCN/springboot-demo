@@ -1,31 +1,20 @@
 package com.springboot.example.util;
 
 import org.junit.Test;
+import org.junit.runner.RunWith;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.junit4.SpringRunner;
 
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.PrintWriter;
-import java.io.StringWriter;
 
-public class ErrorPrintUtil {
+@RunWith(SpringRunner.class)
+@SpringBootTest
+public class ErrorPrintUtilTests {
 
-    private static Logger logger = LoggerFactory.getLogger(ErrorPrintUtil.class);
-
-    public static void printErrorMsg(Logger logger, Throwable e) {
-        printErrorMsg(logger, e, null);
-    }
-
-    public static void printErrorMsg(Logger logger, Throwable e, String prefix) {
-        StringWriter stringWriter = new StringWriter();
-        e.printStackTrace(new PrintWriter(stringWriter, true));
-        if (prefix != null) {
-            logger.error(prefix + stringWriter.toString());
-        } else {
-            logger.error(stringWriter.toString());
-        }
-    }
+    private static Logger logger = LoggerFactory.getLogger(ErrorPrintUtilTests.class);
 
     @Test
     public void printErrorMsg() {
@@ -33,7 +22,7 @@ public class ErrorPrintUtil {
             FileInputStream fis = new FileInputStream(new File(""));
             fis.close();
         } catch (Exception e) {
-            printErrorMsg(logger, e);
+            ErrorPrintUtil.printErrorMsg(logger, e);
         }
     }
 

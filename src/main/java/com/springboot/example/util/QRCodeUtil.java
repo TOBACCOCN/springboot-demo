@@ -1,4 +1,4 @@
-package com.example.demo.util;
+package com.springboot.example.util;
 
 import com.google.zxing.BarcodeFormat;
 import com.google.zxing.BinaryBitmap;
@@ -9,9 +9,6 @@ import com.google.zxing.common.BitMatrix;
 import com.google.zxing.common.HybridBinarizer;
 import com.google.zxing.qrcode.QRCodeReader;
 import com.google.zxing.qrcode.QRCodeWriter;
-import org.junit.Test;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
@@ -26,8 +23,6 @@ import java.io.OutputStream;
  * @date 2019.6.13
  */
 public class QRCodeUtil {
-
-    private static Logger logger = LoggerFactory.getLogger(QRCodeUtil.class);
 
     /**
      * 生成二维码
@@ -56,29 +51,7 @@ public class QRCodeUtil {
         BufferedImageLuminanceSource source = new BufferedImageLuminanceSource(bufferedImage);
         BinaryBitmap bitmap = new BinaryBitmap(new HybridBinarizer(source));
         Result result = reader.decode(bitmap);
-        logger.info(">>>>> RESULT: {}", result.toString());
         return result.toString();
-    }
-
-    @Test
-    public void encode() throws Exception {
-        // 生成二维码
-        // String url = "https://qr.alipay.com/fkx09314x4cvcllpxtmr3bd";
-        String url = "weixin://wxpay/bizpayurl?pr=ZaC5KPJ";
-        int width = 258;
-        int height = 258;
-        String qrCodeFilePath = "D:\\weixinPay.png";
-        String type = "png";
-        encode(url, width, height, qrCodeFilePath, type);
-        logger.info(">>>>> WRITE QR_CODE TO {}, DONE", qrCodeFilePath);
-    }
-
-    @Test
-    public void decode() throws Exception {
-        // 解析二维码
-        String qrCodeFilePath = "D:\\weixinPay.png";
-        String result = decode(qrCodeFilePath);
-        logger.info(">>>>> RESULT: {}", result);
     }
 
 }

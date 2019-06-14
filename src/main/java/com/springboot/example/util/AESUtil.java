@@ -1,6 +1,5 @@
-package com.example.demo.util;
+package com.springboot.example.util;
 
-import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -93,18 +92,6 @@ public class AESUtil {
             ErrorPrintUtil.printErrorMsg(logger, e);
         }
         return null;
-    }
-
-    @Test
-    public void encode() {
-        String content = "abc";
-        logger.info(">>>>> {}--------{}", content, encode(content));
-    }
-
-    @Test
-    public void decode() {
-        String encrypt = "zHFlOpVpD1DT1eL4psjNKg==";
-        logger.info(">>>>> {}--------{}", encrypt, decode(encrypt));
     }
 
 }

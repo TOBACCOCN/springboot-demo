@@ -1,6 +1,5 @@
-package com.example.demo.util;
+package com.springboot.example.util;
 
-import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -45,11 +44,6 @@ public class MD5Util {
             chars[k++] = baseChars[b & 0xf];
         }
         return new String(chars);
-    }
-
-    @Test
-    public void encode() throws NoSuchAlgorithmException {
-        logger.info(">>>>> hello: {}", encode("hello".getBytes()));
     }
 
 }

@@ -1,4 +1,4 @@
-package com.example.demo.util;
+package com.springboot.example.util;
 
 import javax.net.ssl.HostnameVerifier;
 import javax.net.ssl.SSLSession;

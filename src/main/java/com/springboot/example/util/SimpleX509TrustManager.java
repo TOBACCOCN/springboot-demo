@@ -1,4 +1,4 @@
-package com.example.demo.util;
+package com.springboot.example.util;
 
 import javax.net.ssl.X509TrustManager;
 import java.security.cert.X509Certificate;

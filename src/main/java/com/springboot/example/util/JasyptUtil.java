@@ -8,7 +8,7 @@ import org.jasypt.util.text.BasicTextEncryptor;
  * @author zhangyonghong
  * @date 2019.6.14
  */
-public class EncryptorUtil {
+public class JasyptUtil {
 
     public static String encrypt(String content, String salt) {
         BasicTextEncryptor textEncryptor = new BasicTextEncryptor();

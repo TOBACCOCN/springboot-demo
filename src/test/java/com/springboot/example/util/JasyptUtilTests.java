@@ -9,22 +9,22 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
-public class EncryptorUtilTests {
+public class JasyptUtilTests {
 
-    private static Logger logger = LoggerFactory.getLogger(EncryptorUtilTests.class);
+    private static Logger logger = LoggerFactory.getLogger(JasyptUtilTests.class);
 
     @Test
     public void encrypt() {
         String content = "test";
         String salt = "test";
-        logger.info(">>>>> {}: {}", content, EncryptorUtil.encrypt(content, salt));
+        logger.info(">>>>> {}: {}", content, JasyptUtil.encrypt(content, salt));
     }
 
     @Test
     public void decrypt() {
         String encrypt = "tFKs7gO+mFpEXBqWwAUq0AMBPDMNvdUh";
         String salt = "test";
-        logger.info(">>>>> {}: {}", encrypt, EncryptorUtil.decrypt(encrypt, salt));
+        logger.info(">>>>> {}: {}", encrypt, JasyptUtil.decrypt(encrypt, salt));
     }
 
 }

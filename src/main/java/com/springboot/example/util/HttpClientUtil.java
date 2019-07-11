@@ -15,6 +15,8 @@ import org.apache.http.util.EntityUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import javax.net.ssl.SSLContext;
+import javax.net.ssl.TrustManager;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
@@ -37,8 +39,8 @@ public class HttpClientUtil {
      * @param url 请求地址
      * @return 响应消息
      */
-    public static String httpGet(String url) throws IOException {
-        HttpClient httpClient = HttpClients.createDefault();
+    public static String httpGet(String url) throws Exception {
+        HttpClient httpClient = getHttpClient(url);
         HttpGet httpGet = new HttpGet(url);
         logger.info(">>>>> SENDING HTTP_GET");
         HttpResponse response = httpClient.execute(httpGet);
@@ -51,6 +53,17 @@ public class HttpClientUtil {
         return result;
     }
 
+    private static HttpClient getHttpClient(String url) throws Exception {
+        if (url.startsWith("https")) {
+            SSLContext sslContext = SSLContext.getInstance("TLS");
+            TrustManager[] trustManager = {new SimpleX509TrustManager()};
+            sslContext.init(null, trustManager, null);
+            return HttpClients.custom().setSSLContext(sslContext).setSSLHostnameVerifier(new SimpleHostnameVerifier()).build();
+        } else {
+            return HttpClients.createDefault();
+        }
+    }
+
     /**
      * POST 请求
      *
@@ -59,8 +72,8 @@ public class HttpClientUtil {
      * @param paramMap  请求参数
      * @return 响应消息
      */
-    public static String httpPost(String url, Map<String, String> headerMap, Map<String, String> paramMap) throws IOException {
-        HttpClient httpClient = HttpClients.createDefault();
+    public static String httpPost(String url, Map<String, String> headerMap, Map<String, String> paramMap) throws Exception {
+        HttpClient httpClient = getHttpClient(url);
         HttpPost httpPost = new HttpPost(url);
         headerMap.forEach(httpPost::addHeader);
         List<NameValuePair> nameValuePairList = new ArrayList<>();
@@ -97,8 +110,8 @@ public class HttpClientUtil {
      * @param json      请求参数
      * @return 响应消息
      */
-    public static String httpPostJSON(String url, Map<String, String> headerMap, String json) throws IOException {
-        HttpClient httpClient = HttpClients.createDefault();
+    public static String httpPostJSON(String url, Map<String, String> headerMap, String json) throws Exception {
+        HttpClient httpClient = getHttpClient(url);
         HttpPost httpPost = new HttpPost(url);
         headerMap.forEach(httpPost::addHeader);
         HttpEntity entity = new StringEntity(json, StandardCharsets.UTF_8);

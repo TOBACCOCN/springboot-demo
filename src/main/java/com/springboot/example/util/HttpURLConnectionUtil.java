@@ -5,7 +5,6 @@ import org.slf4j.LoggerFactory;
 
 import javax.net.ssl.HttpsURLConnection;
 import javax.net.ssl.SSLContext;
-import javax.net.ssl.SSLSocketFactory;
 import javax.net.ssl.TrustManager;
 import java.io.*;
 import java.net.HttpURLConnection;
@@ -37,11 +36,10 @@ public class HttpURLConnectionUtil {
         if (url.toLowerCase().startsWith("https")) {
             HttpsURLConnection.setDefaultHostnameVerifier(new SimpleHostnameVerifier());
             HttpsURLConnection connection = (HttpsURLConnection) serverUrl.openConnection();
-            TrustManager[] tm = {new SimpleX509TrustManager()};
             SSLContext sslContext = SSLContext.getInstance("TLS");
-            sslContext.init(null, tm, null);
-            SSLSocketFactory ssf = sslContext.getSocketFactory();
-            connection.setSSLSocketFactory(ssf);
+            TrustManager[] trustManager = {new SimpleX509TrustManager()};
+            sslContext.init(null, trustManager, null);
+            connection.setSSLSocketFactory(sslContext.getSocketFactory());
             return connection;
         }
         return (HttpURLConnection) serverUrl.openConnection();

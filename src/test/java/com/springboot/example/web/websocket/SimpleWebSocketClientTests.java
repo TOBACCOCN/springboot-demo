@@ -3,6 +3,7 @@ package com.springboot.example.web.websocket;
 import com.alibaba.fastjson.JSON;
 import com.springboot.example.util.ErrorPrintUtil;
 import com.springboot.example.util.SignUtil;
+import com.springboot.example.util.SimpleX509TrustManager;
 import org.java_websocket.client.WebSocketClient;
 import org.junit.Before;
 import org.junit.Test;
@@ -10,6 +11,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.util.DigestUtils;
 
+import javax.net.ssl.SSLContext;
+import javax.net.ssl.TrustManager;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.RandomAccessFile;
@@ -30,12 +33,19 @@ public class SimpleWebSocketClientTests {
     public void connect() {
         new Thread(() -> {
             try {
-                URI uri = new URI("ws://127.0.0.1:9527/websocket");
+                // URI uri = new URI("ws://127.0.0.1:9527/websocket");
+                URI uri = new URI("wss://127.0.0.1:9527/websocket");
                 Map<String, String> httpHeaders = new HashMap<>();
                 httpHeaders.put("id", UUID.randomUUID().toString().replaceAll("-", ""));
                 httpHeaders.put("foo", "bar");
                 httpHeaders.put("sign", SignUtil.generateSignature(httpHeaders, "sign"));
                 webSocketClient = new SimpleWebSocketClient(uri, httpHeaders);
+                if (uri.toString().startsWith("wss")) {
+                    SSLContext sslContext =  SSLContext.getInstance( "TLS" );
+                    TrustManager[] trustManager = {new SimpleX509TrustManager()};
+                    sslContext.init(null, trustManager, null);
+                    webSocketClient.setSocketFactory(sslContext.getSocketFactory());
+                }
                 webSocketClient.connect();
             } catch (Exception e) {
                 ErrorPrintUtil.printErrorMsg(logger, e);
@@ -52,6 +62,7 @@ public class SimpleWebSocketClientTests {
                 webSocketClient.send(message);
                 notSend = false;
             }
+            // 每次获取 websocket 客户端状态后线程需要 sleep 一下，不然 cpu 一直不停地执行此任务，没有时间更新 websocket 客户端状态
             Thread.sleep(10);
         }
         // 让主线程阻塞住不要退出，不然长连接守护线程也会退出

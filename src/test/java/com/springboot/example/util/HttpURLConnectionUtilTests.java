@@ -20,7 +20,8 @@ public class HttpURLConnectionUtilTests {
 
     @Test
     public void httpPost() throws Exception {
-        String url = "http://127.0.0.1:9527/hello";
+        // String url = "http://127.0.0.1:9527/hello";
+        String url = "https://127.0.0.1:9527/hello";
         Map<String, String> headerMap = new HashMap<>();
         headerMap.put("Authorization", UUID.randomUUID().toString().replaceAll("-", ""));
         headerMap.put("Content-Type", "application/x-www-form-urlencoded");
@@ -31,7 +32,8 @@ public class HttpURLConnectionUtilTests {
 
     @Test
     public void httpPostJson() throws Exception {
-        String url = "http://127.0.0.1:9527/helloJSON";
+        // String url = "http://127.0.0.1:9527/helloJSON";
+        String url = "https://127.0.0.1:9527/helloJSON";
         Map<String, String> headerMap = new HashMap<>();
         headerMap.put("Authorization", UUID.randomUUID().toString().replaceAll("-", ""));
         headerMap.put("Content-Type", "application/json");
@@ -45,7 +47,8 @@ public class HttpURLConnectionUtilTests {
 
     @Test
     public void upload() throws Exception {
-        String url = "http://127.0.0.1:9527/upload?filename=test.csv";
+        // String url = "http://127.0.0.1:9527/upload?filename=test.csv";
+        String url = "https://127.0.0.1:9527/upload?filename=test.csv";
         String filePath = "D:\\test.csv";
         String result = HttpURLConnectionUtil.upload(url, filePath);
         logger.info(">>>>> RESULT: {}", result);
@@ -53,7 +56,8 @@ public class HttpURLConnectionUtilTests {
 
     @Test
     public void multipartUpload() throws Exception {
-        String url = "http://127.0.0.1:9527/multipartUpload";
+        // String url = "http://127.0.0.1:9527/multipartUpload";
+        String url = "https://127.0.0.1:9527/multipartUpload";
         List<String> filePathList = new ArrayList<>();
         filePathList.add("D:\\test.csv");
         filePathList.add("D:\\test2.csv");
@@ -67,7 +71,8 @@ public class HttpURLConnectionUtilTests {
     @Test
     public void download() throws Exception {
         // 1.请求动态资源
-        String url = "http://127.0.0.1:9527/download?foo=bar";
+        // String url = "http://127.0.0.1:9527/download?foo=bar";
+        String url = "https://127.0.0.1:9527/download?foo=bar";
         // 2.请求静态资源
         // String url = "https://127.0.0.1:8800/TeamViewerHost.apk";
         String downloadDir = "D:/";

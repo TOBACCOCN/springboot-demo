@@ -4,6 +4,8 @@ import okhttp3.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import javax.net.ssl.SSLContext;
+import javax.net.ssl.TrustManager;
 import java.io.IOException;
 import java.util.Map;
 
@@ -23,8 +25,8 @@ public class OkHttpUtil {
      * @param url 请求地址
      * @return 响应消息
      */
-    public static String httpGet(String url) {
-        OkHttpClient okHttpClient = new OkHttpClient();
+    public static String httpGet(String url) throws Exception {
+        OkHttpClient okHttpClient = getOkHttpClient(url);
         Request request = new Request.Builder()
                 .url(url)
                 .build();
@@ -33,6 +35,19 @@ public class OkHttpUtil {
         // SimpleCallback simpleCallback = new SimpleCallback();
         // call.enqueue(simpleCallback);
         // return "";
+    }
+
+    private static OkHttpClient getOkHttpClient(String url) throws Exception {
+        OkHttpClient.Builder builder = new OkHttpClient.Builder();
+        if (url.startsWith("https")) {
+            SSLContext sslContext = SSLContext.getInstance("TLS");
+            SimpleX509TrustManager simpleX509TrustManager = new SimpleX509TrustManager();
+            TrustManager[] trustManager = {simpleX509TrustManager};
+            sslContext.init(null, trustManager, null);
+            builder.hostnameVerifier(new SimpleHostnameVerifier())
+                    .sslSocketFactory(sslContext.getSocketFactory(), simpleX509TrustManager);
+        }
+        return builder.build();
     }
 
     /**
@@ -44,8 +59,8 @@ public class OkHttpUtil {
      * @param param       请求体参数
      * @return 响应消息
      */
-    public static String httpPost(String url, Map<String, String> headerMap, String contentType, String param) {
-        OkHttpClient okHttpClient = new OkHttpClient();
+    public static String httpPost(String url, Map<String, String> headerMap, String contentType, String param) throws Exception {
+        OkHttpClient okHttpClient = getOkHttpClient(url);
         Headers.Builder headersBuilder = new Headers.Builder();
         headerMap.forEach(headersBuilder::add);
         RequestBody requestBody = RequestBody.create(MediaType.parse(contentType), param);

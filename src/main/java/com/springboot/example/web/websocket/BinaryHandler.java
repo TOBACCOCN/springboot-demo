@@ -77,7 +77,7 @@ public class BinaryHandler implements Runnable {
                                     fos.write(buf);
                                 } else {
                                     System.arraycopy(array, srcPos, buf, 0, array.length - srcPos);
-                                    fos.write(buf, 0, array.length -srcPos);
+                                    fos.write(buf, 0, array.length - srcPos);
                                 }
                                 srcPos += BUFFER_LENGTH;
                             }
@@ -90,7 +90,7 @@ public class BinaryHandler implements Runnable {
                     JSONObject json = new JSONObject();
                     if (!md5.equals(DigestUtils.md5DigestAsHex(fis))) {
                         file.delete();
-                        json.put("message", "md5 not match");
+                        json.put("message", "MD5 NOT MATCH");
                         SessionManager.getSessionMap().get(id).getBasicRemote().sendText(json.toString());
                     } else {
                         json.put("message", "UPLOAD " + filename + " SUCCESS");
@@ -98,12 +98,13 @@ public class BinaryHandler implements Runnable {
                     }
                     break;
                 }
+                // 每次获取 filename 后线程需要 sleep 一下，不然 cpu 一直不停地执行此任务，没有时间更新 filename 状态
                 Thread.sleep(10);
             }
         } catch (Exception e) {
             try {
                 JSONObject json = new JSONObject();
-                json.put("message", "error occurred");
+                json.put("message", "ERROR OCCURRED");
                 SessionManager.getSessionMap().get(id).getBasicRemote().sendText(json.toString());
             } catch (IOException ex) {
                 ErrorPrintUtil.printErrorMsg(logger, ex);

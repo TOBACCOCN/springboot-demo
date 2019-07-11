@@ -6,7 +6,6 @@ import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -15,15 +14,16 @@ public class HttpClientUtilTests {
     private static Logger logger = LoggerFactory.getLogger(HttpClientUtilTests.class);
 
     @Test
-    public void httpGet() throws IOException {
+    public void httpGet() throws Exception {
         String url = "https://www.baidu.com";
         String result = HttpClientUtil.httpGet(url);
         logger.info(">>>>> RESULT: {}", result);
     }
 
     @Test
-    public void httpPost() throws IOException {
-        String url = "http://127.0.0.1:9527/hello";
+    public void httpPost() throws Exception {
+        // String url = "http://127.0.0.1:9527/hello";
+        String url = "https://127.0.0.1:9527/hello";
         Map<String, String> headerMap = new HashMap<>();
         headerMap.put("Content-Type", ContentType.APPLICATION_FORM_URLENCODED.toString());
         Map<String, String> paramMap = new HashMap<>();
@@ -34,8 +34,9 @@ public class HttpClientUtilTests {
     }
 
     @Test
-    public void httpPostJSON() throws IOException {
-        String url = "http://127.0.0.1:9527/helloJSON";
+    public void httpPostJSON() throws Exception {
+        // String url = "http://127.0.0.1:9527/helloJSON";
+        String url = "https://127.0.0.1:9527/helloJSON";
         Map<String, String> headerMap = new HashMap<>();
         headerMap.put("Content-Type", ContentType.APPLICATION_JSON.toString());
         Map<String, String> paramMap = new HashMap<>();

@@ -39,6 +39,7 @@ public class HelloController {
     @PostMapping("/hello")
     @ResponseBody
     public Object helloPOST(HttpServletRequest request) {
+        logger.info(">>>>> REQUEST_URI: {}", request.getRequestURI());
         getHeaderMap(request).forEach((key, value) ->logger.info(">>>>> HEADER_MAP: {} = {}", key, value));
         Map<String, String> map = ParamUtil.getMap(request.getParameterMap());
         logger.info(">>>>> PARAM_POST: {}", map);

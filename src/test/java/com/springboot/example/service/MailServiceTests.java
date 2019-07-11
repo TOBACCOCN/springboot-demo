@@ -14,8 +14,10 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
+// 工程中开启有 websocket 时，@SpringBootTest 注解需要添加参数 webEnvironment，
+// 否者会抛异常：javax.websocket.server.ServerContainer not available
 @RunWith(SpringRunner.class)
-@SpringBootTest
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 public class MailServiceTests {
 
     private static Logger logger = LoggerFactory.getLogger(MailServiceTests.class);

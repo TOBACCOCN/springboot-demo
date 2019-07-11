@@ -10,6 +10,7 @@ import javax.net.ssl.TrustManager;
 import java.io.*;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.net.URLDecoder;
 import java.nio.charset.StandardCharsets;
 import java.util.List;
 import java.util.Map;
@@ -231,10 +232,10 @@ public class HttpURLConnectionUtil {
             InputStream inputStream = connection.getInputStream();
 
             // 1.下载动态资源时，从头信息中获取文件名
-            // String filename = URLDecoder.decode(connection.getHeaderField("content-Disposition"),
-            //         StandardCharsets.UTF_8.toString());
+            String filename = URLDecoder.decode(connection.getHeaderField("content-Disposition"),
+                    StandardCharsets.UTF_8.toString());
             // 2.下载静态资源时，从请求地址中获取文件名
-            String filename = url.substring(url.lastIndexOf("/") + 1);
+            // String filename = url.substring(url.lastIndexOf("/") + 1);
 
             logger.info(">>>>> FILENAME: {}", filename);
             File file = new File(downloadDir + filename);

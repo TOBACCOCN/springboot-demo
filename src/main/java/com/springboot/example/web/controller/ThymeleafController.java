@@ -1,4 +1,4 @@
-package com.springboot.example.web;
+package com.springboot.example.web.controller;
 
 import com.springboot.example.domain.User;
 import org.springframework.stereotype.Controller;

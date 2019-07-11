@@ -1,8 +1,5 @@
 package com.springboot.example.util;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
@@ -13,8 +10,6 @@ import java.security.NoSuchAlgorithmException;
  * @date 2019.6.13
  */
 public class MD5Util {
-
-    private static Logger logger = LoggerFactory.getLogger(MD5Util.class);
 
     /**
      * 将字节数组进行 MD5 加密

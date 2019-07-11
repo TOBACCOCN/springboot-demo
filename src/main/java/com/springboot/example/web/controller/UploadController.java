@@ -1,7 +1,9 @@
-package com.springboot.example.web;
+package com.springboot.example.web.controller;
 
 import com.springboot.example.util.ErrorPrintUtil;
 import com.springboot.example.util.ParamUtil;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
@@ -17,6 +19,7 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
+@Api("上传文件相关 api")
 @Controller
 public class UploadController {
 
@@ -54,6 +57,8 @@ public class UploadController {
     //     return "redirect:uploadStatus";
     // }
 
+    // paramType: header，query，path，body，form
+    @ApiOperation(value = "上传单个文件", notes = "使用 POST （application/octet-stream）上传单个文件")
     @PostMapping("/upload")
     @ResponseBody
     public Object upload(HttpServletRequest request) {
@@ -85,6 +90,7 @@ public class UploadController {
         return map;
     }
 
+    @ApiOperation(value = "上传多个文件", notes = "使用 POST （application/form-data）上传多个文件")
     @PostMapping("/multipartUpload")
     @ResponseBody
     public Object multipartUpload(MultipartFile[] file, HttpServletRequest request) {

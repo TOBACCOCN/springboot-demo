@@ -15,12 +15,11 @@ public class ParamUtil {
         Map<String, String> map = new HashMap<>();
         for (String name : paramMap.keySet()) {
             String[] values = paramMap.get(name);
-            String valueStr = "";
-            for (int i = 0; i < values.length; i++) {
-                valueStr = (i == values.length - 1) ? valueStr + values[i]
-                        : valueStr + values[i] + ",";
+            StringBuilder builder = new StringBuilder();
+            for (String value : values) {
+                builder.append(value).append(",");
             }
-            map.put(name, valueStr);
+            map.put(name, builder.substring(0, builder.length() -1));
         }
         return map;
     }

@@ -3,9 +3,9 @@ package com.springboot.example.mybatis;
 import com.baomidou.mybatisplus.extension.plugins.PaginationInterceptor;
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.context.annotation.Bean;
-import org.springframework.stereotype.Component;
+import org.springframework.context.annotation.Configuration;
 
-@Component
+@Configuration
 @MapperScan("com.springboot.example.dao.**.mapper")
 public class MybatisPlusConfiguration {
 

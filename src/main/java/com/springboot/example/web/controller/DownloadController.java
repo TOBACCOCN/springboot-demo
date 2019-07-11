@@ -1,6 +1,8 @@
-package com.springboot.example.web;
+package com.springboot.example.web.controller;
 
 import com.springboot.example.util.ParamUtil;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
@@ -14,11 +16,13 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.Map;
 
+@Api("文件下载 api")
 @Controller
 public class DownloadController {
 
     private static Logger logger = LoggerFactory.getLogger(DownloadController.class);
 
+    @ApiOperation(value ="下载文件")
     @GetMapping("/download")
     public void download(HttpServletRequest request, HttpServletResponse response) throws IOException {
         Map<String, String> map = ParamUtil.getMap(request.getParameterMap());
@@ -35,6 +39,5 @@ public class DownloadController {
             outputStream.write(buf, 0, len);
         }
     }
-
 
 }

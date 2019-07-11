@@ -1,7 +1,9 @@
-package com.springboot.example.web;
+package com.springboot.example.web.controller;
 
 import com.springboot.example.domain.User;
 import com.springboot.example.util.ParamUtil;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
@@ -15,11 +17,13 @@ import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.Map;
 
+@Api("springboot example api")
 @Controller
 public class HelloController {
 
     private static Logger logger = LoggerFactory.getLogger(HelloController.class);
 
+    @ApiOperation(value = "GET 请求")
     // GET 请求
     @GetMapping("/hello")
     // 不加 @ResponseBody 就会被 thymeleaf 视图解析器解析到 html 页面
@@ -30,7 +34,7 @@ public class HelloController {
         return map;
     }
 
-
+    @ApiOperation(value = "POST（application/x-www-form-urlencoded）请求")
     // POST（application/x-www-form-urlencoded） 请求
     @PostMapping("/hello")
     @ResponseBody
@@ -51,6 +55,7 @@ public class HelloController {
         return map;
     }
 
+    @ApiOperation(value = "POST（用封装对象接收请求参数）请求")
     // POST（application/x-www-form-urlencoded） 请求
     @PostMapping("/helloUSER")
     @ResponseBody
@@ -60,6 +65,7 @@ public class HelloController {
         return user;
     }
 
+    @ApiOperation(value = "POST（application/json）请求")
     // POST（application/json） 请求
     @PostMapping("/helloJSON")
     @ResponseBody

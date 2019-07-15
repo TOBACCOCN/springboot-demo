@@ -17,12 +17,12 @@ public class SchedulerTask {
 
     private static DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
 
-    @Scheduled(cron = "*/6 * * * * ?")
+    @Scheduled(cron = "* */5 * * * ?")
     public void process() {
         logger.info(">>>>> SCHEDULER TASK RUNNING: {}", count++);
     }
 
-    @Scheduled(fixedRate = 6000)
+    @Scheduled(fixedRate = 1000 * 60 * 5)
     public void reportCurrentTime() {
         logger.info(">>>>> NOW IS: {}", LocalDateTime.now().format(dateTimeFormatter));
     }

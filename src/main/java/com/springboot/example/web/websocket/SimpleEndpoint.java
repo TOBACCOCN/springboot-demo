@@ -20,9 +20,9 @@ import java.util.concurrent.ConcurrentHashMap;
 
 @Component
 @ServerEndpoint(value = "/websocket", configurator = ServerEndpointConfigurator.class)
-public class Endpoint {
+public class SimpleEndpoint {
 
-    private static Logger logger = LoggerFactory.getLogger(Endpoint.class);
+    private static Logger logger = LoggerFactory.getLogger(SimpleEndpoint.class);
 
     private static Map<String, BinaryHandler> handlerMap = new ConcurrentHashMap<>();
 
@@ -33,6 +33,8 @@ public class Endpoint {
     private static final String WEBSOCKET_DEFAULT_HEADER_WEBSOCKET_VERSION = "sec-websocket-version";
     private static final String WEBSOCKET_DEFAULT_HEADER_WEBSOCKET_EXTENSIONS = "sec-websocket-extensions";
     private static final String WEBSOCKET_DEFAULT_HEADER_WEBSOCKET_ORIGIN = "sec-websocket-origin";
+    private static final String ID = "id";
+    private static final String SIGN = "sign";
     private static final String FILENAME = "filename";
     private static final String MD5 = "md5";
 
@@ -43,11 +45,13 @@ public class Endpoint {
         logger.info(">>>>> TIME_OUT OF SESSION: {}", session.getMaxIdleTimeout());
         HandshakeRequest request = (HandshakeRequest) config.getUserProperties().get(ServerEndpointConfigurator.handshakereq);
         Map<String, List<String>> headers = request.getHeaders();
-        // 也可以是其他唯一标识会话用户的字段
-        String id = headers.get("id").get(0);
+        headers.forEach((key, value) -> logger.info(">>>>> {}: {}", key, value));
+
         Map<String, String> paramMap = getParamMap(headers);
         removeDefaultHeader(paramMap);
-        if (SignUtil.checkSign(paramMap, "sign")) {
+        if (SignUtil.checkSign(paramMap, SIGN)) {
+            // 也可以是其他唯一标识会话用户的字段
+            String id = headers.get(ID).get(0);
             SessionManager.addSession(id, session);
             BinaryHandler binaryHandler = new BinaryHandler();
             binaryHandler.setId(id);
@@ -55,8 +59,9 @@ public class Endpoint {
             // 处理客户端上传的数据
             new Thread(binaryHandler).start();
         } else {
+            logger.info(">>>>> INVALID SIGN");
             JSONObject json = new JSONObject();
-            json.put("message", "INVALID SIGN");
+            json.put("message", "invalid sign");
             session.getBasicRemote().sendText(json.toString());
             session.close();
         }

@@ -9,12 +9,13 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.PropertySource;
+import org.springframework.scheduling.annotation.EnableScheduling;
 
 import javax.annotation.PostConstruct;
 
 @SpringBootApplication
 @PropertySource(value = "classpath:application.properties", encoding = "UTF-8")
-// @EnableScheduling
+@EnableScheduling
 public class SpringBootExampleApplication {
 
     private static Logger logger = LoggerFactory.getLogger(SpringBootExampleApplication.class);
@@ -41,7 +42,7 @@ public class SpringBootExampleApplication {
                 SessionManager.getSessionMap().forEach((key, session) -> {
                     try {
                         session.getBasicRemote().sendText(json.toString());
-                        Thread.sleep(1000*60*3);
+                        Thread.sleep(1000 * 60 * 5);
                     } catch (Exception e) {
                         ErrorPrintUtil.printErrorMsg(logger, e);
                     }

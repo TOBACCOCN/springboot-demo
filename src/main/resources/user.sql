@@ -15,7 +15,7 @@ CREATE TABLE `user` (
 -- ----------------------------
 -- Records of user
 -- ----------------------------
-INSERT INTO `user` VALUES ('1', 'zhangshan', '18', 'beijing');
+INSERT INTO `user` VALUES ('1', 'zhangsan', '18', 'beijing');
 INSERT INTO `user` VALUES ('2', 'lisi', '19', 'shanghai');
 INSERT INTO `user` VALUES ('3', 'wangwu', '20', 'guangzhou');
 INSERT INTO `user` VALUES ('4', 'zhaoliu', '21', 'shenzhen');

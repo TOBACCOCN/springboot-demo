@@ -35,14 +35,14 @@ public class UserMapperTests {
     @Test
     public void selectOne() {
         User userFound = userMapper.selectOne(new QueryWrapper<User>().lambda().eq(User::getAddress, "shanghai")
-                .eq(User::getName, "zhangshan"));
+                .eq(User::getName, "zhangsan"));
         logger.info(">>>>> USER_FOUND: {}", userFound == null ? "null" : userFound);
     }
 
     @Test
     public void selectList() {
         List<User> users= userMapper.selectList(new QueryWrapper<User>().lambda().eq(User::getAddress, "shanghai")
-                .or().eq(User::getName, "zhangshan"));
+                .or().eq(User::getName, "zhangsan"));
         logger.info(">>>>> USERS: {}", users);
     }
 

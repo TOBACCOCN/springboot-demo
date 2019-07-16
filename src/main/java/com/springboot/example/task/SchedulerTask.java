@@ -17,7 +17,7 @@ public class SchedulerTask {
 
     private static DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
 
-    @Scheduled(cron = "* */5 * * * ?")
+    @Scheduled(cron = "0 */5 * * * ?")
     public void process() {
         logger.info(">>>>> SCHEDULER TASK RUNNING: {}", count++);
     }

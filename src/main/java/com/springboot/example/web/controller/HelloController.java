@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseBody;
+import reactor.core.publisher.Mono;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.Enumeration;
@@ -28,22 +29,26 @@ public class HelloController {
     @GetMapping("/hello")
     // 不加 @ResponseBody 就会被 thymeleaf 视图解析器解析到 html 页面
     @ResponseBody
-    public Object helloGET(HttpServletRequest request) {
+    // public Object helloGET(HttpServletRequest request) {
+    public Mono<Object> helloGET(HttpServletRequest request) {
         Map<String, String> map = ParamUtil.getMap(request.getParameterMap());
         logger.info(">>>>> PARAM_MAP: {}", map);
-        return map;
+        // return map;
+        return Mono.create(monoSink -> monoSink.success(map));
     }
 
     @ApiOperation(value = "POST（application/x-www-form-urlencoded）请求")
     // POST（application/x-www-form-urlencoded） 请求
     @PostMapping("/hello")
     @ResponseBody
-    public Object helloPOST(HttpServletRequest request) {
+    // public Object helloPOST(HttpServletRequest request) {
+    public Mono<Object> helloPOST(HttpServletRequest request) {
         logger.info(">>>>> REQUEST_URI: {}", request.getRequestURI());
-        getHeaderMap(request).forEach((key, value) ->logger.info(">>>>> HEADER_MAP: {} = {}", key, value));
+        getHeaderMap(request).forEach((key, value) -> logger.info(">>>>> HEADER_MAP: {} = {}", key, value));
         Map<String, String> map = ParamUtil.getMap(request.getParameterMap());
         logger.info(">>>>> PARAM_POST: {}", map);
-        return map;
+        // return map;
+        return Mono.create(monoSink -> monoSink.success(map));
     }
 
     private Map<String, String> getHeaderMap(HttpServletRequest request) {
@@ -60,10 +65,12 @@ public class HelloController {
     // POST（application/x-www-form-urlencoded） 请求
     @PostMapping("/helloUSER")
     @ResponseBody
-    public Object helloPOST(HttpServletRequest request, User user) {
-        getHeaderMap(request).forEach((key, value) ->logger.info(">>>>> HEADER_MAP: {} = {}", key, value));
+    // public Object helloPOST(HttpServletRequest request, User user) {
+    public Mono<Object> helloPOST(HttpServletRequest request, User user) {
+        getHeaderMap(request).forEach((key, value) -> logger.info(">>>>> HEADER_MAP: {} = {}", key, value));
         logger.info(">>>>> PARAM_POST_USER {}", user);
-        return user;
+        // return user;
+        return Mono.create(monoSink -> monoSink.success(user));
     }
 
     @ApiOperation(value = "POST（application/json）请求")
@@ -71,7 +78,7 @@ public class HelloController {
     @PostMapping("/helloJSON")
     @ResponseBody
     public Object helloPOST(HttpServletRequest request, @RequestBody Map<String, Object> map) {
-        getHeaderMap(request).forEach((key, value) ->logger.info(">>>>> HEADER_MAP: {} = {}", key, value));
+        getHeaderMap(request).forEach((key, value) -> logger.info(">>>>> HEADER_MAP: {} = {}", key, value));
         logger.info(">>>>> PARAM_POST_JSON: {}", map);
         return map;
     }

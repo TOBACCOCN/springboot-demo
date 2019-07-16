@@ -10,6 +10,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
+import reactor.core.publisher.Mono;
 
 import javax.servlet.ServletInputStream;
 import javax.servlet.http.HttpServletRequest;
@@ -61,7 +62,8 @@ public class UploadController {
     @ApiOperation(value = "上传单个文件", notes = "使用 POST （application/octet-stream）上传单个文件")
     @PostMapping("/upload")
     @ResponseBody
-    public Object upload(HttpServletRequest request) {
+    // public Object upload(HttpServletRequest request) {
+    public Mono<Object> upload(HttpServletRequest request) {
         String filename = request.getParameter("filename");
         logger.info(">>>>> FILENAME: {}", filename);
         Map<String, String> map = new HashMap<>();
@@ -87,13 +89,15 @@ public class UploadController {
             map.put("uploaded", "FAIL");
             ErrorPrintUtil.printErrorMsg(logger, e);
         }
-        return map;
+        // return map;
+        return Mono.create(monoSink -> monoSink.success(map));
     }
 
     @ApiOperation(value = "上传多个文件", notes = "使用 POST （application/form-data）上传多个文件")
     @PostMapping("/multipartUpload")
     @ResponseBody
-    public Object multipartUpload(MultipartFile[] file, HttpServletRequest request) {
+    // public Object multipartUpload(MultipartFile[] file, HttpServletRequest request) {
+    public Mono<Object> multipartUpload(MultipartFile[] file, HttpServletRequest request) {
         logger.info(">>>>> PARAM_MAP: {}", ParamUtil.getMap(request.getParameterMap()));
         Map<String, String> map = new HashMap<>();
         map.put("uploaded", "SUCCESS");
@@ -114,7 +118,8 @@ public class UploadController {
             map.put("uploaded", "FAIL");
             ErrorPrintUtil.printErrorMsg(logger, e);
         }
-        return map;
+        // return map;
+        return Mono.create(monoSink -> monoSink.success(map));
     }
 
 }

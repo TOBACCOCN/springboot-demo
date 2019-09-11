@@ -227,7 +227,6 @@ public class HttpURLConnectionUtil {
             logger.info(">>>>> RESPONSE_MESSAGE: {}", connection.getResponseMessage());
         } else {
             logger.info(">>>>> RESPONSE SUCCESS");
-            InputStream inputStream = connection.getInputStream();
 
             // 1.下载动态资源时，从头信息中获取文件名
             String filename = URLDecoder.decode(connection.getHeaderField("content-Disposition"),
@@ -235,18 +234,12 @@ public class HttpURLConnectionUtil {
             // 2.下载静态资源时，从请求地址中获取文件名
             // String filename = url.substring(url.lastIndexOf("/") + 1);
 
+            String externalName = filename.substring(filename.lastIndexOf("."));
+            if (!filename.matches("[^\\s\\\\/:\\*\\?\\\"<>\\|](\\x20|[^\\s\\\\/:\\*\\?\\\"<>\\|])*[^\\s\\\\/:\\*\\?\\\"<>\\|\\.]$")) {
+                filename = System.currentTimeMillis() + externalName;
+            }
             logger.info(">>>>> FILENAME: {}", filename);
-            File file = new File(downloadDir + filename);
-            if (!file.getParentFile().exists()) {
-                file.getParentFile().mkdirs();
-            }
-            FileOutputStream fos = new FileOutputStream(file);
-            int len;
-            byte[] buf = new byte[1024];
-            while ((len = inputStream.read(buf)) != -1) {
-                fos.write(buf, 0, len);
-            }
-            fos.close();
+            IOUtil.writeStream2File(connection.getInputStream(), downloadDir + filename);
         }
         connection.disconnect();
     }

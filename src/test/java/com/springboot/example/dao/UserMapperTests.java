@@ -65,7 +65,7 @@ public class UserMapperTests {
     @Test
     public void delete() {
         int deleteAffect = userMapper.delete(new QueryWrapper<User>().lambda().eq(User::getAddress, "wuhan"));
-        logger.info(">>>>> UPDATE_AFFECT: {}", deleteAffect);
+        logger.info(">>>>> DELETE_AFFECT: {}", deleteAffect);
     }
 
 }

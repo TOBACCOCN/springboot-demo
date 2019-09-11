@@ -12,8 +12,8 @@ import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.RandomAccessFile;
 import java.util.Map;
 
 @Api("文件下载 api")
@@ -22,20 +22,24 @@ public class DownloadController {
 
     private static Logger logger = LoggerFactory.getLogger(DownloadController.class);
 
-    @ApiOperation(value ="下载文件")
+    @ApiOperation(value = "下载文件")
     @GetMapping("/download")
     public void download(HttpServletRequest request, HttpServletResponse response) throws IOException {
         Map<String, String> map = ParamUtil.getMap(request.getParameterMap());
         logger.info(">>>>> PARAM_MAP: {}", map);
         // TODO 根据请求参数获取或者组装出下载文件
 
-        File file = new File("D:/download/AliPayQR.png");
+        long length = Long.parseLong(map.get("length"));
+        String filePath = "D:/download/AliPayQR.png";
+        File file = new File(filePath);
         response.setHeader("content-Disposition", "attachment; filename = " + file.getName());
-        FileInputStream fis = new FileInputStream(file);
+        RandomAccessFile accessFile = new RandomAccessFile(filePath, "r");
+        accessFile.seek(length);
+        response.setHeader("Content-Length", file.length() + "");
         ServletOutputStream outputStream = response.getOutputStream();
+        byte[] buf = new byte[8192];
         int len;
-        byte[] buf = new byte[1024];
-        while ((len = fis.read(buf)) != -1) {
+        while ((len = accessFile.read(buf)) != -1) {
             outputStream.write(buf, 0, len);
         }
     }

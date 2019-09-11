@@ -1,6 +1,7 @@
 package com.springboot.example.web.controller;
 
 import com.springboot.example.util.ErrorPrintUtil;
+import com.springboot.example.util.IOUtil;
 import com.springboot.example.util.ParamUtil;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -15,7 +16,6 @@ import reactor.core.publisher.Mono;
 import javax.servlet.ServletInputStream;
 import javax.servlet.http.HttpServletRequest;
 import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
@@ -71,18 +71,8 @@ public class UploadController {
         map.put("uploaded", "SUCCESS");
         try {
             ServletInputStream inputStream = request.getInputStream();
-            File file = new File(UPLOAD_DIR + filename);
-            if (!file.getParentFile().exists()) {
-                file.getParentFile().mkdirs();
-            }
-            FileOutputStream fos = new FileOutputStream(file);
-            int len;
-            byte[] buf = new byte[1024];
-            while ((len = inputStream.read(buf)) != -1) {
-                fos.write(buf, 0, len);
-            }
+            IOUtil.writeStream2File(inputStream, UPLOAD_DIR + filename);
             inputStream.close();
-            fos.close();
             logger.info(">>>>> UPLOAD SUCCESS");
         } catch (IOException e) {
             logger.info(">>>>> UPLOAD FAIL");

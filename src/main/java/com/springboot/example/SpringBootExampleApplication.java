@@ -12,6 +12,9 @@ import org.springframework.context.annotation.PropertySource;
 import org.springframework.scheduling.annotation.EnableScheduling;
 
 import javax.annotation.PostConstruct;
+import javax.websocket.Session;
+import java.util.Map;
+import java.util.concurrent.TimeUnit;
 
 @SpringBootApplication
 @PropertySource(value = "classpath:application.properties", encoding = "UTF-8")
@@ -36,17 +39,21 @@ public class SpringBootExampleApplication {
 
         // 给 websocket 长连接客户端发送消息
         new Thread(() -> {
-            JSONObject json = new JSONObject();
-            json.put("message", "Hello! What's your name?");
+            JSONObject message = new JSONObject();
+            message.put("message", "Hello! What's your name?");
             while (true) {
-                SessionManager.getSessionMap().forEach((key, session) -> {
-                    try {
-                        session.getBasicRemote().sendText(json.toString());
-                        Thread.sleep(1000 * 60 * 5);
-                    } catch (Exception e) {
-                        ErrorPrintUtil.printErrorMsg(logger, e);
-                    }
-                });
+                Map<String, Session> id2SessionMap = SessionManager.getId2SessionMap();
+                if (id2SessionMap.size() > 0) {
+                    id2SessionMap.forEach((key, session) -> {
+                        try {
+                            session.getBasicRemote().sendText(message.toString());
+                            TimeUnit.MINUTES.sleep(5);
+                            // TimeUnit.SECONDS.sleep(15);
+                        } catch (Exception e) {
+                            ErrorPrintUtil.printErrorMsg(logger, e);
+                        }
+                    });
+                }
             }
         }).start();
     }

@@ -91,11 +91,10 @@ public class BinaryHandler implements Runnable {
                     if (!md5.equals(DigestUtils.md5DigestAsHex(fis))) {
                         file.delete();
                         json.put("message", "MD5 NOT MATCH");
-                        SessionManager.getSessionMap().get(id).getBasicRemote().sendText(json.toString());
                     } else {
                         json.put("message", "UPLOAD " + filename + " SUCCESS");
-                        SessionManager.getSessionMap().get(id).getBasicRemote().sendText(json.toString());
                     }
+                    SessionManager.getId2SessionMap().get(id).getBasicRemote().sendText(json.toString());
                     break;
                 }
                 // 每次获取 filename 后线程需要 sleep 一下，不然 cpu 一直不停地执行此任务，没有时间更新 filename 状态
@@ -105,7 +104,7 @@ public class BinaryHandler implements Runnable {
             try {
                 JSONObject json = new JSONObject();
                 json.put("message", "ERROR OCCURRED");
-                SessionManager.getSessionMap().get(id).getBasicRemote().sendText(json.toString());
+                SessionManager.getId2SessionMap().get(id).getBasicRemote().sendText(json.toString());
             } catch (IOException ex) {
                 ErrorPrintUtil.printErrorMsg(logger, ex);
             }

@@ -11,7 +11,7 @@ import javax.websocket.server.ServerEndpointConfig;
  */
 public class ServerEndpointConfigurator extends ServerEndpointConfig.Configurator {
 
-    public static String handshakereq = "handshakereq";
+    static String handshakereq = "handshakereq";
 
     @Override
     public void modifyHandshake(ServerEndpointConfig config, HandshakeRequest request, HandshakeResponse response) {

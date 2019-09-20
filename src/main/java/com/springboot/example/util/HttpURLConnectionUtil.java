@@ -1,7 +1,6 @@
 package com.springboot.example.util;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 
 import javax.net.ssl.HttpsURLConnection;
 import javax.net.ssl.SSLContext;
@@ -21,9 +20,10 @@ import java.util.UUID;
  * @author zhangyonghong
  * @date 2019.6.13
  */
+@Slf4j
 public class HttpURLConnectionUtil {
 
-    private static Logger logger = LoggerFactory.getLogger(HttpURLConnectionUtil.class);
+    // private static Logger logger = LoggerFactory.getLogger(HttpURLConnectionUtil.class);
 
     /**
      * 获取连接对象 HttpURLConnection
@@ -54,12 +54,12 @@ public class HttpURLConnectionUtil {
     private static String getResponse(HttpURLConnection connection) throws IOException {
         // connection.connect();
         int responseCode = connection.getResponseCode();
-        logger.info(">>>>> RESPONSE_CODE: {}", responseCode);
+        log.info(">>>>> RESPONSE_CODE: {}", responseCode);
         if (responseCode != HttpURLConnection.HTTP_OK) {
-            logger.info(">>>>> RESPONSE_MESSAGE: {}", connection.getResponseMessage());
+            log.info(">>>>> RESPONSE_MESSAGE: {}", connection.getResponseMessage());
             return "";
         } else {
-            logger.info(">>>>> RESPONSE SUCCESS");
+            log.info(">>>>> RESPONSE SUCCESS");
             InputStream inputStream = connection.getInputStream();
             ByteArrayOutputStream baos = new ByteArrayOutputStream();
             int len;
@@ -222,11 +222,11 @@ public class HttpURLConnectionUtil {
         HttpURLConnection connection = getConnection(url);
         connection.setRequestMethod("GET");
         int responseCode = connection.getResponseCode();
-        logger.info(">>>>> RESPONSE_CODE: {}", responseCode);
+        log.info(">>>>> RESPONSE_CODE: {}", responseCode);
         if (responseCode != HttpURLConnection.HTTP_OK) {
-            logger.info(">>>>> RESPONSE_MESSAGE: {}", connection.getResponseMessage());
+            log.info(">>>>> RESPONSE_MESSAGE: {}", connection.getResponseMessage());
         } else {
-            logger.info(">>>>> RESPONSE SUCCESS");
+            log.info(">>>>> RESPONSE SUCCESS");
 
             // 1.下载动态资源时，从头信息中获取文件名
             String filename = URLDecoder.decode(connection.getHeaderField("content-Disposition"),
@@ -238,7 +238,7 @@ public class HttpURLConnectionUtil {
             if (!filename.matches("[^\\s\\\\/:\\*\\?\\\"<>\\|](\\x20|[^\\s\\\\/:\\*\\?\\\"<>\\|])*[^\\s\\\\/:\\*\\?\\\"<>\\|\\.]$")) {
                 filename = System.currentTimeMillis() + externalName;
             }
-            logger.info(">>>>> FILENAME: {}", filename);
+            log.info(">>>>> FILENAME: {}", filename);
             IOUtil.writeStream2File(connection.getInputStream(), downloadDir + filename);
         }
         connection.disconnect();

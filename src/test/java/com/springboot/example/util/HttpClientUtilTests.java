@@ -1,23 +1,29 @@
 package com.springboot.example.util;
 
 import com.alibaba.fastjson.JSON;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.http.entity.ContentType;
 import org.junit.Test;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * HttpClient 工具单元测试
+ *
+ * @author zhangyonghong
+ * @date 2019.6.14
+ */
+@Slf4j
 public class HttpClientUtilTests {
 
-    private static Logger logger = LoggerFactory.getLogger(HttpClientUtilTests.class);
+    // private static Logger logger = LoggerFactory.getLogger(HttpClientUtilTests.class);
 
     @Test
     public void httpGet() throws Exception {
         String url = "https://www.baidu.com";
         String result = HttpClientUtil.httpGet(url);
-        logger.info(">>>>> RESULT: {}", result);
+        log.info(">>>>> RESULT: {}", result);
     }
 
     @Test
@@ -30,7 +36,7 @@ public class HttpClientUtilTests {
         paramMap.put("foo", "bar");
         paramMap.put("bar", "barz");
         String result = HttpClientUtil.httpPost(url, headerMap, paramMap);
-        logger.info(">>>>> RESULT: {}", result);
+        log.info(">>>>> RESULT: {}", result);
     }
 
     @Test
@@ -44,7 +50,7 @@ public class HttpClientUtilTests {
         paramMap.put("bar", "barz");
         String json = JSON.toJSONString(paramMap);
         String result = HttpClientUtil.httpPostJSON(url, headerMap, json);
-        logger.info(">>>>> RESULT: {}", result);
+        log.info(">>>>> RESULT: {}", result);
     }
 
 }

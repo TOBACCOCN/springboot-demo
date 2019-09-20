@@ -5,6 +5,12 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
+/**
+ * 签名工具类
+ *
+ * @author zhangyonghong
+ * @date 2019.7.8
+ */
 public class SignUtil {
 
     public static String generateSignature(Map<String, String> map, String signFieldName) throws Exception {

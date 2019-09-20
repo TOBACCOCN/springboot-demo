@@ -8,6 +8,12 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.ResponseBody;
 import reactor.core.publisher.Mono;
 
+/**
+ * 用户控制器
+ *
+ * @author zhangyonghong
+ * @date 2019.7.16
+ */
 @Controller
 public class UserController {
 
@@ -33,9 +39,9 @@ public class UserController {
     @GetMapping("/usersByOffsetLimit")
     @ResponseBody
     // public Object findAll(long offset, long limit) {
-    public Mono<Object> findByOffsetLimit(long offset, long limit) {
-        // return userService.find(offset, limit);
-        return Mono.create(monoSink -> monoSink.success(userService.find(offset, limit)));
+    public Mono<Object> findPage(long offset, long limit) {
+        // return userService.findPage(offset, limit);
+        return Mono.create(monoSink -> monoSink.success(userService.findPage(offset, limit)));
     }
 
 }

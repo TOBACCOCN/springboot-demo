@@ -1,8 +1,7 @@
 package com.springboot.example.util;
 
+import lombok.extern.slf4j.Slf4j;
 import okhttp3.*;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import javax.net.ssl.SSLContext;
 import javax.net.ssl.TrustManager;
@@ -15,9 +14,10 @@ import java.util.Map;
  * @author zhangyonghong
  * @date 2019.6.14
  */
+@Slf4j
 public class OkHttpUtil {
 
-    private static Logger logger = LoggerFactory.getLogger(OkHttpUtil.class);
+    // private static Logger logger = LoggerFactory.getLogger(OkHttpUtil.class);
 
     /**
      * GET 请求
@@ -85,7 +85,7 @@ public class OkHttpUtil {
             Response response = call.execute();
             return response.body() == null ? "" : response.body().string();
         } catch (IOException e) {
-            ErrorPrintUtil.printErrorMsg(logger, e);
+            ErrorPrintUtil.printErrorMsg(log, e);
             return "";
         }
     }

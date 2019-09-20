@@ -2,8 +2,7 @@ package com.springboot.example.web.websocket;
 
 import com.alibaba.fastjson.JSONObject;
 import com.springboot.example.util.ErrorPrintUtil;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.util.DigestUtils;
 
 import java.io.File;
@@ -15,14 +14,15 @@ import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.TimeUnit;
 
 /**
- * websocket 上传二进制文件数据处理类
+ * websocket 上传二进制数据处理类
  *
  * @author zhangyonghong
  * @date 2019.7.10
  */
+@Slf4j
 public class BinaryHandler implements Runnable {
 
-    private static Logger logger = LoggerFactory.getLogger(BinaryHandler.class);
+    // private static Logger logger = LoggerFactory.getLogger(BinaryHandler.class);
 
     private static final String UPLOAD_DIR = "D:/upload/";
     private static final int BUFFER_LENGTH = 1024 * 8;
@@ -47,7 +47,7 @@ public class BinaryHandler implements Runnable {
 
     void addBinary(ByteBuffer byteBuffer) {
         if (!blockingQueue.offer(byteBuffer)) {
-            logger.info(">>>>> NO ENOUGH SPACE IN BLOCKING_QUEUE");
+            log.info(">>>>> NO ENOUGH SPACE IN BLOCKING_QUEUE");
         }
     }
 
@@ -106,9 +106,9 @@ public class BinaryHandler implements Runnable {
                 json.put("message", "ERROR OCCURRED");
                 SessionManager.getId2SessionMap().get(id).getBasicRemote().sendText(json.toString());
             } catch (IOException ex) {
-                ErrorPrintUtil.printErrorMsg(logger, ex);
+                ErrorPrintUtil.printErrorMsg(log, ex);
             }
-            ErrorPrintUtil.printErrorMsg(logger, e);
+            ErrorPrintUtil.printErrorMsg(log, e);
         }
     }
 }

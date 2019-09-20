@@ -1,16 +1,17 @@
 package com.springboot.example.util;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 
+/**
+ * IO 工具类
+ *
+ * @author zhangyonghong
+ * @date 2019.8.16
+ */
 public class IOUtil {
-
-    private static Logger logger = LoggerFactory.getLogger(IOUtil.class);
 
     public static void writeStream2File(InputStream inputStream, String filePath) throws IOException {
         File file = new File(filePath);

@@ -6,6 +6,12 @@ import javax.websocket.Session;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
+/**
+ * websocket 会话管理器
+ *
+ * @author zhangyonghong
+ * @date 2019.7.8
+ */
 public class SessionManager {
 
     private static Map<String, Session> id2SessionMap = new ConcurrentHashMap<>();

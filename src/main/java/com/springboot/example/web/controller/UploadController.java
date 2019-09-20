@@ -5,8 +5,7 @@ import com.springboot.example.util.IOUtil;
 import com.springboot.example.util.ParamUtil;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -20,11 +19,18 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
-@Api("上传文件相关 api")
+/**
+ * 文件上传控制器
+ *
+ * @author zhangyonghong
+ * @date 2019.6.1
+ */
 @Controller
+@Api("上传文件相关 api")
+@Slf4j
 public class UploadController {
 
-    private static Logger logger = LoggerFactory.getLogger(UploadController.class);
+    // private static Logger logger = LoggerFactory.getLogger(UploadController.class);
 
     private static String UPLOAD_DIR = "D:/upload/";
 
@@ -41,19 +47,19 @@ public class UploadController {
     // @PostMapping("/multipartUpload")
     // public String multipartUpload(MultipartFile file, RedirectAttributes redirectAttributes) {
     //     try {
-    //         logger.info(">>>>> UPLOAD_FILE_SIZE: {}", file.getBytes().length);
+    //         log.info(">>>>> UPLOAD_FILE_SIZE: {}", file.getBytes().length);
     //         String filePath = UPLOAD_DIR + file.getOriginalFilename();
     //         File destFile = new File(filePath);
     //         if (!destFile.getParentFile().exists()) {
     //             destFile.getParentFile().mkdirs();
     //         }
     //         file.transferTo(destFile);
-    //         logger.info(">>>>> UPLOAD SUCCESS");
+    //         log.info(">>>>> UPLOAD SUCCESS");
     //         redirectAttributes.addFlashAttribute("message", "successfully upload '" + file.getOriginalFilename() + "'");
     //     } catch (IOException e) {
-    //         logger.info(">>>>> UPLOAD FAIL");
+    //         log.info(">>>>> UPLOAD FAIL");
     //         redirectAttributes.addFlashAttribute("message", "failed upload '" + file.getOriginalFilename() + "'");
-    //         ErrorPrintUtil.printErrorMsg(logger, e);
+    //         ErrorPrintUtil.printErrorMsg(log, e);
     //     }
     //     return "redirect:uploadStatus";
     // }
@@ -65,7 +71,7 @@ public class UploadController {
     // public Object upload(HttpServletRequest request) {
     public Mono<Object> upload(HttpServletRequest request) {
         String filename = request.getParameter("filename");
-        logger.info(">>>>> FILENAME: {}", filename);
+        log.info(">>>>> FILENAME: {}", filename);
         Map<String, String> map = new HashMap<>();
         map.put("filename", filename);
         map.put("uploaded", "SUCCESS");
@@ -73,11 +79,11 @@ public class UploadController {
             ServletInputStream inputStream = request.getInputStream();
             IOUtil.writeStream2File(inputStream, UPLOAD_DIR + filename);
             inputStream.close();
-            logger.info(">>>>> UPLOAD SUCCESS");
+            log.info(">>>>> UPLOAD SUCCESS");
         } catch (IOException e) {
-            logger.info(">>>>> UPLOAD FAIL");
+            log.info(">>>>> UPLOAD FAIL");
             map.put("uploaded", "FAIL");
-            ErrorPrintUtil.printErrorMsg(logger, e);
+            ErrorPrintUtil.printErrorMsg(log, e);
         }
         // return map;
         return Mono.create(monoSink -> monoSink.success(map));
@@ -88,13 +94,13 @@ public class UploadController {
     @ResponseBody
     // public Object multipartUpload(MultipartFile[] file, HttpServletRequest request) {
     public Mono<Object> multipartUpload(MultipartFile[] file, HttpServletRequest request) {
-        logger.info(">>>>> PARAM_MAP: {}", ParamUtil.getMap(request.getParameterMap()));
+        log.info(">>>>> PARAM_MAP: {}", ParamUtil.getMap(request.getParameterMap()));
         Map<String, String> map = new HashMap<>();
         map.put("uploaded", "SUCCESS");
         try {
             for (MultipartFile multipartFile : file) {
                 String filename = multipartFile.getOriginalFilename();
-                logger.info(">>>>> FILENAME: {}, SIZE: {}", filename, multipartFile.getBytes().length);
+                log.info(">>>>> FILENAME: {}, SIZE: {}", filename, multipartFile.getBytes().length);
                 String filePath = UPLOAD_DIR + filename;
                 File destFile = new File(filePath);
                 if (!destFile.getParentFile().exists()) {
@@ -102,11 +108,11 @@ public class UploadController {
                 }
                 multipartFile.transferTo(destFile);
             }
-            logger.info(">>>>> UPLOAD SUCCESS");
+            log.info(">>>>> UPLOAD SUCCESS");
         } catch (IOException e) {
-            logger.info(">>>>> UPLOAD FAIL");
+            log.info(">>>>> UPLOAD FAIL");
             map.put("uploaded", "FAIL");
-            ErrorPrintUtil.printErrorMsg(logger, e);
+            ErrorPrintUtil.printErrorMsg(log, e);
         }
         // return map;
         return Mono.create(monoSink -> monoSink.success(map));

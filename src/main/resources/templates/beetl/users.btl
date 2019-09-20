@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>beetl-users</title>
+</head>
+<body>
+<div>
+    <ul>
+        <%for(user in users) {%>
+        <li>
+            <span>${user.id}</span>-
+            <span>${user.name}</span>-
+            <span>${user.age}</span>-
+            <span>${user.address}</span>
+        </li>
+        <%}%>
+    </ul>
+</div>
+</body>
+</html>

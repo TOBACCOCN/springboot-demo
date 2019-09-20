@@ -3,8 +3,7 @@ package com.springboot.example.web.controller;
 import com.springboot.example.util.ParamUtil;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 
@@ -16,17 +15,24 @@ import java.io.IOException;
 import java.io.RandomAccessFile;
 import java.util.Map;
 
-@Api("文件下载 api")
+/**
+ * 文件下载控制器
+ *
+ * @author zhangyonghong
+ * @date 2019.6.14
+ */
 @Controller
+@Api("文件下载 api")
+@Slf4j
 public class DownloadController {
 
-    private static Logger logger = LoggerFactory.getLogger(DownloadController.class);
+    // private static Logger logger = LoggerFactory.getLogger(DownloadController.class);
 
     @ApiOperation(value = "下载文件")
     @GetMapping("/download")
     public void download(HttpServletRequest request, HttpServletResponse response) throws IOException {
         Map<String, String> map = ParamUtil.getMap(request.getParameterMap());
-        logger.info(">>>>> PARAM_MAP: {}", map);
+        log.info(">>>>> PARAM_MAP: {}", map);
         // TODO 根据请求参数获取或者组装出下载文件
 
         long length = Long.parseLong(map.get("length"));

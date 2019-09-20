@@ -4,11 +4,10 @@ import com.alibaba.fastjson.JSON;
 import com.springboot.example.util.ErrorPrintUtil;
 import com.springboot.example.util.SignUtil;
 import com.springboot.example.util.SimpleX509TrustManager;
+import lombok.extern.slf4j.Slf4j;
 import org.java_websocket.client.WebSocketClient;
 import org.junit.Before;
 import org.junit.Test;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.util.DigestUtils;
 
 import javax.net.ssl.SSLContext;
@@ -21,9 +20,16 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
+/**
+ * websocket 客户端单元测试
+ *
+ * @author zhangyonghong
+ * @date 2019.7.8
+ */
+@Slf4j
 public class SimpleWebSocketClientTests {
 
-    private static Logger logger = LoggerFactory.getLogger(SimpleWebSocketClientTests.class);
+    // private static Logger logger = LoggerFactory.getLogger(SimpleWebSocketClientTests.class);
 
     private static WebSocketClient webSocketClient;
 
@@ -41,14 +47,14 @@ public class SimpleWebSocketClientTests {
                 httpHeaders.put("sign", SignUtil.generateSignature(httpHeaders, "sign"));
                 webSocketClient = new SimpleWebSocketClient(uri, httpHeaders);
                 if (uri.toString().startsWith("wss")) {
-                    SSLContext sslContext =  SSLContext.getInstance( "TLS" );
+                    SSLContext sslContext = SSLContext.getInstance("TLS");
                     TrustManager[] trustManager = {new SimpleX509TrustManager()};
                     sslContext.init(null, trustManager, null);
                     webSocketClient.setSocketFactory(sslContext.getSocketFactory());
                 }
                 webSocketClient.connect();
             } catch (Exception e) {
-                ErrorPrintUtil.printErrorMsg(logger, e);
+                ErrorPrintUtil.printErrorMsg(log, e);
             }
         }).start();
     }

@@ -15,6 +15,12 @@ import java.io.IOException;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 
+/**
+ * shiro 认证过滤器
+ *
+ * @author zhangyonghong
+ * @date 2019.6.11
+ */
 public class SimpleAuthenticationFilter extends AuthenticationFilter {
 
     @Override

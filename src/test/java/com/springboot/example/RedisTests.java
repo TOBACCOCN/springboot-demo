@@ -1,9 +1,8 @@
 package com.springboot.example;
 
+import lombok.extern.slf4j.Slf4j;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.redis.core.*;
@@ -15,11 +14,18 @@ import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
-@RunWith(SpringRunner.class)
+/**
+ * redis 单元测试
+ *
+ * @author zhangyonghong
+ * @date 2019.6.1
+ */
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
+@RunWith(SpringRunner.class)
+@Slf4j
 public class RedisTests {
 
-    private static Logger logger = LoggerFactory.getLogger(RedisTests.class);
+    // private static Logger logger = LoggerFactory.getLogger(RedisTests.class);
 
     @Autowired
     private RedisTemplate<String, String> redisTemplate;
@@ -31,24 +37,24 @@ public class RedisTests {
         ValueOperations<String, String> ops = redisTemplate.opsForValue();
         ops.set("string", "foo");
         String string = ops.get("string");
-        logger.info(">>>>> string: {}", string);      // foo
-        String startEnd = ops.get("string",0, 1);
-        logger.info(">>>>> startEnd: {}", startEnd);        // fo
+        log.info(">>>>> string: {}", string);      // foo
+        String startEnd = ops.get("string", 0, 1);
+        log.info(">>>>> startEnd: {}", startEnd);        // fo
 
         ops.set("string", "oo", 3);
         string = ops.get("string");
-        logger.info(">>>>> string: {}", string);      // foooo
+        log.info(">>>>> string: {}", string);      // foooo
 
         ops.append("string", "oo");
         string = ops.get("string");
-        logger.info(">>>>> string: {}", string);      // foooooo
+        log.info(">>>>> string: {}", string);      // foooooo
 
         ops.set("string", "bar", 10, TimeUnit.SECONDS);
         string = ops.get("string");
-        logger.info(">>>> string: {}", string);       // bar
+        log.info(">>>> string: {}", string);       // bar
         Thread.sleep(10000);
         string = ops.get("string");
-        logger.info(">>>> string: {}", string);       // null
+        log.info(">>>> string: {}", string);       // null
     }
 
     @Test
@@ -64,19 +70,19 @@ public class RedisTests {
         ops.rightPush("list", "c");
 
         List list = ops.range("list", 0, -1);
-        logger.info(">>>>> list: {}", list);        // ["c", "b", "a", "a", "b", "c"]
+        log.info(">>>>> list: {}", list);        // ["c", "b", "a", "a", "b", "c"]
 
         ops.remove("list", -1, "a");
         list = ops.range("list", 0, -1);
-        logger.info(">>>>> list: {}", list);        // ["c", "b", "a", "b", "c"]
+        log.info(">>>>> list: {}", list);        // ["c", "b", "a", "b", "c"]
 
         ops.remove("list", 1, "b");
         list = ops.range("list", 0, -1);
-        logger.info(">>>>> list: {}", list);        // ["c", "a", "b", "c"]
+        log.info(">>>>> list: {}", list);        // ["c", "a", "b", "c"]
 
         ops.remove("list", 0, "c");
         list = ops.range("list", 0, -1);
-        logger.info(">>>>> list: {}", list);        // ["a", "b"]
+        log.info(">>>>> list: {}", list);        // ["a", "b"]
     }
 
     @Test
@@ -91,18 +97,18 @@ public class RedisTests {
         ops.add("set", "c");
         ops.add("set", "c");
         Long size = ops.size("set");
-        logger.info(">>>>> size: {}", size);        // 3
+        log.info(">>>>> size: {}", size);        // 3
         Set<String> set = ops.members("set");
-        logger.info(">>>>> set: {}", set);      // ["a", "b", "c"]，顺序可变
+        log.info(">>>>> set: {}", set);      // ["a", "b", "c"]，顺序可变
 
-        Boolean  isMember = ops.isMember("set", "a");
-        logger.info(">>>>> isMember about a: {}", isMember);        // true
+        Boolean isMember = ops.isMember("set", "a");
+        log.info(">>>>> isMember about a: {}", isMember);        // true
         isMember = ops.isMember("set", "d");
-        logger.info(">>>>> isMember about d: {}", isMember);        // false
+        log.info(">>>>> isMember about d: {}", isMember);        // false
 
         ops.remove("set", "b", "c");
         set = ops.members("set");
-        logger.info(">>>>> set: {}", set);      // a
+        log.info(">>>>> set: {}", set);      // a
     }
 
     @Test
@@ -114,16 +120,16 @@ public class RedisTests {
         ops.put("hash", "foo", "bar");
         ops.put("hash", "bar", "baz");
         Long size = ops.size("hash");
-        logger.info(">>>>> size: {}", size);        // 2
+        log.info(">>>>> size: {}", size);        // 2
         Set<String> keys = ops.keys("hash");
-        logger.info(">>>>> keys: {}", keys);        // ["foo", "bar"]，顺序可变
+        log.info(">>>>> keys: {}", keys);        // ["foo", "bar"]，顺序可变
         List<String> values = ops.values("hash");
-        logger.info(">>>>> values: {}", values);        // ["bar", "baz"]
+        log.info(">>>>> values: {}", values);        // ["bar", "baz"]
         Map<String, String> map = ops.entries("hash");
-        logger.info(">>>>> map: {}", map);      // {"foo": "bar", "bar": "baz"}
+        log.info(">>>>> map: {}", map);      // {"foo": "bar", "bar": "baz"}
         ops.delete("hash", "bar");
         map = ops.entries("hash");
-        logger.info(">>>>> map: {}", map);      // {"foo":"bar"}
+        log.info(">>>>> map: {}", map);      // {"foo":"bar"}
     }
 
     @Test
@@ -138,12 +144,12 @@ public class RedisTests {
         set.add(new DefaultTypedTuple<>("d", 3.0));
         ops.add("zset", set);
         Set<String> zset = ops.range("zset", 0, -1);
-        logger.info(">>>>> zset: {}", zset);        // ["a", "b", "d", "c"]
+        log.info(">>>>> zset: {}", zset);        // ["a", "b", "d", "c"]
 
         Set<String> rangeByScore = ops.rangeByScore("zset", 2, 3);
-        logger.info(">>>>> rangeByScore: {}", rangeByScore);      // ["b", "d"]
+        log.info(">>>>> rangeByScore: {}", rangeByScore);      // ["b", "d"]
         rangeByScore = ops.rangeByScore("zset", 2, 3, 0, 1);
-        logger.info(">>>>> rangeByScore: {}", rangeByScore);      // ["b"]
+        log.info(">>>>> rangeByScore: {}", rangeByScore);      // ["b"]
     }
 
 }

@@ -8,6 +8,12 @@ import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 
+/**
+ * okhttp 响应回调类
+ *
+ * @author zhangyonghong
+ * @date 2019.6.14
+ */
 public class SimpleCallback implements Callback {
 
     private Response response;

@@ -1,5 +1,6 @@
 package com.springboot.example.util;
 
+import lombok.extern.slf4j.Slf4j;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.HttpStatus;
@@ -12,8 +13,6 @@ import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.util.EntityUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import javax.net.ssl.SSLContext;
 import javax.net.ssl.TrustManager;
@@ -29,9 +28,10 @@ import java.util.Map;
  * @author zhangyonghong
  * @date 2019.6.13
  */
+@Slf4j
 public class HttpClientUtil {
 
-    private static Logger logger = LoggerFactory.getLogger(HttpClientUtil.class);
+    // private static Logger logger = LoggerFactory.getLogger(HttpClientUtil.class);
 
     /**
      * GET 请求
@@ -42,12 +42,12 @@ public class HttpClientUtil {
     public static String httpGet(String url) throws Exception {
         HttpClient httpClient = getHttpClient(url);
         HttpGet httpGet = new HttpGet(url);
-        logger.info(">>>>> SENDING HTTP_GET");
+        log.info(">>>>> SENDING HTTP_GET");
         HttpResponse response = httpClient.execute(httpGet);
 
         String result = "";
         if (response.getStatusLine().getStatusCode() == HttpStatus.SC_OK) {
-            logger.info(">>>>> RESPONSE SUCCESS");
+            log.info(">>>>> RESPONSE SUCCESS");
             result = EntityUtils.toString(response.getEntity(), StandardCharsets.UTF_8);
         }
         return result;
@@ -93,10 +93,10 @@ public class HttpClientUtil {
     private static String getResponse(HttpClient httpClient, HttpPost httpPost, HttpEntity entity) throws IOException {
         httpPost.setEntity(entity);
         String result = "";
-        logger.info(">>>>> SENDING HTTP_POST");
+        log.info(">>>>> SENDING HTTP_POST");
         HttpResponse response = httpClient.execute(httpPost);
         if (response.getStatusLine().getStatusCode() == HttpStatus.SC_OK) {
-            logger.info(">>>>> RESPONSE SUCCESS");
+            log.info(">>>>> RESPONSE SUCCESS");
             result = EntityUtils.toString(response.getEntity(), StandardCharsets.UTF_8);
         }
         return result;

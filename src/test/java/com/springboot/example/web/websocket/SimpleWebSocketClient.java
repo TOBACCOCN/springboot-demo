@@ -2,17 +2,24 @@ package com.springboot.example.web.websocket;
 
 import com.alibaba.fastjson.JSONObject;
 import com.springboot.example.util.ErrorPrintUtil;
+import lombok.extern.slf4j.Slf4j;
 import org.java_websocket.client.WebSocketClient;
 import org.java_websocket.handshake.ServerHandshake;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.net.URI;
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
 
+/**
+ * websocket 客户端
+ *
+ * @author zhangyonghong
+ * @date 2019.7.8
+ */
+@Slf4j
 public class SimpleWebSocketClient extends WebSocketClient {
 
-    private static Logger logger = LoggerFactory.getLogger(SimpleWebSocketClient.class);
+    // private static Logger logger = LoggerFactory.getLogger(SimpleWebSocketClient.class);
 
     public SimpleWebSocketClient(URI serverUri, Map<String, String> httpHeaders) {
         super(serverUri, httpHeaders);
@@ -20,22 +27,24 @@ public class SimpleWebSocketClient extends WebSocketClient {
 
     @Override
     public void onMessage(String message) {
-        logger.info(">>>>> ON_MESSAGE: {}", message);
+        log.info(">>>>> ON_MESSAGE: {}", message);
     }
 
     @Override
     public void onOpen(ServerHandshake serverHandshake) {
         // 无限循环发送心跳包信息要单独开线程，不然线程在此会被阻塞住，导致 onMessage 事件方法不会被触发
         new Thread(() -> {
+            JSONObject heart = new JSONObject();
+            int i = 0;
             while (true) {
-                JSONObject json = new JSONObject();
                 // 心跳包信息，可自行定义
-                json.put("message", "HEART BEAT");
-                send(json.toString());
+                heart.put("heart", i++);
+                send(heart.toString());
                 try {
-                    Thread.sleep(1000*60*5);
+                    TimeUnit.MINUTES.sleep(5);
+                    // TimeUnit.SECONDS.sleep(15);
                 } catch (InterruptedException e) {
-                    ErrorPrintUtil.printErrorMsg(logger, e);
+                    ErrorPrintUtil.printErrorMsg(log, e);
                 }
             }
         }).start();
@@ -43,13 +52,13 @@ public class SimpleWebSocketClient extends WebSocketClient {
 
     @Override
     public void onClose(int code, String reason, boolean remote) {
-        logger.info(">>>>> ON_CLOSE, CODE: {}, REASON: {}, REMOTE: {}", code, reason, reason);
+        log.info(">>>>> ON_CLOSE, CODE: {}, REASON: {}, REMOTE: {}", code, reason, reason);
     }
 
     @Override
     public void onError(Exception e) {
-        logger.info(">>>>> ON_ERROR");
-        ErrorPrintUtil.printErrorMsg(logger, e);
+        log.info(">>>>> ON_ERROR");
+        ErrorPrintUtil.printErrorMsg(log, e);
     }
 
 }

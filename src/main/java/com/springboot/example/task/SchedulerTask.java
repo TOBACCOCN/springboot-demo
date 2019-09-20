@@ -1,17 +1,23 @@
 package com.springboot.example.task;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.context.annotation.Configuration;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.scheduling.annotation.Scheduled;
+import org.springframework.stereotype.Component;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
-@Configuration
+/**
+ * 定时任务类
+ *
+ * @author zhangyonghong
+ * @date 2019.6.1
+ */
+@Component
+@Slf4j
 public class SchedulerTask {
 
-    private static Logger logger = LoggerFactory.getLogger(SchedulerTask.class);
+    // private static Logger logger = LoggerFactory.getLogger(SchedulerTask.class);
 
     private int count;
 
@@ -19,12 +25,12 @@ public class SchedulerTask {
 
     @Scheduled(cron = "0 */5 * * * ?")
     public void process() {
-        logger.info(">>>>> SCHEDULER TASK RUNNING: {}", count++);
+        log.info(">>>>> SCHEDULER TASK RUNNING: {}", count++);
     }
 
     @Scheduled(fixedRate = 1000 * 60 * 5)
     public void reportCurrentTime() {
-        logger.info(">>>>> NOW IS: {}", LocalDateTime.now().format(dateTimeFormatter));
+        log.info(">>>>> NOW IS: {}", LocalDateTime.now().format(dateTimeFormatter));
     }
 
 }

@@ -1,11 +1,10 @@
 package com.springboot.example.web.controller;
 
 import com.alibaba.fastjson.JSON;
+import lombok.extern.slf4j.Slf4j;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
@@ -22,11 +21,18 @@ import org.springframework.util.MultiValueMap;
 import java.util.ArrayList;
 import java.util.List;
 
-@RunWith(SpringRunner.class)
+/**
+ * http 请求控制器单元测试
+ *
+ * @author zhangyonghong
+ * @date 2019.9.20
+ */
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
+@RunWith(SpringRunner.class)
+@Slf4j
 public class HelloControllerTests {
 
-    private static Logger logger = LoggerFactory.getLogger(HelloControllerTests.class);
+    // private static Logger logger = LoggerFactory.getLogger(HelloControllerTests.class);
 
     @Autowired
     private HelloController helloController;
@@ -54,7 +60,7 @@ public class HelloControllerTests {
                 .andDo(MockMvcResultHandlers.print())
                 .andReturn();
 
-        logger.info(mvcResult.getResponse().getContentAsString());
+        log.info(mvcResult.getResponse().getContentAsString());
     }
 
     @Test
@@ -74,7 +80,7 @@ public class HelloControllerTests {
                 .andDo(MockMvcResultHandlers.print())
                 .andReturn();
 
-        logger.info(mvcResult.getResponse().getContentAsString());
+        log.info(mvcResult.getResponse().getContentAsString());
     }
 
     @Test
@@ -94,7 +100,7 @@ public class HelloControllerTests {
                 .andDo(MockMvcResultHandlers.print())
                 .andReturn();
 
-        logger.info(mvcResult.getResponse().getContentAsString());
+        log.info(mvcResult.getResponse().getContentAsString());
     }
 
     @Test
@@ -114,7 +120,7 @@ public class HelloControllerTests {
                 .andDo(MockMvcResultHandlers.print())
                 .andReturn();
 
-        logger.info(mvcResult.getResponse().getContentAsString());
+        log.info(mvcResult.getResponse().getContentAsString());
     }
 
 }

@@ -2,12 +2,13 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>user</title>
+    <title>thymeleaf-users</title>
 </head>
 <body>
 <div>
     <ul>
-        <li >
+        <!--/*@thymesVar id="users" type="java.util.List"*/-->
+        <li th:each="user : ${users}">
             <!--/*@thymesVar id="user" type="com.springboot.example.domain.User"*/-->
             <span th:text="${user.id}"></span>-
             <span th:text="${user.name}"></span>-

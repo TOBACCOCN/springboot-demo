@@ -1,7 +1,6 @@
 package com.springboot.example.util;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 
 import javax.crypto.Cipher;
 import javax.crypto.KeyGenerator;
@@ -20,9 +19,10 @@ import java.util.Base64;
  * @author zhangyonghong
  * @date 2019.6.13
  */
+@Slf4j
 public class AESUtil {
 
-    private static Logger logger = LoggerFactory.getLogger(AESUtil.class);
+    // private static Logger logger = LoggerFactory.getLogger(AESUtil.class);
 
     private static final String seed = "zhangyonghong";
 
@@ -68,7 +68,7 @@ public class AESUtil {
             // 用 Base64 编码加密后的字节数组成字符串
             return Base64.getEncoder().encodeToString(byte_encrypt);
         } catch (Exception e) {
-            ErrorPrintUtil.printErrorMsg(logger, e);
+            ErrorPrintUtil.printErrorMsg(log, e);
         }
         return null;
     }
@@ -89,7 +89,7 @@ public class AESUtil {
             // 将原始字节数组构造成解密后的字符串
             return new String(byte_original, StandardCharsets.UTF_8);
         } catch (Exception e) {
-            ErrorPrintUtil.printErrorMsg(logger, e);
+            ErrorPrintUtil.printErrorMsg(log, e);
         }
         return null;
     }

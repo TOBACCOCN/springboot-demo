@@ -1,7 +1,6 @@
 package com.springboot.example.service;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.FileSystemResource;
@@ -18,10 +17,17 @@ import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.util.Map;
 
+/**
+ * 邮件服务接口实现
+ *
+ * @author zhangyonghong
+ * @date 2019.6.1
+ */
 @Service
+@Slf4j
 public class MailServiceImpl implements MailService {
 
-    private static Logger logger = LoggerFactory.getLogger(MailServiceImpl.class);
+    // private static Logger logger = LoggerFactory.getLogger(MailServiceImpl.class);
 
     @Autowired
     private JavaMailSender mailSender;
@@ -39,11 +45,11 @@ public class MailServiceImpl implements MailService {
 
         try {
             mailSender.send(message);
-            logger.info(">>>>> SEND SIMPLE MAIL SUCCESS");
+            log.info(">>>>> SEND SIMPLE MAIL SUCCESS");
         } catch (MailException e) {
             StringWriter stringWriter = new StringWriter();
             e.printStackTrace(new PrintWriter(stringWriter, true));
-            logger.error(stringWriter.toString());
+            log.error(stringWriter.toString());
         }
     }
 
@@ -59,16 +65,16 @@ public class MailServiceImpl implements MailService {
             helper.setText(content, true);
 
             mailSender.send(message);
-            logger.info(">>>>> SEND HTML MAIL SUCCESS");
+            log.info(">>>>> SEND HTML MAIL SUCCESS");
         } catch (MessagingException e) {
             StringWriter stringWriter = new StringWriter();
             e.printStackTrace(new PrintWriter(stringWriter, true));
-            logger.error(stringWriter.toString());
+            log.error(stringWriter.toString());
         }
     }
 
     @Override
-    public void sendAttachmentsMail(String to, String subject, String content, String filePath){
+    public void sendAttachmentsMail(String to, String subject, String content, String filePath) {
         MimeMessage message = mailSender.createMimeMessage();
         try {
             MimeMessageHelper helper = new MimeMessageHelper(message, true);
@@ -82,11 +88,11 @@ public class MailServiceImpl implements MailService {
             helper.addAttachment(fileName, file);
 
             mailSender.send(message);
-            logger.info(">>>>> SEND HTML MAIL WITH ATTACHMENTS SUCCESS");
+            log.info(">>>>> SEND HTML MAIL WITH ATTACHMENTS SUCCESS");
         } catch (MessagingException e) {
             StringWriter stringWriter = new StringWriter();
             e.printStackTrace(new PrintWriter(stringWriter, true));
-            logger.error(stringWriter.toString());
+            log.error(stringWriter.toString());
         }
     }
 
@@ -100,16 +106,16 @@ public class MailServiceImpl implements MailService {
             helper.setSubject(subject);
             helper.setText(content, true);
 
-            for (String resId: resIdFilePathMap.keySet()) {
+            for (String resId : resIdFilePathMap.keySet()) {
                 helper.addInline(resId, new FileSystemResource(new File(resIdFilePathMap.get(resId))));
             }
 
             mailSender.send(message);
-            logger.info(">>>>> SEND HTML MAIL WITH INLINE RESOURCE SUCCESS");
+            log.info(">>>>> SEND HTML MAIL WITH INLINE RESOURCE SUCCESS");
         } catch (MessagingException e) {
             StringWriter stringWriter = new StringWriter();
             e.printStackTrace(new PrintWriter(stringWriter, true));
-            logger.error(stringWriter.toString());
+            log.error(stringWriter.toString());
         }
     }
 

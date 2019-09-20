@@ -12,7 +12,14 @@ import org.apache.shiro.subject.PrincipalCollection;
 import java.util.HashSet;
 import java.util.Set;
 
+/**
+ * shiro 认证授权中心
+ *
+ * @author zhangyonghong
+ * @date 2019.6.3
+ */
 public class SimpleAuthorizingRealm extends AuthorizingRealm {
+
     @Override
     protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principals) {
         Set<String> roles = new HashSet<>();
@@ -39,4 +46,5 @@ public class SimpleAuthorizingRealm extends AuthorizingRealm {
 
         return new SimpleAuthenticationInfo(username, password, getName());
     }
+
 }

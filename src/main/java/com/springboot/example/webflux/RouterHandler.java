@@ -8,6 +8,12 @@ import org.springframework.web.reactive.function.server.RouterFunction;
 import org.springframework.web.reactive.function.server.RouterFunctions;
 import org.springframework.web.reactive.function.server.ServerResponse;
 
+/**
+ * 路由处理器
+ *
+ * @author zhangyonghong
+ * @date 2019.7.17
+ */
 @Configuration
 public class RouterHandler {
 

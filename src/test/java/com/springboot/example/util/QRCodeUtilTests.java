@@ -1,12 +1,18 @@
 package com.springboot.example.util;
 
+import lombok.extern.slf4j.Slf4j;
 import org.junit.Test;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
+/**
+ * 二维码工具单元测试
+ *
+ * @author zhangyonghong
+ * @date 2019.6.14
+ */
+@Slf4j
 public class QRCodeUtilTests {
 
-    private static Logger logger = LoggerFactory.getLogger(QRCodeUtilTests.class);
+    // private static Logger logger = LoggerFactory.getLogger(QRCodeUtilTests.class);
 
     @Test
     public void encode() throws Exception {
@@ -18,7 +24,7 @@ public class QRCodeUtilTests {
         String qrCodeFilePath = "D:\\weixinPay.png";
         String type = "png";
         QRCodeUtil.encode(url, width, height, qrCodeFilePath, type);
-        logger.info(">>>>> WRITE QR_CODE TO {}, DONE", qrCodeFilePath);
+        log.info(">>>>> WRITE QR_CODE TO {}, DONE", qrCodeFilePath);
     }
 
     @Test
@@ -26,7 +32,7 @@ public class QRCodeUtilTests {
         // 解析二维码
         String qrCodeFilePath = "D:\\weixinPay.png";
         String result = QRCodeUtil.decode(qrCodeFilePath);
-        logger.info(">>>>> RESULT: {}", result);
+        log.info(">>>>> RESULT: {}", result);
     }
 
 }

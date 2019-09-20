@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ehcache>
+    <diskStore path="java.io.tmpdir"/>
+    <!--defaultCache：默认缓存策略-->
+    <defaultCache
+            maxElementsInMemory="10000"
+            eternal="false"
+            timeToIdleSeconds="120"
+            timeToLiveSeconds="120"
+            maxElementsOnDisk="10000000"
+            diskExpiryThreadIntervalSeconds="120"
+            memoryStoreEvictionPolicy="LRU">
+        <persistence strategy="localTempSwap"/>
+    </defaultCache>
+    <cache name="user"
+           maxElementsInMemory="10000"
+           eternal="false"
+           timeToIdleSeconds="120"
+           timeToLiveSeconds="120"
+           memoryStoreEvictionPolicy="LRU"
+           maxElementsOnDisk="10000000"
+           diskExpiryThreadIntervalSeconds="120">
+        <!--eternal：true 表示对象永不过期，此时会忽略 timeToIdleSeconds 和 timeToLiveSeconds 属性，默认为 false-->
+        <!--memoryStoreEvictionPolicy：内存存储与释放策略，即达到 maxElementsInMemory 限制时，
+        Ehcache 会根据指定策略清理内存，共有三种策略：LRU（最近最少访问）、LFU（最少访问次数）、FIFO（先进先出）-->
+        <!--diskExpiryThreadIntervalSeconds：磁盘缓存的清理线程运行间隔，默认是 120 秒-->
+        <persistence strategy="localTempSwap"/>
+        <!--localTempSwap：当堆内存或者非堆内存里面的元素已经满了的时候，将其中的元素临时的存放在磁盘上，一旦重启就会消失-->
+    </cache>
+</ehcache>

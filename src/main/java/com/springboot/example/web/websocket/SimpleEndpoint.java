@@ -4,9 +4,8 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.springboot.example.util.ErrorPrintUtil;
 import com.springboot.example.util.SignUtil;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 import javax.websocket.*;
@@ -18,11 +17,18 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
+/**
+ * websocket 终结点
+ *
+ * @author zhangyonghong
+ * @date 2019.7.8
+ */
 @Component
 @ServerEndpoint(value = "/websocket", configurator = ServerEndpointConfigurator.class)
+@Slf4j
 public class SimpleEndpoint {
 
-    private static Logger logger = LoggerFactory.getLogger(SimpleEndpoint.class);
+    // private static Logger logger = LoggerFactory.getLogger(SimpleEndpoint.class);
 
     private static Map<String, BinaryHandler> handlerMap = new ConcurrentHashMap<>();
 
@@ -42,10 +48,10 @@ public class SimpleEndpoint {
     public void onOpen(Session session, EndpointConfig config) throws Exception {
         // 根据需要设置空闲超时时间，默认为 0，不会超时
         session.setMaxIdleTimeout(1000 * (60 * 5 + 10));
-        logger.info(">>>>> TIME_OUT OF SESSION: {}", session.getMaxIdleTimeout());
+        log.info(">>>>> TIME_OUT OF SESSION: {}", session.getMaxIdleTimeout());
         HandshakeRequest request = (HandshakeRequest) config.getUserProperties().get(ServerEndpointConfigurator.handshakereq);
         Map<String, List<String>> headers = request.getHeaders();
-        headers.forEach((key, value) -> logger.info(">>>>> {}: {}", key, value));
+        headers.forEach((key, value) -> log.info(">>>>> {}: {}", key, value));
 
         Map<String, String> paramMap = getParamMap(headers);
         removeDefaultHeader(paramMap);
@@ -59,7 +65,7 @@ public class SimpleEndpoint {
             // 处理客户端上传的数据
             new Thread(binaryHandler).start();
         } else {
-            logger.info(">>>>> INVALID SIGN");
+            log.info(">>>>> INVALID SIGN");
             JSONObject json = new JSONObject();
             json.put("message", "invalid sign");
             session.getBasicRemote().sendText(json.toString());
@@ -90,7 +96,7 @@ public class SimpleEndpoint {
 
     @OnMessage
     public void onMessage(Session session, String message) {
-        logger.info(">>>>> ON_MESSAGE: {}", message);
+        log.info(">>>>> ON_MESSAGE: {}", message);
         try {
             Map map = JSON.parseObject(message, Map.class);
             String filename = (String) map.get(FILENAME);
@@ -101,27 +107,27 @@ public class SimpleEndpoint {
                 handler.setMd5(md5);
             }
         } catch (Exception e) {
-            logger.info(">>>>> MESSAGE IS NOT JSON");
+            log.info(">>>>> MESSAGE IS NOT JSON");
         }
     }
 
     @OnMessage
     public void onMessage(Session session, ByteBuffer byteBuffer) {
-        logger.info(">>>>> ON_MESSAGE, BINARY_LENGTH: {}", byteBuffer.capacity());
+        log.info(">>>>> ON_MESSAGE, BINARY_LENGTH: {}", byteBuffer.capacity());
         handlerMap.get(session.getId()).addBinary(byteBuffer);
     }
 
     @OnClose
     public void onClose(Session session) {
-        logger.info(">>>>> ON_CLOSE");
+        log.info(">>>>> ON_CLOSE");
         SessionManager.removeSession(session);
     }
 
     @OnError
     public void OnError(Session session, Throwable throwable) {
-        logger.info(">>>>> ON_ERROR");
+        log.info(">>>>> ON_ERROR");
         SessionManager.removeSession(session);
-        ErrorPrintUtil.printErrorMsg(logger, throwable);
+        ErrorPrintUtil.printErrorMsg(log, throwable);
     }
 
 }

@@ -18,6 +18,12 @@
 // import java.util.LinkedHashMap;
 // import java.util.Map;
 //
+// /**
+//  * shiro 配置类
+//  *
+//  * @author zhangyonghong
+//  * @date 2019.6.3
+//  */
 // @Configuration
 // public class ShiroConfiguration {
 //
@@ -35,7 +41,7 @@
 //         // 一般会自定义 AuthenticationFilter
 //         filters.put("authc", new SimpleAuthenticationFilter());
 //         shiroFilterFactoryBean.setFilters(filters);
-//         Map<String,String> filterChainDefinitionMap = new LinkedHashMap<>();
+//         Map<String, String> filterChainDefinitionMap = new LinkedHashMap<>();
 //         // 过滤链定义，从上向下顺序执行，一般将 /** 放在最下边，这是一个坑呢，一不小心代码就不好使了
 //         // 配置不会被拦截的链接，anon：匹配到的 url 可以匿名访问
 //         filterChainDefinitionMap.put("/static/**", "anon");

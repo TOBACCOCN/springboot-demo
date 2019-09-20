@@ -11,6 +11,12 @@ import java.text.SimpleDateFormat;
 import java.time.Duration;
 import java.util.Date;
 
+/**
+ * 时间处理器
+ *
+ * @author zhangyonghong
+ * @date 2019.7.17
+ */
 @Component
 public class TimeHandler {
 

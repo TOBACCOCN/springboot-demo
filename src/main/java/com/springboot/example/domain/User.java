@@ -4,25 +4,33 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.boot.context.properties.ConfigurationProperties;
-import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
+import org.springframework.stereotype.Component;
 
 import java.io.Serializable;
 
-@Data
-@NoArgsConstructor
-@AllArgsConstructor
-@Configuration
+/**
+ * 用户实体类
+ *
+ * @author zhangyonghong
+ * @date 2019.6.10
+ */
+@Component
 @PropertySource("classpath:user.properties")
 @ConfigurationProperties(prefix = "user")
+@NoArgsConstructor
+@AllArgsConstructor
+@Data
 public class User implements Serializable {
 
-    public Long id;
+    // user 表要分片，库也要分片
 
-    public String name;
+    private Long id;
 
-    public Integer age;
+    private String name;
 
-    public String address;
+    private Integer age;
+
+    private String address;
 
 }

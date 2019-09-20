@@ -3,10 +3,16 @@ package com.springboot.example.util;
 import javax.net.ssl.X509TrustManager;
 import java.security.cert.X509Certificate;
 
+/**
+ * X509 证书管理器
+ *
+ * @author zhangyonghong
+ * @date 2019.6.14
+ */
 public class SimpleX509TrustManager implements X509TrustManager {
 
     @Override
-    public void checkClientTrusted(X509Certificate[] chain, String authType){
+    public void checkClientTrusted(X509Certificate[] chain, String authType) {
     }
 
     @Override

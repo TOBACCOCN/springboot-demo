@@ -4,8 +4,7 @@ import com.springboot.example.domain.User;
 import com.springboot.example.util.ParamUtil;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -18,11 +17,18 @@ import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.Map;
 
-@Api("springboot example api")
+/**
+ * http 请求控制器
+ *
+ * @author zhangyonghong
+ * @date 2019.6.1
+ */
 @Controller
+@Api("springboot example api")
+@Slf4j
 public class HelloController {
 
-    private static Logger logger = LoggerFactory.getLogger(HelloController.class);
+    // private static Logger logger = LoggerFactory.getLogger(HelloController.class);
 
     @ApiOperation(value = "GET 请求")
     // GET 请求
@@ -32,7 +38,7 @@ public class HelloController {
     // public Object helloGET(HttpServletRequest request) {
     public Mono<Object> helloGET(HttpServletRequest request) {
         Map<String, String> map = ParamUtil.getMap(request.getParameterMap());
-        logger.info(">>>>> PARAM_MAP: {}", map);
+        log.info(">>>>> PARAM_MAP: {}", map);
         // return map;
         return Mono.create(monoSink -> monoSink.success(map));
     }
@@ -43,10 +49,10 @@ public class HelloController {
     @ResponseBody
     // public Object helloPOST(HttpServletRequest request) {
     public Mono<Object> helloPOST(HttpServletRequest request) {
-        logger.info(">>>>> REQUEST_URI: {}", request.getRequestURI());
-        getHeaderMap(request).forEach((key, value) -> logger.info(">>>>> HEADER_MAP: {} = {}", key, value));
+        log.info(">>>>> REQUEST_URI: {}", request.getRequestURI());
+        getHeaderMap(request).forEach((key, value) -> log.info(">>>>> HEADER_MAP: {} = {}", key, value));
         Map<String, String> map = ParamUtil.getMap(request.getParameterMap());
-        logger.info(">>>>> PARAM_POST: {}", map);
+        log.info(">>>>> PARAM_POST: {}", map);
         // return map;
         return Mono.create(monoSink -> monoSink.success(map));
     }
@@ -67,8 +73,8 @@ public class HelloController {
     @ResponseBody
     // public Object helloPOST(HttpServletRequest request, User user) {
     public Mono<Object> helloPOST(HttpServletRequest request, User user) {
-        getHeaderMap(request).forEach((key, value) -> logger.info(">>>>> HEADER_MAP: {} = {}", key, value));
-        logger.info(">>>>> PARAM_POST_USER {}", user);
+        getHeaderMap(request).forEach((key, value) -> log.info(">>>>> HEADER_MAP: {} = {}", key, value));
+        log.info(">>>>> PARAM_POST_USER {}", user);
         // return user;
         return Mono.create(monoSink -> monoSink.success(user));
     }
@@ -78,8 +84,8 @@ public class HelloController {
     @PostMapping("/helloJSON")
     @ResponseBody
     public Object helloPOST(HttpServletRequest request, @RequestBody Map<String, Object> map) {
-        getHeaderMap(request).forEach((key, value) -> logger.info(">>>>> HEADER_MAP: {} = {}", key, value));
-        logger.info(">>>>> PARAM_POST_JSON: {}", map);
+        getHeaderMap(request).forEach((key, value) -> log.info(">>>>> HEADER_MAP: {} = {}", key, value));
+        log.info(">>>>> PARAM_POST_JSON: {}", map);
         return map;
     }
 

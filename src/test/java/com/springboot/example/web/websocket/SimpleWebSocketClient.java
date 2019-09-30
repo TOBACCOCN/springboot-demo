@@ -1,5 +1,6 @@
 package com.springboot.example.web.websocket;
 
+import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.springboot.example.util.ErrorPrintUtil;
 import lombok.extern.slf4j.Slf4j;
@@ -28,26 +29,35 @@ public class SimpleWebSocketClient extends WebSocketClient {
     @Override
     public void onMessage(String message) {
         log.info(">>>>> ON_MESSAGE: {}", message);
+
+        JSONObject jsonObject = JSON.parseObject(message);
+        int code = jsonObject.getIntValue("code");
+
+        int connectSuccess = 307;
+        if (code == connectSuccess) {
+            DeviceClientSessionManager.connectSuccess(this);
+            // 无限循环发送心跳包信息要单独开线程，不然线程在此会被阻塞住，导致 onMessage 事件方法不会被触发
+            new Thread(() -> {
+                JSONObject heart = new JSONObject();
+                int i = 0;
+                while (true) {
+                    // 心跳包信息，可自行定义
+                    heart.put("heart", i++);
+                    send(heart.toString());
+                    try {
+                        // TimeUnit.MINUTES.sleep(5);
+                        TimeUnit.SECONDS.sleep(15);
+                    } catch (InterruptedException e) {
+                        ErrorPrintUtil.printErrorMsg(log, e);
+                    }
+                }
+            }).start();
+        }
     }
 
     @Override
     public void onOpen(ServerHandshake serverHandshake) {
-        // 无限循环发送心跳包信息要单独开线程，不然线程在此会被阻塞住，导致 onMessage 事件方法不会被触发
-        new Thread(() -> {
-            JSONObject heart = new JSONObject();
-            int i = 0;
-            while (true) {
-                // 心跳包信息，可自行定义
-                heart.put("heart", i++);
-                send(heart.toString());
-                try {
-                    TimeUnit.MINUTES.sleep(5);
-                    // TimeUnit.SECONDS.sleep(15);
-                } catch (InterruptedException e) {
-                    ErrorPrintUtil.printErrorMsg(log, e);
-                }
-            }
-        }).start();
+        log.info(">>>>> ON_OPEN");
     }
 
     @Override

@@ -11,11 +11,13 @@ import org.springframework.stereotype.Component;
 import javax.websocket.*;
 import javax.websocket.server.HandshakeRequest;
 import javax.websocket.server.ServerEndpoint;
+import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.TimeUnit;
 
 /**
  * websocket 终结点
@@ -48,14 +50,37 @@ public class SimpleEndpoint {
     public void onOpen(Session session, EndpointConfig config) throws Exception {
         // 根据需要设置空闲超时时间，默认为 0，不会超时
         session.setMaxIdleTimeout(1000 * (60 * 5 + 10));
-        log.info(">>>>> TIME_OUT OF SESSION: {}", session.getMaxIdleTimeout());
+        log.info(">>>>> TIME_OUT OF SESSION: [{}]", session.getMaxIdleTimeout());
         HandshakeRequest request = (HandshakeRequest) config.getUserProperties().get(ServerEndpointConfigurator.handshakereq);
         Map<String, List<String>> headers = request.getHeaders();
-        headers.forEach((key, value) -> log.info(">>>>> {}: {}", key, value));
+        headers.forEach((key, value) -> log.info(">>>>> HEADER: [{}] = [{}]", key, value));
 
         Map<String, String> paramMap = getParamMap(headers);
         removeDefaultHeader(paramMap);
+        JSONObject json = new JSONObject();
         if (SignUtil.checkSign(paramMap, SIGN)) {
+            json.put("code", 307);
+            json.put("message", "Connect success");
+            session.getBasicRemote().sendText(json.toString());
+
+            // 给 websocket 长连接客户端发送消息
+            new Thread(() -> {
+                JSONObject message = new JSONObject();
+                message.put("code", 505);
+                message.put("message", "Hello! What's your name?");
+                while (true) {
+                    try {
+                        if (session.isOpen()) {
+                            session.getBasicRemote().sendText(message.toString());
+                            // TimeUnit.MINUTES.sleep(5);
+                            TimeUnit.SECONDS.sleep(15);
+                        }
+                    } catch (Exception e) {
+                        ErrorPrintUtil.printErrorMsg(log, e);
+                    }
+                }
+            }).start();
+
             // 也可以是其他唯一标识会话用户的字段
             String id = headers.get(ID).get(0);
             SessionManager.addSession(id, session);
@@ -66,7 +91,7 @@ public class SimpleEndpoint {
             new Thread(binaryHandler).start();
         } else {
             log.info(">>>>> INVALID SIGN");
-            JSONObject json = new JSONObject();
+            json.put("code", 407);
             json.put("message", "invalid sign");
             session.getBasicRemote().sendText(json.toString());
             session.close();
@@ -127,7 +152,12 @@ public class SimpleEndpoint {
     public void OnError(Session session, Throwable throwable) {
         log.info(">>>>> ON_ERROR");
         SessionManager.removeSession(session);
-        ErrorPrintUtil.printErrorMsg(log, throwable);
+
+        if (throwable instanceof IOException) {
+            log.info(">>>>> IGNORE IT, SESSION CLOSED BY MANUAL");
+        } else {
+            ErrorPrintUtil.printErrorMsg(log, throwable);
+        }
     }
 
 }

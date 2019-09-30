@@ -45,7 +45,10 @@ public class SimpleWebSocketClientTests {
                 httpHeaders.put("id", UUID.randomUUID().toString().replaceAll("-", ""));
                 httpHeaders.put("foo", "bar");
                 httpHeaders.put("sign", SignUtil.generateSignature(httpHeaders, "sign"));
-                webSocketClient = new SimpleWebSocketClient(uri, httpHeaders);
+                synchronized (SimpleWebSocketClientTests.class) {
+                    webSocketClient = new SimpleWebSocketClient(uri, httpHeaders);
+                    SimpleWebSocketClientTests.class.notify();
+                }
                 if (uri.toString().startsWith("wss")) {
                     SSLContext sslContext = SSLContext.getInstance("TLS");
                     TrustManager[] trustManager = {new SimpleX509TrustManager()};
@@ -62,15 +65,23 @@ public class SimpleWebSocketClientTests {
     @Test
     public void sendTextMessage() throws InterruptedException {
         String message = "HELLO";
-        boolean notSend = true;
-        while (notSend) {
-            if (webSocketClient != null && webSocketClient.isOpen()) {
-                webSocketClient.send(message);
-                notSend = false;
-            }
-            // 每次获取 websocket 客户端状态后线程需要 sleep 一下，不然 cpu 一直不停地执行此任务，没有时间更新 websocket 客户端状态
-            Thread.sleep(10);
+
+        synchronized (SimpleWebSocketClientTests.class) {
+            SimpleWebSocketClientTests.class.wait();
         }
+        if (webSocketClient == null) {
+            log.info(">>>>> WEBSOCKET IS NULL");
+            return;
+        }
+
+        synchronized (webSocketClient) {
+            webSocketClient.wait();
+        }
+
+        if (DeviceClientSessionManager.isConnectSuccess(webSocketClient)) {
+            webSocketClient.send(message);
+        }
+
         // 让主线程阻塞住不要退出，不然长连接守护线程也会退出
         Thread.currentThread().join();
     }

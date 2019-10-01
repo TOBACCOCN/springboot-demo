@@ -11,6 +11,7 @@ import java.util.concurrent.ConcurrentHashMap;
 public class DeviceClientSessionManager {
 
     private static Map<WebSocketClient, Boolean> webSocketClient2ConnectSuccessMap = new ConcurrentHashMap<>();
+    private static Map<WebSocketClient, Long> webSocketClient2ExistFileLengthMap = new ConcurrentHashMap<>();
 
     public static void connectSuccess(WebSocketClient webSocketClient) {
         synchronized (webSocketClient) {
@@ -28,6 +29,23 @@ public class DeviceClientSessionManager {
             }
         }
         return webSocketClient2ConnectSuccessMap.get(webSocketClient);
+    }
+
+    public static void setExistFileLength(WebSocketClient webSocketClient, Long length) {
+        synchronized (webSocketClient) {
+            webSocketClient2ExistFileLengthMap.put(webSocketClient, length);
+            webSocketClient.notify();
+        }
+    }
+    public static Long getExistFileLength(WebSocketClient webSocketClient) {
+        synchronized (webSocketClient) {
+            try {
+                webSocketClient.wait();
+            } catch (InterruptedException e) {
+                ErrorPrintUtil.printErrorMsg(log, e);
+            }
+        }
+        return  webSocketClient2ExistFileLengthMap.remove(webSocketClient);
     }
 
 }

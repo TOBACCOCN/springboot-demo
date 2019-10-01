@@ -56,24 +56,30 @@ public class BinaryHandler implements Runnable {
         try {
             while (true) {
                 if (filename != null) {
-                    File file = new File(UPLOAD_DIR, filename);
+                    File file = new File(UPLOAD_DIR,  md5 + "-" + filename);
                     if (!file.getParentFile().exists()) {
                         file.getParentFile().mkdirs();
                     }
+
                     FileOutputStream fos = new FileOutputStream(file);
-                    ByteBuffer byteBuffer;
+                    // 服务端缓冲用的字节数组
                     byte[] buf = new byte[BUFFER_LENGTH];
+                    ByteBuffer byteBuffer;
                     // 参数 10 这个值值得考量，根据网络环境调整
-                    while ((byteBuffer = blockingQueue.poll(200, TimeUnit.MILLISECONDS)) != null) {
+                    while ((byteBuffer = blockingQueue.poll(10, TimeUnit.MILLISECONDS)) != null) {
+                        // 客户端传过来的字节数组
                         byte[] array = byteBuffer.array();
-                        if (buf.length  >= array.length) {
+
+                        if (BUFFER_LENGTH >= array.length) {
+                            // 客户端传过来的字节数组长度没有超过服务端缓冲用的字节数组长度，直接将客户端字节数组写入到文件
                             System.arraycopy(array, 0, buf, 0, array.length);
                             fos.write(buf, 0, array.length);
                         } else {
+                            // 客户端传过来的字节数组长度超过服务端缓冲用的字节数组长度，那就分多次将客户端字节数组写入到文件
                             int srcPos = 0;
-                            while (array.length >= srcPos) {
-                                if (array.length - srcPos > buf.length) {
-                                    System.arraycopy(array, srcPos, buf, 0, buf.length);
+                            while (array.length > srcPos) {
+                                if (array.length - srcPos > BUFFER_LENGTH) {
+                                    System.arraycopy(array, srcPos, buf, 0, BUFFER_LENGTH);
                                     fos.write(buf);
                                 } else {
                                     System.arraycopy(array, srcPos, buf, 0, array.length - srcPos);
@@ -87,14 +93,17 @@ public class BinaryHandler implements Runnable {
                     fos.close();
                     // 校验 md5
                     FileInputStream fis = new FileInputStream(file);
-                    JSONObject json = new JSONObject();
+                    JSONObject message = new JSONObject();
                     if (!md5.equals(DigestUtils.md5DigestAsHex(fis))) {
+                        fis.close();
                         file.delete();
-                        json.put("message", "MD5 NOT MATCH");
+                        message.put("code", 305);
+                        message.put("message", "Md5 not match");
                     } else {
-                        json.put("message", "UPLOAD " + filename + " SUCCESS");
+                        message.put("code", 607);
+                        message.put("message", "Upload " + filename + " success");
                     }
-                    SessionManager.getId2SessionMap().get(id).getBasicRemote().sendText(json.toString());
+                    ServerSessionManager.getSession(id).getBasicRemote().sendText(message.toString());
                     break;
                 }
                 // 每次获取 filename 后线程需要 sleep 一下，不然 cpu 一直不停地执行此任务，没有时间更新 filename 状态
@@ -102,9 +111,10 @@ public class BinaryHandler implements Runnable {
             }
         } catch (Exception e) {
             try {
-                JSONObject json = new JSONObject();
-                json.put("message", "ERROR OCCURRED");
-                SessionManager.getId2SessionMap().get(id).getBasicRemote().sendText(json.toString());
+                JSONObject message = new JSONObject();
+                message.put("code", 508);
+                message.put("message", "Error occurred");
+                ServerSessionManager.getSession(id).getBasicRemote().sendText(message.toString());
             } catch (IOException ex) {
                 ErrorPrintUtil.printErrorMsg(log, ex);
             }

@@ -7,34 +7,30 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 /**
- * websocket 会话管理器
+ * 服务端长连接会话管理器
  *
  * @author zhangyonghong
  * @date 2019.7.8
  */
-public class SessionManager {
+public class ServerSessionManager {
 
     private static Map<String, Session> id2SessionMap = new ConcurrentHashMap<>();
     private static Map<Session, String> session2IdMap = new ConcurrentHashMap<>();
 
-    public static Map<String, Session> getId2SessionMap() {
-        return id2SessionMap;
+    public static Session getSession(String id) {
+        return id2SessionMap.get(id);
     }
 
-    static void addSession(String id, Session session) {
+    public static String getId(Session session) {
+        return session2IdMap.get(session);
+    }
+
+    static void registerSession(String id, Session session) {
         id2SessionMap.put(id, session);
         session2IdMap.put(session, id);
     }
 
-    static void removeSession(String id) {
-        Session session = id2SessionMap.get(id);
-        if (session != null) {
-            session2IdMap.remove(session);
-        }
-        id2SessionMap.remove(id);
-    }
-
-    static void removeSession(Session session) {
+    static void unregisterSession(Session session) {
         String id = session2IdMap.get(session);
         if (StringUtils.isNotEmpty(id)) {
             id2SessionMap.remove(id);

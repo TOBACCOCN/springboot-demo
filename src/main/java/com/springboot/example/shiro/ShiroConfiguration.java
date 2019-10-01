@@ -2,7 +2,7 @@
 //
 // import org.apache.shiro.mgt.SecurityManager;
 // import org.apache.shiro.realm.AuthorizingRealm;
-// import org.apache.shiro.session.mgt.SessionManager;
+// import org.apache.shiro.session.mgt.ServerSessionManager;
 // import org.apache.shiro.spring.security.interceptor.AuthorizationAttributeSourceAdvisor;
 // import org.apache.shiro.spring.web.ShiroFilterFactoryBean;
 // import org.apache.shiro.web.mgt.DefaultWebSecurityManager;
@@ -71,7 +71,7 @@
 //     }
 //
 //     @Bean
-//     public SessionManager sessionManager() {
+//     public ServerSessionManager sessionManager() {
 //         DefaultWebSessionManager sessionManager = new DefaultWebSessionManager();
 //         sessionManager.setSessionDAO(redisSessionDAO());
 //         return sessionManager;

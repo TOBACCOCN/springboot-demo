@@ -1,6 +1,6 @@
 package com.springboot.example.web.websocket;
 
-import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
 import com.springboot.example.util.ErrorPrintUtil;
 import com.springboot.example.util.SignUtil;
 import com.springboot.example.util.SimpleX509TrustManager;
@@ -31,6 +31,8 @@ public class SimpleWebSocketClientTests {
 
     // private static Logger logger = LoggerFactory.getLogger(SimpleWebSocketClientTests.class);
 
+    private static final String CODE = "code";
+
     private static WebSocketClient webSocketClient;
 
     private static final int BUFFER_LENGTH = 1024 * 8;
@@ -42,9 +44,15 @@ public class SimpleWebSocketClientTests {
                 // URI uri = new URI("ws://127.0.0.1:9527/websocket");
                 URI uri = new URI("wss://127.0.0.1:9527/websocket");
                 Map<String, String> httpHeaders = new HashMap<>();
+                // id 一般指客户端标识
                 httpHeaders.put("id", UUID.randomUUID().toString().replaceAll("-", ""));
-                httpHeaders.put("foo", "bar");
-                httpHeaders.put("sign", SignUtil.generateSignature(httpHeaders, "sign"));
+                // httpHeaders.put("curtime", "1234567890");
+                httpHeaders.put("curtime", String.valueOf(System.currentTimeMillis() / 1000));
+                // idSecret 跟 id 一一对应
+                httpHeaders.put("idSecret", "TEST");
+                httpHeaders.put("sign", SignUtil.generateSignature(httpHeaders));
+                // httpHeaders.put("sign", "sign");
+                httpHeaders.remove("idSecret");
                 synchronized (SimpleWebSocketClientTests.class) {
                     webSocketClient = new SimpleWebSocketClient(uri, httpHeaders);
                     SimpleWebSocketClientTests.class.notify();
@@ -64,7 +72,9 @@ public class SimpleWebSocketClientTests {
 
     @Test
     public void sendTextMessage() throws InterruptedException {
-        String message = "HELLO";
+        JSONObject message = new JSONObject();
+        message.put(CODE, 906);
+        message.put("message", "I am websocket client");
 
         synchronized (SimpleWebSocketClientTests.class) {
             SimpleWebSocketClientTests.class.wait();
@@ -74,12 +84,8 @@ public class SimpleWebSocketClientTests {
             return;
         }
 
-        synchronized (webSocketClient) {
-            webSocketClient.wait();
-        }
-
-        if (DeviceClientSessionManager.isConnectSuccess(webSocketClient)) {
-            webSocketClient.send(message);
+        if (ClientSessionManager.isConnectSuccess(webSocketClient)) {
+            webSocketClient.send(message.toString());
         }
 
         // 让主线程阻塞住不要退出，不然长连接守护线程也会退出
@@ -88,32 +94,41 @@ public class SimpleWebSocketClientTests {
 
     @Test
     public void sendBinaryMessage() throws InterruptedException, IOException {
-        String filePath = "C:\\Users\\Administrator\\Desktop\\paypal.png";
-        Map<String, String> map = new HashMap<>();
-        map.put("filename", filePath.substring(filePath.lastIndexOf("\\") + 1));
-        map.put("md5", DigestUtils.md5DigestAsHex(new FileInputStream(filePath)));
-        String message = JSON.toJSONString(map);
-        boolean notSend = true;
-        while (notSend) {
-            if (webSocketClient != null && webSocketClient.isOpen()) {
-                webSocketClient.send(message);
-                RandomAccessFile accessFile = new RandomAccessFile(filePath, "r");
-                byte[] buf = new byte[BUFFER_LENGTH];
-                int len;
-                while ((len = accessFile.read(buf)) != -1) {
-                    if (len == BUFFER_LENGTH) {
-                        webSocketClient.send(buf);
-                    } else {
-                        byte[] temp = new byte[len];
-                        System.arraycopy(buf, 0, temp, 0, len);
-                        webSocketClient.send(temp);
-                    }
+        synchronized (SimpleWebSocketClientTests.class) {
+            SimpleWebSocketClientTests.class.wait();
+        }
+        if (webSocketClient == null) {
+            log.info(">>>>> WEBSOCKET IS NULL");
+            return;
+        }
+
+        if (ClientSessionManager.isConnectSuccess(webSocketClient)) {
+            String filePath = "C:\\Users\\TOBACCO\\Desktop\\paypal.png";
+            JSONObject fileInfo = new JSONObject();
+            fileInfo.put(CODE, 803);
+            fileInfo.put("filename", filePath.substring(filePath.lastIndexOf("\\") + 1));
+            fileInfo.put("md5", DigestUtils.md5DigestAsHex(new FileInputStream(filePath)));
+            webSocketClient.send(fileInfo.toString());
+
+            RandomAccessFile accessFile = new RandomAccessFile(filePath, "r");
+            accessFile.seek(ClientSessionManager.getExistFileLength(webSocketClient));
+            byte[] buf = new byte[BUFFER_LENGTH];
+            int len;
+            while ((len = accessFile.read(buf)) != -1) {
+                if (len == BUFFER_LENGTH) {
+                    webSocketClient.send(buf);
+                } else {
+                    byte[] temp = new byte[len];
+                    System.arraycopy(buf, 0, temp, 0, len);
+                    webSocketClient.send(temp);
                 }
-                accessFile.read(buf);
-                notSend = false;
             }
-            // 每次获取 websocket 客户端状态后线程需要 sleep 一下，不然 cpu 一直不停地执行此任务，没有时间更新 websocket 客户端状态
-            Thread.sleep(10);
+            accessFile.close();
+
+            JSONObject endMessage = new JSONObject();
+            endMessage.put(CODE, 304);
+            endMessage.put("end", true);
+            webSocketClient.send(endMessage.toString());
         }
         // 让主线程阻塞住不要退出，不然长连接守护线程也会退出
         Thread.currentThread().join();

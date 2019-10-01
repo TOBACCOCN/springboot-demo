@@ -27,6 +27,11 @@ public class SimpleWebSocketClient extends WebSocketClient {
     }
 
     @Override
+    public void onOpen(ServerHandshake serverHandshake) {
+        log.info(">>>>> ON_OPEN");
+    }
+
+    @Override
     public void onMessage(String message) {
         log.info(">>>>> ON_MESSAGE: {}", message);
 
@@ -34,9 +39,10 @@ public class SimpleWebSocketClient extends WebSocketClient {
         int code = jsonObject.getIntValue("code");
 
         int connectSuccess = 307;
+        int existFileLength = 406;
         if (code == connectSuccess) {
-            DeviceClientSessionManager.connectSuccess(this);
-            // 无限循环发送心跳包信息要单独开线程，不然线程在此会被阻塞住，导致 onMessage 事件方法不会被触发
+            ClientSessionManager.connectSuccess(this);
+            // 无限循环发送心跳包信息要单独开线程，不然线程在此会被阻塞住
             new Thread(() -> {
                 JSONObject heart = new JSONObject();
                 int i = 0;
@@ -45,19 +51,16 @@ public class SimpleWebSocketClient extends WebSocketClient {
                     heart.put("heart", i++);
                     send(heart.toString());
                     try {
-                        // TimeUnit.MINUTES.sleep(5);
-                        TimeUnit.SECONDS.sleep(15);
+                        TimeUnit.MINUTES.sleep(5);
+                        // TimeUnit.SECONDS.sleep(15);
                     } catch (InterruptedException e) {
                         ErrorPrintUtil.printErrorMsg(log, e);
                     }
                 }
             }).start();
+        } else if (code == existFileLength) {
+            ClientSessionManager.setExistFileLength(this, jsonObject.getLong("length"));
         }
-    }
-
-    @Override
-    public void onOpen(ServerHandshake serverHandshake) {
-        log.info(">>>>> ON_OPEN");
     }
 
     @Override

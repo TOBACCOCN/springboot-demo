@@ -7,8 +7,14 @@ import org.java_websocket.client.WebSocketClient;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
+/**
+ * 客户端长连接会话管理器
+ *
+ * @author zhangyonghong
+ * @date 2019.9.30
+ */
 @Slf4j
-public class DeviceClientSessionManager {
+public class ClientSessionManager {
 
     private static Map<WebSocketClient, Boolean> webSocketClient2ConnectSuccessMap = new ConcurrentHashMap<>();
     private static Map<WebSocketClient, Long> webSocketClient2ExistFileLengthMap = new ConcurrentHashMap<>();

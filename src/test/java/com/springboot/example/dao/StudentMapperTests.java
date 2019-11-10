@@ -35,21 +35,21 @@ public class StudentMapperTests {
     public void insert() {
         Student student = new Student(6L, "zhouba", 23, "suzhou");
         int insertAffect = studentMapper.insert(student);
-        log.info(">>>>> INSERT_AFFECT: {}", insertAffect);
+        log.info(">>>>> INSERT_AFFECT: [{}]", insertAffect);
     }
 
     @Test
     public void selectOne() {
         Student studentFound = studentMapper.selectOne(new QueryWrapper<Student>().lambda().eq(Student::getAddress, "shanghai")
                 .eq(Student::getName, "zhangsan"));
-        log.info(">>>>> STUDENT_FOUND: {}", studentFound == null ? "null" : studentFound);
+        log.info(">>>>> STUDENT_FOUND: [{}]", studentFound == null ? "null" : studentFound);
     }
 
     @Test
     public void selectList() {
         List<Student> students = studentMapper.selectList(new QueryWrapper<Student>().lambda().eq(Student::getAddress, "shanghai")
                 .or().eq(Student::getName, "zhangsan"));
-        log.info(">>>>> STUDENTS: {}", students);
+        log.info(">>>>> STUDENTS: [{}]", students);
     }
 
     @Test
@@ -57,8 +57,8 @@ public class StudentMapperTests {
         // sharding-jdbc 分页暂时有问题，https://github.com/apache/incubator-shardingsphere/issues/2926
         Page<Student> page = new Page<>(1, 2);
         IPage<Student> studentIPage = studentMapper.selectPage(page, new QueryWrapper<>());
-        log.info(">>>>> TOTAL: {}", studentIPage.getTotal());
-        log.info(">>>>> RECORDS: {}", studentIPage.getRecords());
+        log.info(">>>>> TOTAL: [{}]", studentIPage.getTotal());
+        log.info(">>>>> RECORDS: [{}]", studentIPage.getRecords());
     }
 
     @Test
@@ -66,13 +66,13 @@ public class StudentMapperTests {
         Student student = new Student();
         student.setAddress("wuhan");
         int updateAffect = studentMapper.update(student, new QueryWrapper<Student>().lambda().eq(Student::getAddress, "suzhou"));
-        log.info(">>>>> UPDATE_AFFECT: {}", updateAffect);
+        log.info(">>>>> UPDATE_AFFECT: [{}]", updateAffect);
     }
 
     @Test
     public void delete() {
         int deleteAffect = studentMapper.delete(new QueryWrapper<Student>().lambda().eq(Student::getAddress, "wuhan"));
-        log.info(">>>>> DELETE_AFFECT: {}", deleteAffect);
+        log.info(">>>>> DELETE_AFFECT: [{}]", deleteAffect);
     }
 
 }

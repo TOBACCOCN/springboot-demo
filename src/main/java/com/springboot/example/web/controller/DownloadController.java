@@ -32,7 +32,7 @@ public class DownloadController {
     @GetMapping("/download")
     public void download(HttpServletRequest request, HttpServletResponse response) throws IOException {
         Map<String, String> map = ParamUtil.getMap(request.getParameterMap());
-        log.info(">>>>> PARAM_MAP: {}", map);
+        log.info(">>>>> PARAM_MAP: [{}]", map);
         // TODO 根据请求参数获取或者组装出下载文件
 
         long length = Long.parseLong(map.get("length"));

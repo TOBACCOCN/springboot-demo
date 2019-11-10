@@ -58,8 +58,8 @@
     </root>
 
     <!-- 指定项目中某个包，当有日志操作行为时的日志记录级别 -->
-    <!-- addtivity：是否接收 level 更高的日志信息，默认是 true  -->
-    <!-- 如下配置，也就是指定包下的 logger.info 日志也会输出到 CONSOLE 和 FILE  -->
+    <!-- addtivity：是否将日志输出到 root 指定的 appender-ref，默认是 true，为 false 时，需要单独指定自己的 appender-ref  -->
+    <!-- 如下配置，也就是指定包下的日志会输出到 CONSOLE 和 FILE  -->
     <logger name="com.springboot.example" level="DEBUG" additivity="true">
     </logger>
 

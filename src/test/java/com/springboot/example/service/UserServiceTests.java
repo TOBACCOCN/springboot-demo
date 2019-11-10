@@ -37,28 +37,28 @@ public class UserServiceTests {
             user.setAge(i / 2 + 23);
             user.setAddress("suzhou");
             int insertAffect = userService.create(user);
-            log.info(">>>>> INSERT_AFFECT: {}", insertAffect);
+            log.info(">>>>> INSERT_AFFECT: [{}]", insertAffect);
         }
     }
 
     @Test
     public void findById() {
         User userFound = userService.findById(2L);
-        log.info(">>>>> USER_FOUND: {}", userFound == null ? "null" : userFound);
+        log.info(">>>>> USER_FOUND: [{}]", userFound == null ? "null" : userFound);
     }
 
     @Test
     public void findAll() {
         List<User> users = userService.findAll();
-        log.info(">>>>> USERS: {}", users);
+        log.info(">>>>> USERS: [{}]", users);
     }
 
     @Test
     public void findPage() {
         // sharding-jdbc 分页暂时有问题，https://github.com/apache/incubator-shardingsphere/issues/2926
         IPage<User> page = userService.findPage(2, 3);
-        log.info(">>>>> TOTAL: {}", page.getTotal());
-        log.info(">>>>> RECORDS: {}", page.getRecords());
+        log.info(">>>>> TOTAL: [{}]", page.getTotal());
+        log.info(">>>>> RECORDS: [{}]", page.getRecords());
     }
 
 }

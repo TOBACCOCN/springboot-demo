@@ -23,7 +23,7 @@ public class HttpClientUtilTests {
     public void httpGet() throws Exception {
         String url = "https://www.baidu.com";
         String result = HttpClientUtil.httpGet(url);
-        log.info(">>>>> RESULT: {}", result);
+        log.info(">>>>> RESULT: [{}]", result);
     }
 
     @Test
@@ -36,7 +36,7 @@ public class HttpClientUtilTests {
         paramMap.put("foo", "bar");
         paramMap.put("bar", "barz");
         String result = HttpClientUtil.httpPost(url, headerMap, paramMap);
-        log.info(">>>>> RESULT: {}", result);
+        log.info(">>>>> RESULT: [{}]", result);
     }
 
     @Test
@@ -50,7 +50,7 @@ public class HttpClientUtilTests {
         paramMap.put("bar", "barz");
         String json = JSON.toJSONString(paramMap);
         String result = HttpClientUtil.httpPostJSON(url, headerMap, json);
-        log.info(">>>>> RESULT: {}", result);
+        log.info(">>>>> RESULT: [{}]", result);
     }
 
 }

@@ -38,7 +38,7 @@ public class HelloController {
     // public Object helloGET(HttpServletRequest request) {
     public Mono<Object> helloGET(HttpServletRequest request) {
         Map<String, String> map = ParamUtil.getMap(request.getParameterMap());
-        log.info(">>>>> PARAM_MAP: {}", map);
+        log.info(">>>>> PARAM_MAP: [{}]", map);
         // return map;
         return Mono.create(monoSink -> monoSink.success(map));
     }
@@ -49,10 +49,10 @@ public class HelloController {
     @ResponseBody
     // public Object helloPOST(HttpServletRequest request) {
     public Mono<Object> helloPOST(HttpServletRequest request) {
-        log.info(">>>>> REQUEST_URI: {}", request.getRequestURI());
-        getHeaderMap(request).forEach((key, value) -> log.info(">>>>> HEADER_MAP: {} = {}", key, value));
+        log.info(">>>>> REQUEST_URI: [{}]", request.getRequestURI());
+        getHeaderMap(request).forEach((key, value) -> log.info(">>>>> HEADER_MAP: [{}] = [{}]", key, value));
         Map<String, String> map = ParamUtil.getMap(request.getParameterMap());
-        log.info(">>>>> PARAM_POST: {}", map);
+        log.info(">>>>> PARAM_POST: [{}]", map);
         // return map;
         return Mono.create(monoSink -> monoSink.success(map));
     }
@@ -73,8 +73,8 @@ public class HelloController {
     @ResponseBody
     // public Object helloPOST(HttpServletRequest request, User user) {
     public Mono<Object> helloPOST(HttpServletRequest request, User user) {
-        getHeaderMap(request).forEach((key, value) -> log.info(">>>>> HEADER_MAP: {} = {}", key, value));
-        log.info(">>>>> PARAM_POST_USER {}", user);
+        getHeaderMap(request).forEach((key, value) -> log.info(">>>>> HEADER_MAP: [{}] = [{}]", key, value));
+        log.info(">>>>> PARAM_POST_USER: [{}]", user);
         // return user;
         return Mono.create(monoSink -> monoSink.success(user));
     }
@@ -84,8 +84,8 @@ public class HelloController {
     @PostMapping("/helloJSON")
     @ResponseBody
     public Object helloPOST(HttpServletRequest request, @RequestBody Map<String, Object> map) {
-        getHeaderMap(request).forEach((key, value) -> log.info(">>>>> HEADER_MAP: {} = {}", key, value));
-        log.info(">>>>> PARAM_POST_JSON: {}", map);
+        getHeaderMap(request).forEach((key, value) -> log.info(">>>>> HEADER_MAP: [{}] = [{}]", key, value));
+        log.info(">>>>> PARAM_POST_JSON: [{}]", map);
         return map;
     }
 

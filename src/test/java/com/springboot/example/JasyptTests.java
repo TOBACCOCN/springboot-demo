@@ -25,7 +25,7 @@ public class JasyptTests {
 
     @Test
     public void jasypt() {
-        log.info(">>>>> REDIS_PASSWORD: {}", redisPassword);
+        log.info(">>>>> REDIS_PASSWORD: [{}]", redisPassword);
     }
 
 }

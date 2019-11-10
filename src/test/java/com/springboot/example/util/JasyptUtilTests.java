@@ -18,14 +18,14 @@ public class JasyptUtilTests {
     public void encrypt() {
         String content = "test";
         String salt = "test";
-        log.info(">>>>> {}: {}", content, JasyptUtil.encrypt(content, salt));
+        log.info(">>>>> [{}]: [{}]", content, JasyptUtil.encrypt(content, salt));
     }
 
     @Test
     public void decrypt() {
         String encrypt = "tFKs7gO+mFpEXBqWwAUq0AMBPDMNvdUh";
         String salt = "test";
-        log.info(">>>>> {}: {}", encrypt, JasyptUtil.decrypt(encrypt, salt));
+        log.info(">>>>> [{}]: [{}]", encrypt, JasyptUtil.decrypt(encrypt, salt));
     }
 
 }

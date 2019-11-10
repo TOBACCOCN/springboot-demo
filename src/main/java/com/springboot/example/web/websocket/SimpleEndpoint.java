@@ -54,7 +54,7 @@ public class SimpleEndpoint {
     @Value("${websocket.max-time-diff}")
     private void setMaxTimeDiff(Integer maxTimeDiff) {
         SimpleEndpoint.maxTimeDiff = maxTimeDiff;
-        log.info(">>>>> MAX_TIME_DIFF: [{}]", maxTimeDiff);
+        log.info(">>>>> MAX_TIME_DIFF: [{}] SECOND", maxTimeDiff);
     }
 
     @OnOpen
@@ -76,7 +76,7 @@ public class SimpleEndpoint {
         JSONObject json = new JSONObject();
 
         if (!allowTimeDiff && timeDiff > maxTimeDiff) {
-            // curtime 无效，与当前时间秒值相差大于指定的时间差值
+            // 当不允许 curtime 与当前时间秒值相差大于指定的时间差值时，返回提示信息，关闭会话
             log.info(">>>>> INVALID CURTIME, NOW: [{}], TIME_DIFF: [{}]", now, timeDiff);
 
             json.put("code", 707);
@@ -154,7 +154,7 @@ public class SimpleEndpoint {
 
     @OnMessage
     public void onMessage(Session session, String message) {
-        log.info(">>>>> ON_MESSAGE: {}", message);
+        log.info(">>>>> ON_MESSAGE: [{}]", message);
 
         // session 未注册，说明请求头参数认证未通过，不予处理
         if (ServerSessionManager.getId(session) == null) {
@@ -196,7 +196,7 @@ public class SimpleEndpoint {
 
     @OnMessage
     public void onMessage(Session session, ByteBuffer byteBuffer) {
-        // log.info(">>>>> ON_MESSAGE, BINARY_LENGTH: {}", byteBuffer.capacity());
+        // log.info(">>>>> ON_MESSAGE, BINARY_LENGTH: [{}]", byteBuffer.capacity());
         // handlerMap.get(session.getId()).addBinary(byteBuffer);
         OutputStream outputStream = session2OutputStreamMap.get(session);
         if (outputStream != null) {

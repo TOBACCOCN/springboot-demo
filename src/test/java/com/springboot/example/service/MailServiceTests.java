@@ -71,7 +71,7 @@ public class MailServiceTests {
             contentBuilder.append("<img src=\'cid:" + resId + "\'>");
         }
         contentBuilder.append("</body>\n</html>");
-        log.info(">>>>> CONTENT: {}", contentBuilder.toString());
+        log.info(">>>>> CONTENT: [{}]", contentBuilder.toString());
         mailService.sendInlineResourceMail(to, subject, contentBuilder.toString(), map);
     }
 
@@ -82,7 +82,7 @@ public class MailServiceTests {
         Context context = new Context();
         context.setVariable("id", UUID.randomUUID().toString().replaceAll("-", ""));
         String content = templateEngine.process("mailTemplate", context);
-        log.info(">>>>> CONTENT: {}", content);
+        log.info(">>>>> CONTENT: [{}]", content);
         mailService.sendHtmlMail(to, subject, content);
     }
 

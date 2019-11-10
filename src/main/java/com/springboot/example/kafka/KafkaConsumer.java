@@ -17,7 +17,7 @@ public class KafkaConsumer {
 
     @KafkaListener(topics = "kafka_topic_test")
     public void onMessage(ConsumerRecord<?, ?> record) {
-        log.info(">>>>> ON_MESSAGE, TOPIC: {}, OFFSET: {}, VALUE: {}", record.topic(), record.offset(), record.value());
+        log.info(">>>>> ON_MESSAGE, TOPIC: [{}], OFFSET: [{}], VALUE: [{}]", record.topic(), record.offset(), record.value());
     }
 
 }

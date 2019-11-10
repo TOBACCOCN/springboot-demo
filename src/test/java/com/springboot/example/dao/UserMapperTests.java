@@ -37,21 +37,21 @@ public class UserMapperTests {
     public void insert() {
         User user = new User(6L, "zhouba", 23, "suzhou");
         int insertAffect = userMapper.insert(user);
-        log.info(">>>>> INSERT_AFFECT: {}", insertAffect);
+        log.info(">>>>> INSERT_AFFECT: [{}]", insertAffect);
     }
 
     @Test
     public void selectOne() {
         User userFound = userMapper.selectOne(new QueryWrapper<User>().lambda().eq(User::getAddress, "shanghai")
                 .eq(User::getName, "zhangsan"));
-        log.info(">>>>> USER_FOUND: {}", userFound == null ? "null" : userFound);
+        log.info(">>>>> USER_FOUND: [{}]", userFound == null ? "null" : userFound);
     }
 
     @Test
     public void selectList() {
         List<User> users = userMapper.selectList(new QueryWrapper<User>().lambda().eq(User::getAddress, "shanghai")
                 .or().eq(User::getName, "zhangsan"));
-        log.info(">>>>> USERS: {}", users);
+        log.info(">>>>> USERS: [{}]", users);
     }
 
     @Test
@@ -59,8 +59,8 @@ public class UserMapperTests {
         // sharding-jdbc 分页暂时有问题，https://github.com/apache/incubator-shardingsphere/issues/2926
         Page<User> page = new Page<>(1, 2);
         IPage<User> userIPage = userMapper.selectPage(page, new QueryWrapper<>());
-        log.info(">>>>> TOTAL: {}", userIPage.getTotal());
-        log.info(">>>>> RECORDS: {}", userIPage.getRecords());
+        log.info(">>>>> TOTAL: [{}]", userIPage.getTotal());
+        log.info(">>>>> RECORDS: [{}]", userIPage.getRecords());
     }
 
     @Test
@@ -68,13 +68,13 @@ public class UserMapperTests {
         User user = new User();
         user.setAddress("wuhan");
         int updateAffect = userMapper.update(user, new QueryWrapper<User>().lambda().eq(User::getAddress, "suzhou"));
-        log.info(">>>>> UPDATE_AFFECT: {}", updateAffect);
+        log.info(">>>>> UPDATE_AFFECT: [{}]", updateAffect);
     }
 
     @Test
     public void delete() {
         int deleteAffect = userMapper.delete(new QueryWrapper<User>().lambda().eq(User::getAddress, "wuhan"));
-        log.info(">>>>> DELETE_AFFECT: {}", deleteAffect);
+        log.info(">>>>> DELETE_AFFECT: [{}]", deleteAffect);
     }
 
 }

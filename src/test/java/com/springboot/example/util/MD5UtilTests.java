@@ -18,7 +18,7 @@ public class MD5UtilTests {
 
     @Test
     public void encode() throws NoSuchAlgorithmException {
-        log.info(">>>>> hello: {}", MD5Util.encode("hello".getBytes()));
+        log.info(">>>>> hello: [{}]", MD5Util.encode("hello".getBytes()));
     }
 
 }

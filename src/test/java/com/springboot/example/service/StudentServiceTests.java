@@ -35,28 +35,28 @@ public class StudentServiceTests {
             student.setAge(i / 2 + 23);
             student.setAddress("suzhou");
             int insertAffect = studentService.create(student);
-            log.info(">>>>> INSERT_AFFECT: {}", insertAffect);
+            log.info(">>>>> INSERT_AFFECT: [{}]", insertAffect);
         }
     }
 
     @Test
     public void findById() {
         Student studentFound = studentService.findById(2L);
-        log.info(">>>>> STUDENT_FOUND: {}", studentFound == null ? "null" : studentFound);
+        log.info(">>>>> STUDENT_FOUND: [{}]", studentFound == null ? "null" : studentFound);
     }
 
     @Test
     public void findAll() {
         List<Student> students = studentService.findAll();
-        log.info(">>>>> STUDENTS: {}", students);
+        log.info(">>>>> STUDENTS: [{}]", students);
     }
 
     @Test
     public void findPage() {
         // sharding-jdbc 分页暂时有问题，https://github.com/apache/incubator-shardingsphere/issues/2926
         IPage<Student> page = studentService.findPage(2, 3);
-        log.info(">>>>> TOTAL: {}", page.getTotal());
-        log.info(">>>>> RECORDS: {}", page.getRecords());
+        log.info(">>>>> TOTAL: [{}]", page.getTotal());
+        log.info(">>>>> RECORDS: [{}]", page.getRecords());
     }
 
 }

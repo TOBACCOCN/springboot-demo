@@ -32,6 +32,11 @@ public class SpringBootExampleApplication {
 
     private static String staticValue;
 
+    @Value("${profile.second}")
+    private String secondProfile;
+
+    private static String staticSecondProfile;
+
     @Autowired
     private User user;
 
@@ -41,12 +46,14 @@ public class SpringBootExampleApplication {
     private void setStaticValue() {
         staticValue = this.value;
         staticUser = this.user;
+        staticSecondProfile = this.secondProfile;
     }
 
     public static void main(String[] args) {
         SpringApplication.run(SpringBootExampleApplication.class, args);
-        log.info(">>>>> STATIC_VALUE: {}", staticValue);
-        log.info(">>>>> STATIC_USER: {}", staticUser);
+        log.info(">>>>> STATIC_VALUE: [{}]", staticValue);
+        log.info(">>>>> STATIC_USER: [{}]", staticUser);
+        log.info(">>>>> STATIC_SECOND_PROFILE: [{}]", staticSecondProfile);
     }
 
 }

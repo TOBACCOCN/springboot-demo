@@ -33,7 +33,7 @@ public class SimpleWebSocketClient extends WebSocketClient {
 
     @Override
     public void onMessage(String message) {
-        log.info(">>>>> ON_MESSAGE: {}", message);
+        log.info(">>>>> ON_MESSAGE: [{}]", message);
 
         JSONObject jsonObject = JSON.parseObject(message);
         int code = jsonObject.getIntValue("code");
@@ -65,7 +65,7 @@ public class SimpleWebSocketClient extends WebSocketClient {
 
     @Override
     public void onClose(int code, String reason, boolean remote) {
-        log.info(">>>>> ON_CLOSE, CODE: {}, REASON: {}, REMOTE: {}", code, reason, reason);
+        log.info(">>>>> ON_CLOSE, CODE: [{}], REASON: [{}], REMOTE: [{}]", code, reason, reason);
     }
 
     @Override

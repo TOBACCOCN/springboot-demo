@@ -12,7 +12,7 @@
     <artifactId>springboot-example</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <name>springboot-example</name>
-    <description>Demo project for Spring Boot</description>
+    <description>Example project for Spring Boot</description>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>

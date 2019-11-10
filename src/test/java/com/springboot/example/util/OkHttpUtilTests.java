@@ -23,7 +23,7 @@ public class OkHttpUtilTests {
     public void httpGet() throws Exception {
         String url = "https://www.baidu.com";
         String result = OkHttpUtil.httpGet(url);
-        log.info(">>>>> RESULT: {}", result);
+        log.info(">>>>> RESULT: [{}]", result);
     }
 
     @Test
@@ -35,7 +35,7 @@ public class OkHttpUtilTests {
         String contentType = "application/x-www-form-urlencoded";
         String param = "foo=bar&bar=barz";
         String result = OkHttpUtil.httpPost(url, headerMap, contentType, param);
-        log.info(">>>>> RESULT: {}", result);
+        log.info(">>>>> RESULT: [{}]", result);
     }
 
     @Test
@@ -50,7 +50,7 @@ public class OkHttpUtilTests {
         paramMap.put("bar", "barz");
         String param = JSON.toJSONString(paramMap);
         String result = OkHttpUtil.httpPost(url, headerMap, contentType, param);
-        log.info(">>>>> RESULT: {}", result);
+        log.info(">>>>> RESULT: [{}]", result);
     }
 
 }

@@ -25,12 +25,12 @@ public class SchedulerTask {
 
     @Scheduled(cron = "0 */5 * * * ?")
     public void process() {
-        log.info(">>>>> SCHEDULER TASK RUNNING: {}", count++);
+        log.info(">>>>> SCHEDULER TASK RUNNING: [{}]", count++);
     }
 
     @Scheduled(fixedRate = 1000 * 60 * 5)
     public void reportCurrentTime() {
-        log.info(">>>>> NOW IS: {}", LocalDateTime.now().format(dateTimeFormatter));
+        log.info(">>>>> NOW IS: [{}]", LocalDateTime.now().format(dateTimeFormatter));
     }
 
 }

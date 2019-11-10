@@ -21,7 +21,7 @@ public class HttpURLConnectionUtilTests {
     public void httpGet() throws Exception {
         String url = "https://www.baidu.com";
         String result = HttpURLConnectionUtil.httpGet(url);
-        log.info(">>>>> RESULT: {}", result);
+        log.info(">>>>> RESULT: [{}]", result);
     }
 
     @Test
@@ -33,7 +33,7 @@ public class HttpURLConnectionUtilTests {
         headerMap.put("Content-Type", "application/x-www-form-urlencoded");
         String param = "foo=bar&bar=barz";
         String result = HttpURLConnectionUtil.httpPost(url, headerMap, param);
-        log.info(">>>>> RESULT: {}", result);
+        log.info(">>>>> RESULT: [{}]", result);
     }
 
     @Test
@@ -48,7 +48,7 @@ public class HttpURLConnectionUtilTests {
         paramMap.put("bar", "barz");
         String param = JSON.toJSONString(paramMap);
         String result = HttpURLConnectionUtil.httpPost(url, headerMap, param);
-        log.info(">>>>> RESULT: {}", result);
+        log.info(">>>>> RESULT: [{}]", result);
     }
 
     @Test
@@ -57,7 +57,7 @@ public class HttpURLConnectionUtilTests {
         String url = "https://127.0.0.1:9527/upload?filename=test.csv";
         String filePath = "D:\\test.csv";
         String result = HttpURLConnectionUtil.upload(url, filePath);
-        log.info(">>>>> RESULT: {}", result);
+        log.info(">>>>> RESULT: [{}]", result);
     }
 
     @Test
@@ -71,7 +71,7 @@ public class HttpURLConnectionUtilTests {
         paramMap.put("foo", "bar");
         paramMap.put("bar", "barz");
         String result = HttpURLConnectionUtil.multipartUpload(url, filePathList, paramMap);
-        log.info(">>>>> RESULT: {}", result);
+        log.info(">>>>> RESULT: [{}]", result);
     }
 
     @Test

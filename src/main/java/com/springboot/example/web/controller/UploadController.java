@@ -47,7 +47,7 @@ public class UploadController {
     // @PostMapping("/multipartUpload")
     // public String multipartUpload(MultipartFile file, RedirectAttributes redirectAttributes) {
     //     try {
-    //         log.info(">>>>> UPLOAD_FILE_SIZE: {}", file.getBytes().length);
+    //         log.info(">>>>> UPLOAD_FILE_SIZE: [{}]", file.getBytes().length);
     //         String filePath = UPLOAD_DIR + file.getOriginalFilename();
     //         File destFile = new File(filePath);
     //         if (!destFile.getParentFile().exists()) {
@@ -71,7 +71,7 @@ public class UploadController {
     // public Object upload(HttpServletRequest request) {
     public Mono<Object> upload(HttpServletRequest request) {
         String filename = request.getParameter("filename");
-        log.info(">>>>> FILENAME: {}", filename);
+        log.info(">>>>> FILENAME: [{}]", filename);
         Map<String, String> map = new HashMap<>();
         map.put("filename", filename);
         map.put("uploaded", "SUCCESS");
@@ -94,13 +94,13 @@ public class UploadController {
     @ResponseBody
     // public Object multipartUpload(MultipartFile[] file, HttpServletRequest request) {
     public Mono<Object> multipartUpload(MultipartFile[] file, HttpServletRequest request) {
-        log.info(">>>>> PARAM_MAP: {}", ParamUtil.getMap(request.getParameterMap()));
+        log.info(">>>>> PARAM_MAP: [{}]", ParamUtil.getMap(request.getParameterMap()));
         Map<String, String> map = new HashMap<>();
         map.put("uploaded", "SUCCESS");
         try {
             for (MultipartFile multipartFile : file) {
                 String filename = multipartFile.getOriginalFilename();
-                log.info(">>>>> FILENAME: {}, SIZE: {}", filename, multipartFile.getBytes().length);
+                log.info(">>>>> FILENAME: [{}], SIZE: [{}]", filename, multipartFile.getBytes().length);
                 String filePath = UPLOAD_DIR + filename;
                 File destFile = new File(filePath);
                 if (!destFile.getParentFile().exists()) {

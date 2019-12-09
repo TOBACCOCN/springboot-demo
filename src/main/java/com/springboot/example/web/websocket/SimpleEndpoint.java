@@ -6,6 +6,7 @@ import com.springboot.example.util.ErrorPrintUtil;
 import com.springboot.example.util.SignUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.tomcat.util.collections.CaseInsensitiveKeyMap;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
@@ -17,7 +18,6 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.nio.ByteBuffer;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
@@ -62,13 +62,14 @@ public class SimpleEndpoint {
         // 根据需要设置空闲超时时间，默认为 0，不会超时
         session.setMaxIdleTimeout(1000 * (60 * 5 + 10));
         log.info(">>>>> TIME_OUT OF SESSION: [{}]", session.getMaxIdleTimeout());
-        HandshakeRequest request = (HandshakeRequest) config.getUserProperties().get(ServerEndpointConfigurator.handshakereq);
+
+        HandshakeRequest request =
+                (HandshakeRequest) config.getUserProperties().get(ServerEndpointConfigurator.handshakereq);
         Map<String, List<String>> headers = request.getHeaders();
-        headers.forEach((key, value) -> log.info(">>>>> HEADER: [{}] = [{}]", key, value));
+        log.debug(">>>>> HEADERS: {}", headers);
 
         Map<String, String> paramMap = getParamMap(headers);
         removeDefaultHeader(paramMap);
-
 
         long curtime = Long.parseLong(paramMap.get("curtime"));
         long now = System.currentTimeMillis() / 1000;
@@ -77,7 +78,7 @@ public class SimpleEndpoint {
 
         if (!allowTimeDiff && timeDiff > maxTimeDiff) {
             // 当不允许 curtime 与当前时间秒值相差大于指定的时间差值时，返回提示信息，关闭会话
-            log.info(">>>>> INVALID CURTIME, NOW: [{}], TIME_DIFF: [{}]", now, timeDiff);
+            log.info(">>>>> INVALID_CURTIME, NOW: [{}], TIME_DIFF: [{}]", now, timeDiff);
 
             json.put("code", 707);
             json.put("message", "Invalid curtime");
@@ -141,8 +142,16 @@ public class SimpleEndpoint {
         paramMap.remove("sec-websocket-origin");
     }
 
+    /**
+     * 将 Map<String, List<String>> 类型参数 map 转换成 Map<String, String> 类型参数
+     *
+     * @param headers Map<String, List<String>> 类型参数 map
+     * @return Map<String, String> 类型参数
+     */
     private Map<String, String> getParamMap(Map<String, List<String>> headers) {
-        Map<String, String> map = new HashMap<>();
+        // 入参 headers  是 websocket 的请求头，其实际上是一个 CaseInsensitiveKeyMap
+        // 所以转化时要用 CaseInsensitiveKeyMap 存 key 和 value
+        Map<String, String> map = new CaseInsensitiveKeyMap<>();
         for (String name : headers.keySet()) {
             List<String> values = headers.get(name);
             StringBuilder builder = new StringBuilder();

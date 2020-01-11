@@ -26,39 +26,25 @@ import java.time.Duration;
 public class SimpleRedisCacheConfiguration {
 
     @Bean
-    @SuppressWarnings("unchecked")
     public CacheManager cacheManager(RedisConnectionFactory factory) {
-        RedisSerializer<String> redisSerializer = new StringRedisSerializer();
-        Jackson2JsonRedisSerializer jackson2JsonRedisSerializer = new Jackson2JsonRedisSerializer(Object.class);
+        RedisSerializer<String> keysSerializer = new StringRedisSerializer();
+        Jackson2JsonRedisSerializer<Object> valuesSerializer = new Jackson2JsonRedisSerializer<>(Object.class);
 
-        // 解决查询缓存转换异常的问题
         ObjectMapper mapper = new ObjectMapper();
         mapper.setVisibility(PropertyAccessor.ALL, JsonAutoDetect.Visibility.ANY);
         mapper.enableDefaultTyping(ObjectMapper.DefaultTyping.NON_FINAL);
-        jackson2JsonRedisSerializer.setObjectMapper(mapper);
+        valuesSerializer.setObjectMapper(mapper);
 
-        // 配置序列化（解决乱码的问题）
+        // 配置序列化，不然默认序列化会以二进制形式保存
         RedisCacheConfiguration config = RedisCacheConfiguration.defaultCacheConfig()
                 .entryTtl(Duration.ofMinutes(5))
-                .serializeKeysWith(RedisSerializationContext.SerializationPair.fromSerializer(redisSerializer))
-                .serializeValuesWith(RedisSerializationContext.SerializationPair.fromSerializer(jackson2JsonRedisSerializer))
+                .serializeKeysWith(RedisSerializationContext.SerializationPair.fromSerializer(keysSerializer))
+                .serializeValuesWith(RedisSerializationContext.SerializationPair.fromSerializer(valuesSerializer))
                 .disableCachingNullValues();
 
         return RedisCacheManager.builder(factory)
                 .cacheDefaults(config)
                 .build();
     }
-
-    // @Bean
-    // public RedisTemplate<String, Object> redisTemplate(RedisConnectionFactory factory) {
-    //     RedisTemplate<String, Object> template = new RedisTemplate<>();
-    //     template.setConnectionFactory(factory);
-    //     template.setKeySerializer(new StringRedisSerializer());
-    //     template.setHashKeySerializer(new StringRedisSerializer());
-    //     template.setValueSerializer(new GenericJackson2JsonRedisSerializer());
-    //     template.setHashValueSerializer(new GenericJackson2JsonRedisSerializer());
-    //     template.afterPropertiesSet();
-    //     return template;
-    // }
 
 }

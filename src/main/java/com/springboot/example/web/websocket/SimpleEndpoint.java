@@ -66,7 +66,7 @@ public class SimpleEndpoint {
         HandshakeRequest request =
                 (HandshakeRequest) config.getUserProperties().get(ServerEndpointConfigurator.handshakereq);
         Map<String, List<String>> headers = request.getHeaders();
-        log.debug(">>>>> HEADERS: {}", headers);
+        log.info(">>>>> HEADERS: {}", headers);
 
         Map<String, String> paramMap = getParamMap(headers);
         removeDefaultHeader(paramMap);

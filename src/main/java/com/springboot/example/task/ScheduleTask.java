@@ -15,7 +15,7 @@ import java.time.format.DateTimeFormatter;
  */
 @Component
 @Slf4j
-public class SchedulerTask {
+public class ScheduleTask {
 
     // private static Logger logger = LoggerFactory.getLogger(SchedulerTask.class);
 

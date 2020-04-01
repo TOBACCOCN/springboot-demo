@@ -24,7 +24,7 @@ import java.util.List;
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @RunWith(SpringRunner.class)
 @Slf4j
-public class UserMapperTests {
+public class UserMapperTest {
 
     // user 表要分片，库也要分片
 

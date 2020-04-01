@@ -27,7 +27,7 @@ import java.util.UUID;
  * @date 2019.7.8
  */
 @Slf4j
-public class SimpleWebSocketClientTests {
+public class SimpleWebSocketClientTest {
 
     // private static Logger logger = LoggerFactory.getLogger(SimpleWebSocketClientTests.class);
 
@@ -53,9 +53,9 @@ public class SimpleWebSocketClientTests {
                 httpHeaders.put("sign", SignUtil.generateSignature(httpHeaders));
                 // httpHeaders.put("sign", "sign");
                 httpHeaders.remove("idSecret");
-                synchronized (SimpleWebSocketClientTests.class) {
+                synchronized (SimpleWebSocketClientTest.class) {
                     webSocketClient = new SimpleWebSocketClient(uri, httpHeaders);
-                    SimpleWebSocketClientTests.class.notify();
+                    SimpleWebSocketClientTest.class.notify();
                 }
                 if (uri.toString().startsWith("wss")) {
                     SSLContext sslContext = SSLContext.getInstance("TLS");
@@ -76,8 +76,8 @@ public class SimpleWebSocketClientTests {
         message.put(CODE, 906);
         message.put("message", "I am websocket client");
 
-        synchronized (SimpleWebSocketClientTests.class) {
-            SimpleWebSocketClientTests.class.wait();
+        synchronized (SimpleWebSocketClientTest.class) {
+            SimpleWebSocketClientTest.class.wait();
         }
         if (webSocketClient == null) {
             log.info(">>>>> WEBSOCKET IS NULL");
@@ -94,8 +94,8 @@ public class SimpleWebSocketClientTests {
 
     @Test
     public void sendBinaryMessage() throws InterruptedException, IOException {
-        synchronized (SimpleWebSocketClientTests.class) {
-            SimpleWebSocketClientTests.class.wait();
+        synchronized (SimpleWebSocketClientTest.class) {
+            SimpleWebSocketClientTest.class.wait();
         }
         if (webSocketClient == null) {
             log.info(">>>>> WEBSOCKET IS NULL");

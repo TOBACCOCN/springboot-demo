@@ -24,7 +24,7 @@ import java.util.List;
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @RunWith(SpringRunner.class)
 @Slf4j
-public class StudentMapperTests {
+public class StudentMapperTest {
 
     // student 表不分片
 

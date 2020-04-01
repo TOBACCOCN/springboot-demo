@@ -1,4 +1,4 @@
-package com.springboot.example.service;
+package com.springboot.example.email;
 
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Test;
@@ -24,12 +24,12 @@ import java.util.UUID;
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @RunWith(SpringRunner.class)
 @Slf4j
-public class MailServiceTests {
+public class EmailHandlerTest {
 
     // private static Logger logger = LoggerFactory.getLogger(MailServiceTests.class);
 
     @Autowired
-    private MailService mailService;
+    private EmailHandler emailHandler;
     @Autowired
     private TemplateEngine templateEngine;
 
@@ -38,7 +38,7 @@ public class MailServiceTests {
         String to = "zyh546391777@163.com";
         String subject = "springboot simple mail";
         String content = "hello this is simple mail";
-        mailService.sendSimpleMail(to, subject, content);
+        emailHandler.sendSimpleMail(to, subject, content);
     }
 
     @Test
@@ -46,7 +46,7 @@ public class MailServiceTests {
         String to = "zyh546391777@163.com";
         String subject = "springboot html mail";
         String content = "<html>\n<body>\n\t<h3>hello world ！ 这是一封 Html 邮件！</h3>\n</body>\n</html>";
-        mailService.sendHtmlMail(to, subject, content);
+        emailHandler.sendHtmlMail(to, subject, content);
     }
 
     @Test
@@ -55,7 +55,7 @@ public class MailServiceTests {
         String subject = "springboot attachments mail";
         String content = "<html>\n<body>\n\t<h3>hello world ！这是一封带附件的 Html 邮件！</h3>\n</body>\n</html>";
         String filePath = "D:\\download\\AliPayQR.png";
-        mailService.sendAttachmentsMail(to, subject, content, filePath);
+        emailHandler.sendAttachmentsMail(to, subject, content, filePath);
     }
 
     @Test
@@ -72,7 +72,7 @@ public class MailServiceTests {
         }
         contentBuilder.append("</body>\n</html>");
         log.info(">>>>> CONTENT: [{}]", contentBuilder.toString());
-        mailService.sendInlineResourceMail(to, subject, contentBuilder.toString(), map);
+        emailHandler.sendInlineResourceMail(to, subject, contentBuilder.toString(), map);
     }
 
     @Test
@@ -83,7 +83,7 @@ public class MailServiceTests {
         context.setVariable("id", UUID.randomUUID().toString().replaceAll("-", ""));
         String content = templateEngine.process("mailTemplate", context);
         log.info(">>>>> CONTENT: [{}]", content);
-        mailService.sendHtmlMail(to, subject, content);
+        emailHandler.sendHtmlMail(to, subject, content);
     }
 
 }

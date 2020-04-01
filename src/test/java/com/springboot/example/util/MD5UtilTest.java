@@ -12,7 +12,7 @@ import java.security.NoSuchAlgorithmException;
  * @date 2019.6.14
  */
 @Slf4j
-public class MD5UtilTests {
+public class MD5UtilTest {
 
     // private static Logger logger = LoggerFactory.getLogger(MD5UtilTests.class);
 

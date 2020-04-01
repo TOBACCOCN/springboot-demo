@@ -30,7 +30,7 @@ import java.util.List;
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @RunWith(SpringRunner.class)
 @Slf4j
-public class HelloControllerTests {
+public class HelloControllerTest {
 
     // private static Logger logger = LoggerFactory.getLogger(HelloControllerTests.class);
 
@@ -60,7 +60,7 @@ public class HelloControllerTests {
                 .andDo(MockMvcResultHandlers.print())
                 .andReturn();
 
-        log.info(mvcResult.getResponse().getContentAsString());
+        log.info(">>>>> RESULT: [{}]", mvcResult.getResponse().getContentAsString());
     }
 
     @Test
@@ -80,7 +80,7 @@ public class HelloControllerTests {
                 .andDo(MockMvcResultHandlers.print())
                 .andReturn();
 
-        log.info(mvcResult.getResponse().getContentAsString());
+        log.info(">>>>> RESULT: [{}]", mvcResult.getResponse().getContentAsString());
     }
 
     @Test
@@ -100,7 +100,7 @@ public class HelloControllerTests {
                 .andDo(MockMvcResultHandlers.print())
                 .andReturn();
 
-        log.info(mvcResult.getResponse().getContentAsString());
+        log.info(">>>>> RESULT: [{}]", mvcResult.getResponse().getContentAsString());
     }
 
     @Test
@@ -120,7 +120,7 @@ public class HelloControllerTests {
                 .andDo(MockMvcResultHandlers.print())
                 .andReturn();
 
-        log.info(mvcResult.getResponse().getContentAsString());
+        log.info(">>>>> RESULT: [{}]", mvcResult.getResponse().getContentAsString());
     }
 
 }

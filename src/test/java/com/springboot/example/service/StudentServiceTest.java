@@ -20,7 +20,7 @@ import java.util.List;
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @RunWith(SpringRunner.class)
 @Slf4j
-public class StudentServiceTests {
+public class StudentServiceTest {
 
     // student 表不分片
 

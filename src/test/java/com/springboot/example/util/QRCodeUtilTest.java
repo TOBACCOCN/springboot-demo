@@ -10,7 +10,7 @@ import org.junit.Test;
  * @date 2019.6.14
  */
 @Slf4j
-public class QRCodeUtilTests {
+public class QRCodeUtilTest {
 
     // private static Logger logger = LoggerFactory.getLogger(QRCodeUtilTests.class);
 

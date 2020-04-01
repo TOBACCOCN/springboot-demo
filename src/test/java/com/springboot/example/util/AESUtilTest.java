@@ -10,7 +10,7 @@ import org.junit.Test;
  * @date 2019.6.14
  */
 @Slf4j
-public class AESUtilTests {
+public class AESUtilTest {
 
     // private static Logger logger = LoggerFactory.getLogger(AESUtilTests.class);
 

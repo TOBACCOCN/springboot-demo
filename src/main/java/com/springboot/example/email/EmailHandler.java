@@ -1,4 +1,4 @@
-package com.springboot.example.service;
+package com.springboot.example.email;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,7 +8,7 @@ import org.springframework.mail.MailException;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Component;
 
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
@@ -23,9 +23,9 @@ import java.util.Map;
  * @author zhangyonghong
  * @date 2019.6.1
  */
-@Service
+@Component
 @Slf4j
-public class MailServiceImpl implements MailService {
+public class EmailHandler {
 
     // private static Logger logger = LoggerFactory.getLogger(MailServiceImpl.class);
 
@@ -35,7 +35,6 @@ public class MailServiceImpl implements MailService {
     @Value("${spring.mail.from.addr}")
     private String from;
 
-    @Override
     public void sendSimpleMail(String to, String subject, String content) {
         SimpleMailMessage message = new SimpleMailMessage();
         message.setFrom(from);
@@ -53,7 +52,6 @@ public class MailServiceImpl implements MailService {
         }
     }
 
-    @Override
     public void sendHtmlMail(String to, String subject, String content) {
         MimeMessage message = mailSender.createMimeMessage();
         try {
@@ -73,7 +71,6 @@ public class MailServiceImpl implements MailService {
         }
     }
 
-    @Override
     public void sendAttachmentsMail(String to, String subject, String content, String filePath) {
         MimeMessage message = mailSender.createMimeMessage();
         try {
@@ -96,7 +93,6 @@ public class MailServiceImpl implements MailService {
         }
     }
 
-    @Override
     public void sendInlineResourceMail(String to, String subject, String content, Map<String, String> resIdFilePathMap) {
         MimeMessage message = mailSender.createMimeMessage();
         try {

@@ -13,7 +13,7 @@ import java.util.*;
  * @date 2019.6.14
  */
 @Slf4j
-public class HttpURLConnectionUtilTests {
+public class HttpURLConnectionUtilTest {
 
     // private static Logger logger = LoggerFactory.getLogger(HttpURLConnectionUtilTests.class);
 

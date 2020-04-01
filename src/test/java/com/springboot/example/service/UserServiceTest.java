@@ -20,7 +20,7 @@ import java.util.List;
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @RunWith(SpringRunner.class)
 @Slf4j
-public class UserServiceTests {
+public class UserServiceTest {
 
     // user 表要分片，库也要分片
 

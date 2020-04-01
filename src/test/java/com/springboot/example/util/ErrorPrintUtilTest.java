@@ -13,7 +13,7 @@ import java.io.FileInputStream;
  * @date 2019.6.14
  */
 @Slf4j
-public class ErrorPrintUtilTests {
+public class ErrorPrintUtilTest {
 
     // private static Logger logger = LoggerFactory.getLogger(ErrorPrintUtilTests.class);
 

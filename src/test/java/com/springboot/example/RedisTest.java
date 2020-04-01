@@ -23,7 +23,7 @@ import java.util.concurrent.TimeUnit;
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @RunWith(SpringRunner.class)
 @Slf4j
-public class RedisTests {
+public class RedisTest {
 
     // private static Logger logger = LoggerFactory.getLogger(RedisTests.class);
 

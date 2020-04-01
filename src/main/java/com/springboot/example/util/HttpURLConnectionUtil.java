@@ -190,7 +190,7 @@ public class HttpURLConnectionUtil {
                     continue;
                 }
                 builder.append(TWO_HYPHENS).append(BOUNDARY).append(LINE_END);
-                builder.append("Content-Disposition: form-data; name=\"file\"; filename=\"").append(file.getName())
+                builder.append("Content-Disposition: form-data; name=\"files\"; filename=\"").append(file.getName())
                         .append("\"").append(LINE_END);
                 builder.append("Content-Type: application/octet-stream; charset=")
                         .append(StandardCharsets.UTF_8.toString()).append(LINE_END);

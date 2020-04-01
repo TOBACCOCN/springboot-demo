@@ -20,7 +20,7 @@ import org.springframework.util.concurrent.ListenableFutureCallback;
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @RunWith(SpringRunner.class)
 @Slf4j
-public class KafkaProducerTests {
+public class KafkaProducerTest {
 
     @Autowired
     private KafkaTemplate<String, String> kafkaTemplate;

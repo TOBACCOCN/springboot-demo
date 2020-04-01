@@ -92,19 +92,19 @@ public class UploadController {
     @ApiOperation(value = "上传多个文件", notes = "使用 POST （application/form-data）上传多个文件")
     @PostMapping("/multipartUpload")
     @ResponseBody
-    // public Object multipartUpload(MultipartFile[] file, HttpServletRequest request) {
-    public Mono<Object> multipartUpload(MultipartFile[] file, HttpServletRequest request) {
+    // public Object multipartUpload(MultipartFile[] files, HttpServletRequest request) {
+    public Mono<Object> multipartUpload(MultipartFile[] files, HttpServletRequest request) {
         log.info(">>>>> PARAM_MAP: [{}]", ParamUtil.getMap(request.getParameterMap()));
         Map<String, String> map = new HashMap<>();
         map.put("uploaded", "SUCCESS");
         try {
-            for (MultipartFile multipartFile : file) {
+            for (MultipartFile multipartFile : files) {
                 String filename = multipartFile.getOriginalFilename();
                 log.info(">>>>> FILENAME: [{}], SIZE: [{}]", filename, multipartFile.getBytes().length);
                 String filePath = UPLOAD_DIR + filename;
                 File destFile = new File(filePath);
                 if (!destFile.getParentFile().exists()) {
-                    destFile.getParentFile().mkdirs();
+                    log.info(">>>>> DIRS_MAKE_RESULT: [{}]", destFile.getParentFile().mkdirs());
                 }
                 multipartFile.transferTo(destFile);
             }

@@ -124,7 +124,7 @@ public class SimpleEndpoint {
             // new Thread(binaryHandler).start();
         } else {
             // 检验签名没有通过
-            log.info(">>>>> INVALID SIGN");
+            log.info(">>>>> INVALID_SIGN");
             json.put(CODE, 407);
             json.put("message", "Invalid sign");
             session.getBasicRemote().sendText(json.toString());

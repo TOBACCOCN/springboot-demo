@@ -1,6 +1,7 @@
 package com.springboot.example.util;
 
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.MediaType;
 
 import javax.net.ssl.HttpsURLConnection;
 import javax.net.ssl.SSLContext;
@@ -90,29 +91,34 @@ public class HttpURLConnectionUtil {
     /**
      * GET 请求
      *
-     * @param url 请求地址
+     * @param url       请求地址
+     * @param headerMap 请求头参数
      * @return 响应消息
      */
-    public static String httpGet(String url) throws Exception {
+    public static String httpGet(String url, Map<String, String> headerMap) throws Exception {
         HttpURLConnection connection = getConnection(url);
         connection.setRequestMethod("GET");
+        if (headerMap != null && headerMap.size() > 0) {
+            headerMap.forEach(connection::addRequestProperty);
+        }
         return getResponse(connection);
     }
 
     /**
      * POST 请求
      *
-     * @param url         请求地址
+     * @param url       请求地址
      * @param headerMap 请求头参数
-     * @param param       请求参数
+     * @param param     请求参数
      * @return 响应消息
      */
     public static String httpPost(String url, Map<String, String> headerMap, String param) throws Exception {
         HttpURLConnection connection = getConnection(url);
         connection.setDoOutput(true);
         connection.setRequestMethod("POST");
-        connection.setRequestProperty("charset", StandardCharsets.UTF_8.toString());
-        headerMap.forEach(connection::addRequestProperty);
+        if (headerMap != null && headerMap.size() > 0) {
+            headerMap.forEach(connection::addRequestProperty);
+        }
         OutputStream outputStream = connection.getOutputStream();
         outputStream.write(param.getBytes());
         return getResponse(connection);
@@ -130,7 +136,7 @@ public class HttpURLConnectionUtil {
         connection.setRequestMethod("POST");
         connection.setDoOutput(true);
         connection.setUseCaches(false);
-        connection.setRequestProperty("Content-Type", "application/octet-stream");
+        connection.setRequestProperty("Content-Type", MediaType.APPLICATION_OCTET_STREAM_VALUE);
 
         OutputStream outputStream = connection.getOutputStream();
         FileInputStream fileInputStream = new FileInputStream(filePath);
@@ -214,7 +220,7 @@ public class HttpURLConnectionUtil {
     /**
      * 下载文件
      *
-     * @param url 请求地址
+     * @param url         请求地址
      * @param downloadDir 下载文件存储目录
      */
     public static void download(String url, String downloadDir) throws Exception {

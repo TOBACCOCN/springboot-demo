@@ -20,7 +20,7 @@ public class HttpURLConnectionUtilTest {
     @Test
     public void httpGet() throws Exception {
         String url = "https://www.baidu.com";
-        String result = HttpURLConnectionUtil.httpGet(url);
+        String result = HttpURLConnectionUtil.httpGet(url, null);
         log.info(">>>>> RESULT: [{}]", result);
     }
 
@@ -54,8 +54,9 @@ public class HttpURLConnectionUtilTest {
     @Test
     public void upload() throws Exception {
         // String url = "http://127.0.0.1:9527/upload?filename=test.csv";
-        String url = "https://127.0.0.1:9527/upload?filename=test.csv";
-        String filePath = "D:\\test.csv";
+        // String url = "https://127.0.0.1:9527/upload?filename=test.csv";
+        String url = "https://nbiot-smart-glass.eliteei.com/app/v1/upload?filename=1589771849250.png";
+        String filePath = "D:\\1589771849250.png";
         String result = HttpURLConnectionUtil.upload(url, filePath);
         log.info(">>>>> RESULT: [{}]", result);
     }

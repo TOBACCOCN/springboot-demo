@@ -7,6 +7,7 @@ import com.springboot.example.dao.StudentMapper;
 import com.springboot.example.domain.Student;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -17,6 +18,7 @@ import java.util.List;
  * @date 2019.9.19
  */
 @Service
+@Transactional
 public class StudentServiceImpl implements StudentService {
 
     // student 表不分片

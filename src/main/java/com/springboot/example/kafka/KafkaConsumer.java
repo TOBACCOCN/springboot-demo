@@ -2,7 +2,9 @@ package com.springboot.example.kafka;
 
 import lombok.extern.slf4j.Slf4j;
 import org.apache.kafka.clients.consumer.ConsumerRecord;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.kafka.annotation.KafkaListener;
+import org.springframework.stereotype.Component;
 
 /**
  * kafka 消费者
@@ -10,7 +12,8 @@ import org.springframework.kafka.annotation.KafkaListener;
  * @author zhangyonghong
  * @date 2019.9.18
  */
-// @Component
+@ConditionalOnProperty(prefix = "kafka", name = "enable", havingValue = "true")
+@Component
 @Slf4j
 public class KafkaConsumer {
 

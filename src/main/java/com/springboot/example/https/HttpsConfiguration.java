@@ -10,7 +10,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 /**
- * https 配置类
+ * https 配置类，HTTP 自动跳转 HTTPS
  *
  * @author zhangyonghong
  * @date 2019.7.11

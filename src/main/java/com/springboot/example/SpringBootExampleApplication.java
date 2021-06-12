@@ -8,6 +8,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.context.annotation.PropertySource;
+import org.springframework.jms.annotation.EnableJms;
 import org.springframework.scheduling.annotation.EnableScheduling;
 
 import javax.annotation.PostConstruct;
@@ -22,6 +23,7 @@ import javax.annotation.PostConstruct;
 @PropertySource(value = "classpath:application.properties", encoding = "UTF-8")
 @EnableCaching
 @EnableScheduling
+@EnableJms
 @Slf4j
 public class SpringBootExampleApplication {
 

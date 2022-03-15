@@ -173,7 +173,7 @@ public class HttpURLConnectionUtil {
 
         OutputStream outputStream = connection.getOutputStream();
         // 拼接请求参数
-        if (paramMap.size() > 0) {
+        if (paramMap != null && paramMap.size() > 0) {
             StringBuilder builder = new StringBuilder();
             for (String key : paramMap.keySet()) {
                 builder.append(TWO_HYPHENS).append(BOUNDARY).append(LINE_END);
@@ -188,7 +188,7 @@ public class HttpURLConnectionUtil {
         }
 
         // 拼接文件数据
-        if (filePathList.size() > 0) {
+        if (filePathList != null && filePathList.size() > 0) {
             for (String filePath : filePathList) {
                 StringBuilder builder = new StringBuilder();
                 File file = new File(filePath);

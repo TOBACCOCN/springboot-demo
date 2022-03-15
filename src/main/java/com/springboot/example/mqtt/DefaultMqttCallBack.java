@@ -14,7 +14,7 @@ import org.slf4j.LoggerFactory;
  */
 public class DefaultMqttCallBack implements MqttCallback {
 
-    private static final Logger LOG = LoggerFactory.getLogger(MqttConfig.class);
+    private static final Logger LOG = LoggerFactory.getLogger(DefaultMqttCallBack.class);
 
     @Override
     public void connectionLost(Throwable cause) {

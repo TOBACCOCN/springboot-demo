@@ -14,7 +14,7 @@ import org.springframework.context.annotation.Bean;
  * @date 2020.08.23
  */
 @ConditionalOnProperty(prefix = "rocketmq", name = "enable", havingValue = "true")
-// @Component
+// @Configuration
 @Slf4j
 public class OrderRocketMQConsumerConfiguration {
 

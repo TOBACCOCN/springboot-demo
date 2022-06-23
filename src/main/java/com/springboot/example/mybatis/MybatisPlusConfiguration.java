@@ -2,6 +2,7 @@ package com.springboot.example.mybatis;
 
 import com.baomidou.mybatisplus.extension.plugins.PaginationInterceptor;
 import org.mybatis.spring.annotation.MapperScan;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -11,6 +12,7 @@ import org.springframework.context.annotation.Configuration;
  * @author zhangyonghong
  * @date 2019.6.3
  */
+@ConditionalOnProperty(prefix = "mybatis-plus", name = "enable", havingValue = "true")
 @Configuration
 @MapperScan("com.springboot.example.dao.**.mapper")
 public class MybatisPlusConfiguration {

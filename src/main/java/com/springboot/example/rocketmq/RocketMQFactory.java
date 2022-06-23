@@ -82,7 +82,7 @@ public class RocketMQFactory {
     }
 
     /**
-     * @param handler 实际的 RocketMQ 消费者消息处理器
+     * @param handler 实际的 RocketMQ 消费者消息处理
      * @param msgs    消息内容集合
      */
     private void handle(RocketMQConsumerMsgHandler handler, List<MessageExt> msgs) {

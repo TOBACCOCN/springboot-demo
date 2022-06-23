@@ -3,6 +3,7 @@ package com.springboot.example.cache;
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.PropertyAccessor;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.cache.CacheManager;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -22,6 +23,7 @@ import java.time.Duration;
  * @author zhangyonghong
  * @date 2019.9.20
  */
+@ConditionalOnProperty(prefix = "spring.cache", name = "type", havingValue = "redis")
 @Configuration
 public class SimpleRedisCacheConfiguration {
 

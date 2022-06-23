@@ -11,24 +11,23 @@ import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.PropertySource;
 
 import java.util.UUID;
 
 /**
  * MQTT 配置类
+ * <a href="https://www.emqx.io/docs/zh/v4.4/development/java.html#paho-java-%E4%BD%BF%E7%94%A8%E7%A4%BA%E4%BE%8B">...</a>
  *
  * @author zhangyonghong
  * @date 2021/6/13
  */
 @ConditionalOnProperty(prefix = "mqtt", name = "enable", havingValue = "true")
 @Configuration
-@PropertySource("classpath:mqtt.properties")
 @ConfigurationProperties(prefix = "mqtt")
 @Data
-public class MqttConfig {
+public class MqttConfiguration {
 
-    private static final Logger LOG = LoggerFactory.getLogger(MqttConfig.class);
+    private static final Logger LOG = LoggerFactory.getLogger(MqttConfiguration.class);
 
     private String serverURI;
 

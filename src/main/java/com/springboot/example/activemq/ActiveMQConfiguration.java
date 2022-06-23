@@ -8,7 +8,6 @@ import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.PropertySource;
 import org.springframework.jms.config.JmsListenerContainerFactory;
 import org.springframework.jms.config.SimpleJmsListenerContainerFactory;
 import org.springframework.jms.core.JmsMessagingTemplate;
@@ -25,10 +24,9 @@ import javax.jms.Topic;
  */
 @ConditionalOnProperty(prefix = "activemq", name = "enable", havingValue = "true")
 @Configuration
-@PropertySource("classpath:activemq.properties")
 @ConfigurationProperties(prefix = "activemq")
 @Data
-public class ActiveMQConfig {
+public class ActiveMQConfiguration {
 
     private String brokerUrl;
 

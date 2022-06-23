@@ -3,6 +3,7 @@ package com.springboot.example.email;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.mail.MailException;
 import org.springframework.mail.SimpleMailMessage;
@@ -23,6 +24,7 @@ import java.util.Map;
  * @author zhangyonghong
  * @date 2019.6.1
  */
+@ConditionalOnProperty(prefix = "email", name = "enable", havingValue = "true")
 @Component
 @Slf4j
 public class EmailHandler {

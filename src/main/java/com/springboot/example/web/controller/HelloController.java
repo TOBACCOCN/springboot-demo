@@ -5,6 +5,7 @@ import com.springboot.example.util.ParamUtil;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -16,7 +17,6 @@ import javax.servlet.http.HttpServletRequest;
 import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.concurrent.TimeUnit;
 
 /**
  * http 请求控制器
@@ -32,6 +32,7 @@ public class HelloController {
     // private static Logger logger = LoggerFactory.getLogger(HelloController.class);
 
     @ApiOperation(value = "GET 请求")
+    @RequiresPermissions("hello")
     // GET 请求
     @GetMapping("/hello")
     // 不加 @ResponseBody 就会被 thymeleaf 视图解析器解析到 html 页面
@@ -40,8 +41,9 @@ public class HelloController {
     public Mono<Object> helloGET(HttpServletRequest request) throws InterruptedException {
         Map<String, String> map = ParamUtil.getMap(request.getParameterMap());
         log.info(">>>>> PARAM_MAP: [{}]", map);
+        map.put("hello", "java");
         // return map;
-        TimeUnit.DAYS.sleep(4);
+        // TimeUnit.DAYS.sleep(4);
         return Mono.create(monoSink -> monoSink.success(map));
     }
 

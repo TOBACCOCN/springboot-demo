@@ -12,6 +12,7 @@ import org.springframework.jms.annotation.EnableJms;
 import org.springframework.scheduling.annotation.EnableScheduling;
 
 import javax.annotation.PostConstruct;
+import java.lang.management.ManagementFactory;
 
 /**
  * springboot 程序启动类
@@ -25,9 +26,9 @@ import javax.annotation.PostConstruct;
 @EnableScheduling
 @EnableJms
 @Slf4j
-public class SpringBootExampleApplication {
+public class DefaultStarter {
 
-    // private static Logger logger = LoggerFactory.getLogger(SpringBootExampleApplication.class);
+    // private static Logger logger = LoggerFactory.getLogger(DefaultStarter.class);
 
     @Value("${value}")
     private String value;
@@ -52,10 +53,12 @@ public class SpringBootExampleApplication {
     }
 
     public static void main(String[] args) {
-        SpringApplication.run(SpringBootExampleApplication.class, args);
+        SpringApplication.run(DefaultStarter.class, args);
         log.info(">>>>> STATIC_VALUE: [{}]", staticValue);
         log.info(">>>>> STATIC_USER: [{}]", staticUser);
         log.info(">>>>> STATIC_SECOND_PROFILE: [{}]", staticSecondProfile);
+        // pid
+        log.info(">>>>> PID: [{}]",  ManagementFactory.getRuntimeMXBean().getName().split("@")[0]);
     }
 
 }

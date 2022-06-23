@@ -8,6 +8,7 @@ import org.slf4j.LoggerFactory;
 
 /**
  * MQTT 消息订阅回调
+ * <a href="https://www.emqx.io/docs/zh/v4.4/development/java.html#paho-java-%E4%BD%BF%E7%94%A8%E7%A4%BA%E4%BE%8B">...</a>
  *
  * @author zhangyonghong
  * @date 2021/6/13

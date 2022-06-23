@@ -6,7 +6,6 @@ import org.apache.rocketmq.client.consumer.DefaultMQPushConsumer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Bean;
-import org.springframework.stereotype.Component;
 
 /**
  * RocketMQ 消费者配置类
@@ -15,7 +14,7 @@ import org.springframework.stereotype.Component;
  * @date 2020.08.22
  */
 @ConditionalOnProperty(prefix = "rocketmq", name = "enable", havingValue = "true")
-@Component
+// @Configuration
 @Slf4j
 public class SimpleRocketMQConsumerConfiguration {
 

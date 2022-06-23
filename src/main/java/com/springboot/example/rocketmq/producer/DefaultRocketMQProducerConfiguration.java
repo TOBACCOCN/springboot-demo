@@ -8,7 +8,7 @@ import org.apache.rocketmq.client.producer.DefaultMQProducer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Bean;
-import org.springframework.stereotype.Component;
+import org.springframework.context.annotation.Configuration;
 
 /**
  * RocketMQ 生产者配置类
@@ -17,7 +17,7 @@ import org.springframework.stereotype.Component;
  * @date 2020.08.22
  */
 @ConditionalOnProperty(prefix = "rocketmq", name = "enable", havingValue = "true")
-@Component
+@Configuration
 @Slf4j
 public class DefaultRocketMQProducerConfiguration {
 

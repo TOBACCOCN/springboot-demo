@@ -31,6 +31,10 @@ public class TestServiceImpl implements TestService {
         // return createEx(test);
     }
 
+    public void test() {
+        createEx(new Test(23L, "hello"));
+    }
+
     @Transactional
     public int createEx(Test test) throws RuntimeException {
         // int insert = testMapper.insert(test);

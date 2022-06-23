@@ -3,6 +3,7 @@ package com.springboot.example.enjoy;
 import com.jfinal.template.ext.spring.JFinalViewResolver;
 import com.jfinal.template.source.ClassPathSourceFactory;
 import lombok.Data;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -13,6 +14,7 @@ import org.springframework.context.annotation.Configuration;
  * @author zhangyonghong
  * @date 2019.9.19
  */
+@ConditionalOnProperty(prefix = "enjoy", name = "enable", havingValue = "true")
 @Configuration
 @ConfigurationProperties(prefix = "enjoy")
 @Data

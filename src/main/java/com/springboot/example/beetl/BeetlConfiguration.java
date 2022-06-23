@@ -5,6 +5,7 @@ import lombok.Data;
 import org.beetl.core.resource.ClasspathResourceLoader;
 import org.beetl.ext.spring.BeetlGroupUtilConfiguration;
 import org.beetl.ext.spring.BeetlSpringViewResolver;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -17,6 +18,7 @@ import java.util.Properties;
  * @author zhangyonghong
  * @date 2019.9.19
  */
+@ConditionalOnProperty(prefix = "beetl", name = "enable", havingValue = "true")
 @Configuration
 @ConfigurationProperties(prefix = "beetl")
 @Data

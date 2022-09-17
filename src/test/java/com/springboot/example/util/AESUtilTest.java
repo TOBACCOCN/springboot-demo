@@ -1,6 +1,7 @@
 package com.springboot.example.util;
 
 import lombok.extern.slf4j.Slf4j;
+import org.junit.Assert;
 import org.junit.Test;
 
 /**
@@ -15,15 +16,19 @@ public class AESUtilTest {
     // private static Logger logger = LoggerFactory.getLogger(AESUtilTests.class);
 
     @Test
-    public void encode() {
+    public void encrypt() {
         String content = "abc";
-        log.info(">>>>> {}--------{}", content, AESUtil.encode(content));
+        String encrypted = AESUtil.encrypt(content);
+        log.info(">>>>> {}--------{}", content, encrypted);
+        Assert.assertNotEquals(content, encrypted);
     }
 
     @Test
-    public void decode() {
-        String encrypt = "zHFlOpVpD1DT1eL4psjNKg==";
-        log.info(">>>>> {}--------{}", encrypt, AESUtil.decode(encrypt));
+    public void decrypt() {
+        String encrypted = "zHFlOpVpD1DT1eL4psjNKg==";
+        String decrypted = AESUtil.decrypt(encrypted);
+        log.info(">>>>> {}--------{}", encrypted, decrypted);
+        Assert.assertNotEquals(encrypted, decrypted);
     }
 
 }

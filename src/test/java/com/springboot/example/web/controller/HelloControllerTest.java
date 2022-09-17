@@ -1,7 +1,9 @@
 package com.springboot.example.web.controller;
 
 import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
 import lombok.extern.slf4j.Slf4j;
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -19,6 +21,7 @@ import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -60,7 +63,10 @@ public class HelloControllerTest {
                 .andDo(MockMvcResultHandlers.print())
                 .andReturn();
 
-        log.info(">>>>> RESULT: [{}]", mvcResult.getResponse().getContentAsString());
+        // controller 返回 Mono<T> 时，通过 getAsyncResult 获取结果
+        Object asyncResult = mvcResult.getAsyncResult();
+        log.info(">>>>> RESULT: [{}]", asyncResult);
+        Assert.assertEquals("{\"bar\":\"barz\",\"foo\":\"barz\",\"hello\":\"java\"}", JSON.toJSONString(asyncResult));
     }
 
     @Test
@@ -80,7 +86,10 @@ public class HelloControllerTest {
                 .andDo(MockMvcResultHandlers.print())
                 .andReturn();
 
-        log.info(">>>>> RESULT: [{}]", mvcResult.getResponse().getContentAsString());
+        // controller 返回 Mono<T> 时，通过 getAsyncResult 获取结果
+        Object asyncResult = mvcResult.getAsyncResult();
+        log.info(">>>>> RESULT: [{}]", asyncResult);
+        Assert.assertEquals("{\"bar\":\"barz\",\"foo\":\"bar\"}", JSON.toJSONString(asyncResult));
     }
 
     @Test
@@ -100,7 +109,10 @@ public class HelloControllerTest {
                 .andDo(MockMvcResultHandlers.print())
                 .andReturn();
 
-        log.info(">>>>> RESULT: [{}]", mvcResult.getResponse().getContentAsString());
+        // controller 返回 Mono<T> 时，通过 getAsyncResult 获取结果
+        Object asyncResult = mvcResult.getAsyncResult();
+        log.info(">>>>> RESULT: [{}]", asyncResult);
+        Assert.assertEquals("{\"age\":17,\"name\":\"zhangsan\"}", JSON.toJSONString(asyncResult));
     }
 
     @Test
@@ -120,7 +132,9 @@ public class HelloControllerTest {
                 .andDo(MockMvcResultHandlers.print())
                 .andReturn();
 
-        log.info(">>>>> RESULT: [{}]", mvcResult.getResponse().getContentAsString());
+        String result = mvcResult.getResponse().getContentAsString();
+        log.info(">>>>> RESULT: [{}]", result);
+        Assert.assertEquals(JSON.toJSONString(map), result);
     }
 
 }

@@ -13,10 +13,12 @@ public class SimpleX509TrustManager implements X509TrustManager {
 
     @Override
     public void checkClientTrusted(X509Certificate[] chain, String authType) {
+        // nothing need to do
     }
 
     @Override
     public void checkServerTrusted(X509Certificate[] chain, String authType) {
+        // nothing need to do
     }
 
     @Override

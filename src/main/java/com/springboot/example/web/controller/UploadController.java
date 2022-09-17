@@ -32,7 +32,8 @@ public class UploadController {
 
     // private static Logger logger = LoggerFactory.getLogger(UploadController.class);
 
-    private static String UPLOAD_DIR = "D:/upload/";
+    private static final String UPLOADED = "uploaded";
+    private static final String UPLOAD_DIR = "D:/upload/";
 
     // @GetMapping("/upload")
     // public String upload() {
@@ -74,7 +75,7 @@ public class UploadController {
         log.info(">>>>> FILENAME: [{}]", filename);
         Map<String, String> map = new HashMap<>();
         map.put("filename", filename);
-        map.put("uploaded", "SUCCESS");
+        map.put(UPLOADED, "SUCCESS");
         try {
             ServletInputStream inputStream = request.getInputStream();
             IOUtil.writeStream2File(inputStream, UPLOAD_DIR + filename);
@@ -82,7 +83,7 @@ public class UploadController {
             log.info(">>>>> UPLOAD SUCCESS");
         } catch (IOException e) {
             log.info(">>>>> UPLOAD FAIL");
-            map.put("uploaded", "FAIL");
+            map.put(UPLOADED, "FAIL");
             ErrorPrintUtil.printErrorMsg(log, e);
         }
         // return map;
@@ -96,7 +97,7 @@ public class UploadController {
     public Mono<Object> multipartUpload(MultipartFile[] files, HttpServletRequest request) {
         log.info(">>>>> PARAM_MAP: [{}]", ParamUtil.getMap(request.getParameterMap()));
         Map<String, String> map = new HashMap<>();
-        map.put("uploaded", "SUCCESS");
+        map.put(UPLOADED, "SUCCESS");
         try {
             for (MultipartFile multipartFile : files) {
                 String filename = multipartFile.getOriginalFilename();
@@ -111,7 +112,7 @@ public class UploadController {
             log.info(">>>>> UPLOAD SUCCESS");
         } catch (IOException e) {
             log.info(">>>>> UPLOAD FAIL");
-            map.put("uploaded", "FAIL");
+            map.put(UPLOADED, "FAIL");
             ErrorPrintUtil.printErrorMsg(log, e);
         }
         // return map;

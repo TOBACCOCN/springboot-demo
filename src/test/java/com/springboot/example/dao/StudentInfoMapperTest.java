@@ -1,5 +1,7 @@
 package com.springboot.example.dao;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.springboot.example.domain.StudentInfo;
 import junit.framework.TestCase;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Test;
@@ -8,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import java.util.List;
 import java.util.Map;
 
 @Slf4j
@@ -24,6 +27,12 @@ public class StudentInfoMapperTest extends TestCase {
         log.info(">>>>> MAP: [{}]", map);
         String name = (String) map.get("NAME");
         log.info(">>>>> NAME: [{}]", name);
+    }
+
+    @Test
+    public void selectList() {
+        List<StudentInfo> studentInfos = studentInfoMapper.selectList(new QueryWrapper<>());
+        log.info(">>>>> studentInfos: [{}]", studentInfos);
     }
 
 }

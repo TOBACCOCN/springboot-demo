@@ -20,10 +20,8 @@ import org.springframework.context.annotation.Configuration;
 public class TransactionRocketMQProducerConfiguration {
 
     @Autowired
-    private RocketMQFactory rocketMQFactory;
-
     @Bean(ProducerNameConstant.SIMPLE_TRANSACTION)
-    public TransactionMQProducer transactionMQProducer() {
+    public TransactionMQProducer transactionMQProducer(RocketMQFactory rocketMQFactory) {
         return rocketMQFactory.generateTransactionProducer(ProducerGroupEnum.GROUP_TRANSACTION_SIMPLE.toString());
     }
 

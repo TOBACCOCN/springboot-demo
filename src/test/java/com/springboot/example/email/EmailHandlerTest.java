@@ -1,6 +1,7 @@
 package com.springboot.example.email;
 
 import lombok.extern.slf4j.Slf4j;
+import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,6 +40,7 @@ public class EmailHandlerTest {
         String subject = "springboot simple mail";
         String content = "hello this is simple mail";
         emailHandler.sendSimpleMail(to, subject, content);
+        Assert.assertEquals(EmailHandler.SEND_EMAIL_RESULT_SUCCESS, emailHandler.getSendEmailResult());
     }
 
     @Test
@@ -47,6 +49,7 @@ public class EmailHandlerTest {
         String subject = "springboot html mail";
         String content = "<html>\n<body>\n\t<h3>hello world ！ 这是一封 Html 邮件！</h3>\n</body>\n</html>";
         emailHandler.sendHtmlMail(to, subject, content);
+        Assert.assertEquals(EmailHandler.SEND_EMAIL_RESULT_SUCCESS, emailHandler.getSendEmailResult());
     }
 
     @Test
@@ -56,6 +59,7 @@ public class EmailHandlerTest {
         String content = "<html>\n<body>\n\t<h3>hello world ！这是一封带附件的 Html 邮件！</h3>\n</body>\n</html>";
         String filePath = "D:\\download\\AliPayQR.png";
         emailHandler.sendAttachmentsMail(to, subject, content, filePath);
+        Assert.assertEquals(EmailHandler.SEND_EMAIL_RESULT_SUCCESS, emailHandler.getSendEmailResult());
     }
 
     @Test
@@ -73,6 +77,7 @@ public class EmailHandlerTest {
         contentBuilder.append("</body>\n</html>");
         log.info(">>>>> CONTENT: [{}]", contentBuilder.toString());
         emailHandler.sendInlineResourceMail(to, subject, contentBuilder.toString(), map);
+        Assert.assertEquals(EmailHandler.SEND_EMAIL_RESULT_SUCCESS, emailHandler.getSendEmailResult());
     }
 
     @Test
@@ -84,6 +89,7 @@ public class EmailHandlerTest {
         String content = templateEngine.process("mailTemplate", context);
         log.info(">>>>> CONTENT: [{}]", content);
         emailHandler.sendHtmlMail(to, subject, content);
+        Assert.assertEquals(EmailHandler.SEND_EMAIL_RESULT_SUCCESS, emailHandler.getSendEmailResult());
     }
 
 }

@@ -13,18 +13,21 @@ import java.io.InputStream;
  */
 public class IOUtil {
 
+    private IOUtil() {
+    }
+
     public static void writeStream2File(InputStream inputStream, String filePath) throws IOException {
         File file = new File(filePath);
         if (!file.getParentFile().exists()) {
             file.getParentFile().mkdirs();
         }
-        FileOutputStream fos = new FileOutputStream(file, true);
-        int len;
-        byte[] buf = new byte[1024];
-        while ((len = inputStream.read(buf)) != -1) {
-            fos.write(buf, 0, len);
+        try (FileOutputStream fos = new FileOutputStream(file, true)) {
+            int len;
+            byte[] buf = new byte[1024];
+            while ((len = inputStream.read(buf)) != -1) {
+                fos.write(buf, 0, len);
+            }
         }
-        fos.close();
     }
 
 }

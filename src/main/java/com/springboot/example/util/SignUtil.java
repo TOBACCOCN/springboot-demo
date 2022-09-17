@@ -1,5 +1,8 @@
 package com.springboot.example.util;
 
+import lombok.extern.slf4j.Slf4j;
+
+import java.security.NoSuchAlgorithmException;
 import java.util.Arrays;
 import java.util.Map;
 import java.util.Set;
@@ -10,9 +13,13 @@ import java.util.Set;
  * @author zhangyonghong
  * @date 2019.7.8
  */
+@Slf4j
 public class SignUtil {
 
-    public static String generateSignature(Map<String, String> map) throws Exception {
+    private SignUtil() {
+    }
+
+    public static String generateSignature(Map<String, String> map) {
         Set<String> keySet = map.keySet();
         String[] keyArray = new String[keySet.size()];
         keySet.toArray(keyArray);
@@ -23,7 +30,12 @@ public class SignUtil {
             builder.append(key).append("=").append((map.get(key)).trim()).append("&");
         }
 
-        return MD5Util.encode(builder.substring(0, builder.length() - 1).getBytes()).toUpperCase();
+        try {
+            return MD5Util.encode(builder.substring(0, builder.length() - 1).getBytes()).toUpperCase();
+        } catch (NoSuchAlgorithmException e) {
+            ErrorPrintUtil.printErrorMsg(log, e);
+            return null;
+        }
     }
 
 }

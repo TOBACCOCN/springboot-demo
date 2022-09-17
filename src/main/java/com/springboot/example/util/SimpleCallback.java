@@ -1,5 +1,6 @@
 package com.springboot.example.util;
 
+import lombok.extern.slf4j.Slf4j;
 import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.Response;
@@ -14,6 +15,7 @@ import java.io.IOException;
  * @author zhangyonghong
  * @date 2019.6.14
  */
+@Slf4j
 public class SimpleCallback implements Callback {
 
     private Response response;
@@ -26,11 +28,9 @@ public class SimpleCallback implements Callback {
         this.response = response;
     }
 
-    private static Logger logger = LoggerFactory.getLogger(SimpleCallback.class);
-
     @Override
     public void onFailure(Call call, IOException e) {
-        ErrorPrintUtil.printErrorMsg(logger, e);
+        ErrorPrintUtil.printErrorMsg(log, e);
     }
 
     @Override

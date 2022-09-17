@@ -1,9 +1,11 @@
 package com.springboot.example.domain;
 
 import com.baomidou.mybatisplus.annotation.TableName;
+import lombok.Data;
 
 import java.sql.Date;
 
+@Data
 @TableName("STUDENT_INFO")
 public class StudentInfo {
 
@@ -13,6 +15,6 @@ public class StudentInfo {
 
     private String sex;
 
-    private Date create_date;
+    private Date createDate;
 
 }

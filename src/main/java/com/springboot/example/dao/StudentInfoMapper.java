@@ -1,13 +1,11 @@
 package com.springboot.example.dao;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.springboot.example.domain.Student;
 import com.springboot.example.domain.StudentInfo;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
 import org.springframework.stereotype.Component;
 
-import java.util.List;
 import java.util.Map;
 
 /**

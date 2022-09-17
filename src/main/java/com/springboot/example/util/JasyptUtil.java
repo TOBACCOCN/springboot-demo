@@ -10,6 +10,9 @@ import org.jasypt.util.text.BasicTextEncryptor;
  */
 public class JasyptUtil {
 
+    private JasyptUtil() {
+    }
+
     public static String encrypt(String content, String salt) {
         BasicTextEncryptor textEncryptor = new BasicTextEncryptor();
         textEncryptor.setPassword(salt);

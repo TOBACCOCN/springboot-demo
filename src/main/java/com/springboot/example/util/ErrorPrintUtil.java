@@ -13,6 +13,9 @@ import java.io.StringWriter;
  */
 public class ErrorPrintUtil {
 
+    private ErrorPrintUtil() {
+    }
+
     public static void printErrorMsg(Logger logger, Throwable e) {
         printErrorMsg(logger, e, null);
     }
@@ -21,9 +24,9 @@ public class ErrorPrintUtil {
         StringWriter stringWriter = new StringWriter();
         e.printStackTrace(new PrintWriter(stringWriter, true));
         if (prefix != null) {
-            logger.error(prefix + stringWriter.toString());
+            logger.error("{}{}", prefix, stringWriter);
         } else {
-            logger.error(stringWriter.toString());
+            logger.error("{}", stringWriter);
         }
     }
 

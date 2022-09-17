@@ -24,7 +24,10 @@ public class AESUtil {
 
     // private static Logger logger = LoggerFactory.getLogger(AESUtil.class);
 
-    private static final String seed = "zhangyonghong";
+    private static final String SEED = "zhangyonghong";
+
+    private AESUtil() {
+    }
 
     /**
      * 获取加密器
@@ -37,12 +40,12 @@ public class AESUtil {
         KeyGenerator keygen = KeyGenerator.getInstance("AES");
         // 2.根据 seed 规则初始化密钥生成器，生成一个 128 位的随机源
         SecureRandom random = SecureRandom.getInstance("SHA1PRNG");
-        random.setSeed(seed.getBytes());
+        random.setSeed(SEED.getBytes());
         keygen.init(128, random);
         // 3.产生原始对称密钥
-        SecretKey original_key = keygen.generateKey();
+        SecretKey originalKey = keygen.generateKey();
         // 4.获得原始对称密钥的字节数组
-        byte[] raw = original_key.getEncoded();
+        byte[] raw = originalKey.getEncoded();
         // 5.根据字节数组生成 AES 密钥
         SecretKey key = new SecretKeySpec(raw, "AES");
         // 6.根据指定算法 AES 自成密码器
@@ -58,15 +61,15 @@ public class AESUtil {
      * @param content 待加密字符串
      * @return 加密后字符串
      */
-    public static String encode(String content) {
+    public static String encrypt(String content) {
         try {
             Cipher cipher = getCipher(Cipher.ENCRYPT_MODE);
             // 将字符串转成原始字节数组
-            byte[] byte_original = content.getBytes(StandardCharsets.UTF_8);
+            byte[] byteOriginal = content.getBytes(StandardCharsets.UTF_8);
             // 加密，得到加密后的字节数组
-            byte[] byte_encrypt = cipher.doFinal(byte_original);
+            byte[] byteEncrypt = cipher.doFinal(byteOriginal);
             // 用 Base64 编码加密后的字节数组成字符串
-            return Base64.getEncoder().encodeToString(byte_encrypt);
+            return Base64.getEncoder().encodeToString(byteEncrypt);
         } catch (Exception e) {
             ErrorPrintUtil.printErrorMsg(log, e);
         }
@@ -79,15 +82,15 @@ public class AESUtil {
      * @param encrypt 待解密字符串
      * @return 解密后字符串
      */
-    public static String decode(String encrypt) {
+    public static String decrypt(String encrypt) {
         try {
             Cipher cipher = getCipher(Cipher.DECRYPT_MODE);
             // 用 Base64 解码得到加密后的字节数组
-            byte[] byte_encrypt = Base64.getDecoder().decode(encrypt);
+            byte[] byteEncrypt = Base64.getDecoder().decode(encrypt);
             // 解密，得到原始字节数组
-            byte[] byte_original = cipher.doFinal(byte_encrypt);
+            byte[] byteOriginal = cipher.doFinal(byteEncrypt);
             // 将原始字节数组构造成解密后的字符串
-            return new String(byte_original, StandardCharsets.UTF_8);
+            return new String(byteOriginal, StandardCharsets.UTF_8);
         } catch (Exception e) {
             ErrorPrintUtil.printErrorMsg(log, e);
         }

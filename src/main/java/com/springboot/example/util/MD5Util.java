@@ -11,6 +11,9 @@ import java.security.NoSuchAlgorithmException;
  */
 public class MD5Util {
 
+    private MD5Util() {
+    }
+
     /**
      * 将字节数组进行 MD5 加密
      *

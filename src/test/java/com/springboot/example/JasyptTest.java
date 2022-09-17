@@ -1,6 +1,7 @@
 package com.springboot.example;
 
 import lombok.extern.slf4j.Slf4j;
+import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Value;
@@ -26,6 +27,7 @@ public class JasyptTest {
     @Test
     public void jasypt() {
         log.info(">>>>> REDIS_PASSWORD: [{}]", redisPassword);
+        Assert.assertNotEquals(null, redisPassword);
     }
 
 }

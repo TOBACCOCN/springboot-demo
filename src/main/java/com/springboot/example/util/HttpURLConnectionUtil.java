@@ -10,6 +10,7 @@ import java.io.*;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
@@ -22,6 +23,9 @@ import java.util.UUID;
  */
 @Slf4j
 public class HttpURLConnectionUtil {
+
+    private HttpURLConnectionUtil() {
+    }
 
     // private static Logger logger = LoggerFactory.getLogger(HttpURLConnectionUtil.class);
 
@@ -78,14 +82,26 @@ public class HttpURLConnectionUtil {
      * @param file         文件
      * @param outputStream 请求的输出流
      */
-    private static void writeFile2OutputStream(File file, OutputStream outputStream) throws IOException {
-        InputStream inputStream = new FileInputStream(file);
-        int len;
-        byte[] buf = new byte[1024];
-        while ((len = inputStream.read(buf)) != -1) {
-            outputStream.write(buf, 0, len);
+    private static void writeFile2OutputStream(File file, OutputStream outputStream) {
+        InputStream inputStream = null;
+        try {
+            inputStream = Files.newInputStream(file.toPath());
+            int len;
+            byte[] buf = new byte[1024];
+            while ((len = inputStream.read(buf)) != -1) {
+                outputStream.write(buf, 0, len);
+            }
+        } catch (Exception e) {
+            ErrorPrintUtil.printErrorMsg(log, e);
+        } finally {
+            if (inputStream != null) {
+                try {
+                    inputStream.close();
+                } catch (IOException e) {
+                    ErrorPrintUtil.printErrorMsg(log, e);
+                }
+            }
         }
-        inputStream.close();
     }
 
     /**
@@ -139,14 +155,14 @@ public class HttpURLConnectionUtil {
         connection.setRequestProperty("Content-Type", MediaType.APPLICATION_OCTET_STREAM_VALUE);
 
         OutputStream outputStream = connection.getOutputStream();
-        FileInputStream fileInputStream = new FileInputStream(filePath);
-        int length;
-        byte[] buf = new byte[1024];
-        while ((length = fileInputStream.read(buf)) != -1) {
-            outputStream.write(buf, 0, length);
+        try (FileInputStream fileInputStream = new FileInputStream(filePath)) {
+            int length;
+            byte[] buf = new byte[1024];
+            while ((length = fileInputStream.read(buf)) != -1) {
+                outputStream.write(buf, 0, length);
+            }
+            outputStream.close();
         }
-        fileInputStream.close();
-        outputStream.close();
 
         return getResponse(connection);
     }
@@ -160,58 +176,56 @@ public class HttpURLConnectionUtil {
      * @return 响应消息
      */
     public static String multipartUpload(String url, List<String> filePathList, Map<String, Object> paramMap) throws Exception {
-        String BOUNDARY = UUID.randomUUID().toString().replaceAll("-", "").substring(16);
-        String TWO_HYPHENS = "--";
-        String LINE_END = "\r\n";
+        String boundary = UUID.randomUUID().toString().replaceAll("-", "").substring(16);
+        String twoHyphens = "--";
+        String lineEnd = "\r\n";
 
         HttpURLConnection connection = getConnection(url);
         connection.setRequestMethod("POST");
         connection.setDoOutput(true);
         connection.setUseCaches(false);
         connection.setRequestProperty("Charset", StandardCharsets.UTF_8.toString());
-        connection.setRequestProperty("Content-Type", "multipart/form-data; BOUNDARY=" + BOUNDARY);
+        connection.setRequestProperty("Content-Type", "multipart/form-data; BOUNDARY=" + boundary);
 
         OutputStream outputStream = connection.getOutputStream();
         // 拼接请求参数
         if (paramMap != null && paramMap.size() > 0) {
             StringBuilder builder = new StringBuilder();
-            for (String key : paramMap.keySet()) {
-                builder.append(TWO_HYPHENS).append(BOUNDARY).append(LINE_END);
-                builder.append("Content-Disposition: form-data; name=\"").append(key).append("\"").append(LINE_END);
+            for (Map.Entry<String, Object> entry : paramMap.entrySet()) {
+                builder.append(twoHyphens).append(boundary).append(lineEnd);
+                builder.append("Content-Disposition: form-data; name=\"").append(entry.getKey()).append("\"").append(lineEnd);
                 builder.append("Content-Type: text/plain; charset=\"").append(StandardCharsets.UTF_8.toString())
-                        .append("\"").append(LINE_END);
+                        .append("\"").append(lineEnd);
                 // 请求参数的值与其对应的头信息之间必须有一行空行
-                builder.append(LINE_END);
-                builder.append(paramMap.get(key)).append(LINE_END);
+                builder.append(lineEnd);
+                builder.append(entry.getValue()).append(lineEnd);
             }
             outputStream.write(builder.toString().getBytes());
         }
 
         // 拼接文件数据
-        if (filePathList != null && filePathList.size() > 0) {
+        if (filePathList != null && !filePathList.isEmpty()) {
             for (String filePath : filePathList) {
                 StringBuilder builder = new StringBuilder();
                 File file = new File(filePath);
                 if (!file.exists()) {
                     continue;
                 }
-                builder.append(TWO_HYPHENS).append(BOUNDARY).append(LINE_END);
+                builder.append(twoHyphens).append(boundary).append(lineEnd);
                 builder.append("Content-Disposition: form-data; name=\"files\"; filename=\"").append(file.getName())
-                        .append("\"").append(LINE_END);
+                        .append("\"").append(lineEnd);
                 builder.append("Content-Type: application/octet-stream; charset=")
-                        .append(StandardCharsets.UTF_8.toString()).append(LINE_END);
+                        .append(StandardCharsets.UTF_8.toString()).append(lineEnd);
                 // 每个文件的字节数组与其对应的头信息之间必须有一行空行
-                builder.append(LINE_END);
+                builder.append(lineEnd);
                 outputStream.write(builder.toString().getBytes());
                 writeFile2OutputStream(file, outputStream);
-                outputStream.write(LINE_END.getBytes());
+                outputStream.write(lineEnd.getBytes());
             }
         }
 
-        StringBuilder builder = new StringBuilder();
         // 最后一个 BOUNDARY 之后必须跟上预定数量的连字符
-        builder.append(TWO_HYPHENS).append(BOUNDARY).append(TWO_HYPHENS).append(LINE_END);
-        outputStream.write(builder.toString().getBytes());
+        outputStream.write((twoHyphens + boundary + twoHyphens + lineEnd).getBytes());
         outputStream.flush();
 
         return getResponse(connection);

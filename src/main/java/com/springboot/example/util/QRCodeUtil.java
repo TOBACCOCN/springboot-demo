@@ -9,12 +9,14 @@ import com.google.zxing.common.BitMatrix;
 import com.google.zxing.common.HybridBinarizer;
 import com.google.zxing.qrcode.QRCodeReader;
 import com.google.zxing.qrcode.QRCodeWriter;
+import lombok.extern.slf4j.Slf4j;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.OutputStream;
+import java.nio.file.Files;
 
 /**
  * 二维码工具类
@@ -22,7 +24,11 @@ import java.io.OutputStream;
  * @author zhangyonghong
  * @date 2019.6.13
  */
+@Slf4j
 public class QRCodeUtil {
+
+    private QRCodeUtil() {
+    }
 
     /**
      * 生成二维码
@@ -33,11 +39,15 @@ public class QRCodeUtil {
      * @param qrCodeFilePath 二维码图片文件地址
      * @param type           图片类型
      */
-    public static void encode(String url, int width, int height, String qrCodeFilePath, String type) throws Exception {
+    public static void encode(String url, int width, int height, String qrCodeFilePath, String type) {
         QRCodeWriter writer = new QRCodeWriter();
-        BitMatrix matrix = writer.encode(url, BarcodeFormat.QR_CODE, width, height);
-        OutputStream os = new FileOutputStream(new File(qrCodeFilePath));
-        MatrixToImageWriter.writeToStream(matrix, type, os);
+        try {
+            BitMatrix matrix = writer.encode(url, BarcodeFormat.QR_CODE, width, height);
+            OutputStream os = Files.newOutputStream(new File(qrCodeFilePath).toPath());
+            MatrixToImageWriter.writeToStream(matrix, type, os);
+        } catch (Exception e) {
+            ErrorPrintUtil.printErrorMsg(log, e);
+        }
     }
 
     /**
@@ -45,13 +55,18 @@ public class QRCodeUtil {
      *
      * @param qrCodeFilePath 二维码图片文件地址
      */
-    public static String decode(String qrCodeFilePath) throws Exception {
+    public static String decode(String qrCodeFilePath) {
         QRCodeReader reader = new QRCodeReader();
-        BufferedImage bufferedImage = ImageIO.read(new File(qrCodeFilePath));
-        BufferedImageLuminanceSource source = new BufferedImageLuminanceSource(bufferedImage);
-        BinaryBitmap bitmap = new BinaryBitmap(new HybridBinarizer(source));
-        Result result = reader.decode(bitmap);
-        return result.toString();
+        try {
+            BufferedImage bufferedImage = ImageIO.read(new File(qrCodeFilePath));
+            BufferedImageLuminanceSource source = new BufferedImageLuminanceSource(bufferedImage);
+            BinaryBitmap bitmap = new BinaryBitmap(new HybridBinarizer(source));
+            Result result = reader.decode(bitmap);
+            return result.toString();
+        } catch (Exception e) {
+            ErrorPrintUtil.printErrorMsg(log, e);
+            return null;
+        }
     }
 
 }

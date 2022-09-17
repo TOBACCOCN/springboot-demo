@@ -41,8 +41,8 @@ public class SimpleWebSocketClientTest {
     public void connect() {
         new Thread(() -> {
             try {
-                // URI uri = new URI("ws://127.0.0.1:9527/websocket");
-                URI uri = new URI("wss://127.0.0.1:9527/websocket");
+                URI uri = new URI("ws://127.0.0.1:9527/websocket");
+                // URI uri = new URI("wss://127.0.0.1:9527/websocket");
                 Map<String, String> httpHeaders = new HashMap<>();
                 // id 一般指客户端标识
                 httpHeaders.put("id", UUID.randomUUID().toString().replaceAll("-", ""));

@@ -4,6 +4,7 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.springboot.example.util.ErrorPrintUtil;
 import com.springboot.example.util.SignUtil;
+import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.tomcat.util.collections.CaseInsensitiveKeyMap;
@@ -41,26 +42,30 @@ public class SimpleEndpoint {
 
     private static final String UPLOAD_DIR = "D:/upload/";
     private static final String CODE = "code";
+    private static final String MESSAGE = "message";
 
+    @Setter
     private static Boolean allowTimeDiff;
+    @Setter
     private static Integer maxTimeDiff;
 
+
     @Value("${websocket.allow-time-diff}")
-    private void setAllowTimeDiff(Boolean allowTimeDiff) {
-        SimpleEndpoint.allowTimeDiff = allowTimeDiff;
+    private void setAllowTime(Boolean allowTimeDiff) {
+        setAllowTimeDiff(allowTimeDiff);
         log.info(">>>>> ALLOW_TIME_DIFF: [{}]", allowTimeDiff);
     }
 
     @Value("${websocket.max-time-diff}")
-    private void setMaxTimeDiff(Integer maxTimeDiff) {
-        SimpleEndpoint.maxTimeDiff = maxTimeDiff;
+    private void setMaxTime(Integer maxTimeDiff) {
+        setMaxTimeDiff(maxTimeDiff);
         log.info(">>>>> MAX_TIME_DIFF: [{}] SECOND", maxTimeDiff);
     }
 
     @OnOpen
     public void onOpen(Session session, EndpointConfig config) throws Exception {
         // 根据需要设置空闲超时时间，默认为 0，不会超时
-        session.setMaxIdleTimeout(1000 * (60 * 5 + 10));
+        session.setMaxIdleTimeout(1000L * (60 * 5 + 10));
         log.info(">>>>> TIME_OUT OF SESSION: [{}]", session.getMaxIdleTimeout());
 
         HandshakeRequest request =
@@ -76,12 +81,12 @@ public class SimpleEndpoint {
         long timeDiff = Math.abs(now - curtime);
         JSONObject json = new JSONObject();
 
-        if (!allowTimeDiff && timeDiff > maxTimeDiff) {
+        if (Boolean.FALSE.equals(allowTimeDiff) && timeDiff > maxTimeDiff) {
             // 当不允许 curtime 与当前时间秒值相差大于指定的时间差值时，返回提示信息，关闭会话
             log.info(">>>>> INVALID_CURTIME, NOW: [{}], TIME_DIFF: [{}]", now, timeDiff);
 
-            json.put("code", 707);
-            json.put("message", "Invalid curtime");
+            json.put(CODE, 707);
+            json.put(MESSAGE, "Invalid curtime");
             session.getBasicRemote().sendText(json.toString());
             session.close();
             return;
@@ -93,14 +98,14 @@ public class SimpleEndpoint {
 
         if (paramMap.remove("sign").equalsIgnoreCase(SignUtil.generateSignature(paramMap))) {
             json.put(CODE, 307);
-            json.put("message", "Connect success");
+            json.put(MESSAGE, "Connect success");
             session.getBasicRemote().sendText(json.toString());
 
             // 给 websocket 长连接客户端发送消息
             new Thread(() -> {
                 JSONObject message = new JSONObject();
                 message.put(CODE, 505);
-                message.put("message", "I am websocket server");
+                message.put(MESSAGE, "I am websocket server");
                 while (true) {
                     try {
                         if (session.isOpen()) {
@@ -108,8 +113,10 @@ public class SimpleEndpoint {
                             TimeUnit.MINUTES.sleep(5);
                             // TimeUnit.SECONDS.sleep(15);
                         }
-                    } catch (Exception e) {
+                    } catch (IOException e) {
                         ErrorPrintUtil.printErrorMsg(log, e);
+                    } catch (InterruptedException e) {
+                        Thread.currentThread().interrupt();
                     }
                 }
             }).start();
@@ -126,7 +133,7 @@ public class SimpleEndpoint {
             // 检验签名没有通过
             log.info(">>>>> INVALID_SIGN");
             json.put(CODE, 407);
-            json.put("message", "Invalid sign");
+            json.put(MESSAGE, "Invalid sign");
             session.getBasicRemote().sendText(json.toString());
             session.close();
         }
@@ -152,11 +159,11 @@ public class SimpleEndpoint {
         // 入参 headers  是 websocket 的请求头，其实际上是一个 CaseInsensitiveKeyMap
         // 所以转化时要用 CaseInsensitiveKeyMap 存 key 和 value
         Map<String, String> map = new CaseInsensitiveKeyMap<>();
-        for (String name : headers.keySet()) {
-            List<String> values = headers.get(name);
+        for (Map.Entry<String, List<String>> entry : headers.entrySet()) {
+            List<String> values = entry.getValue();
             StringBuilder builder = new StringBuilder();
             values.forEach(value -> builder.append(value).append(","));
-            map.put(name, builder.substring(0, builder.length() - 1));
+            map.put(entry.getKey(), builder.substring(0, builder.length() - 1));
         }
         return map;
     }
@@ -230,7 +237,7 @@ public class SimpleEndpoint {
     }
 
     @OnError
-    public void OnError(Session session, Throwable throwable) {
+    public void onError(Session session, Throwable throwable) {
         log.info(">>>>> ON_ERROR");
 
         ServerSessionManager.unregisterSession(session);

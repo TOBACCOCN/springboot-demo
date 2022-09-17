@@ -19,6 +19,9 @@ public class OkHttpUtil {
 
     // private static Logger logger = LoggerFactory.getLogger(OkHttpUtil.class);
 
+    private OkHttpUtil() {
+    }
+
     /**
      * GET 请求
      *

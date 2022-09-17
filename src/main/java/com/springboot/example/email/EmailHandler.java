@@ -1,5 +1,6 @@
 package com.springboot.example.email;
 
+import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -33,6 +34,10 @@ public class EmailHandler {
 
     @Autowired
     private JavaMailSender mailSender;
+    @Getter
+    private String sendEmailResult = SEND_EMAIL_RESULT_FAILED;
+    public static final String SEND_EMAIL_RESULT_FAILED = "failed";
+    public static final String SEND_EMAIL_RESULT_SUCCESS = "success";
 
     @Value("${spring.mail.from.addr}")
     private String from;
@@ -46,8 +51,10 @@ public class EmailHandler {
 
         try {
             mailSender.send(message);
+            sendEmailResult = SEND_EMAIL_RESULT_SUCCESS;
             log.info(">>>>> SEND SIMPLE MAIL SUCCESS");
         } catch (MailException e) {
+            sendEmailResult = SEND_EMAIL_RESULT_FAILED;
             StringWriter stringWriter = new StringWriter();
             e.printStackTrace(new PrintWriter(stringWriter, true));
             log.error(stringWriter.toString());
@@ -65,8 +72,10 @@ public class EmailHandler {
             helper.setText(content, true);
 
             mailSender.send(message);
+            sendEmailResult = SEND_EMAIL_RESULT_SUCCESS;
             log.info(">>>>> SEND HTML MAIL SUCCESS");
         } catch (MessagingException e) {
+            sendEmailResult = SEND_EMAIL_RESULT_FAILED;
             StringWriter stringWriter = new StringWriter();
             e.printStackTrace(new PrintWriter(stringWriter, true));
             log.error(stringWriter.toString());
@@ -87,8 +96,10 @@ public class EmailHandler {
             helper.addAttachment(fileName, file);
 
             mailSender.send(message);
+            sendEmailResult = SEND_EMAIL_RESULT_SUCCESS;
             log.info(">>>>> SEND HTML MAIL WITH ATTACHMENTS SUCCESS");
         } catch (MessagingException e) {
+            sendEmailResult = SEND_EMAIL_RESULT_FAILED;
             StringWriter stringWriter = new StringWriter();
             e.printStackTrace(new PrintWriter(stringWriter, true));
             log.error(stringWriter.toString());
@@ -104,13 +115,15 @@ public class EmailHandler {
             helper.setSubject(subject);
             helper.setText(content, true);
 
-            for (String resId : resIdFilePathMap.keySet()) {
-                helper.addInline(resId, new FileSystemResource(new File(resIdFilePathMap.get(resId))));
+            for (Map.Entry<String, String> entry : resIdFilePathMap.entrySet()) {
+                helper.addInline(entry.getKey(), new FileSystemResource(new File(entry.getValue())));
             }
 
             mailSender.send(message);
+            sendEmailResult = SEND_EMAIL_RESULT_SUCCESS;
             log.info(">>>>> SEND HTML MAIL WITH INLINE RESOURCE SUCCESS");
         } catch (MessagingException e) {
+            sendEmailResult = SEND_EMAIL_RESULT_FAILED;
             StringWriter stringWriter = new StringWriter();
             e.printStackTrace(new PrintWriter(stringWriter, true));
             log.error(stringWriter.toString());

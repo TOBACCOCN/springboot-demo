@@ -3,14 +3,17 @@ package com.springboot.example.dao;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.google.common.collect.Lists;
 import com.springboot.example.domain.User;
 import lombok.extern.slf4j.Slf4j;
+import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -35,9 +38,15 @@ public class UserMapperTest {
 
     @Test
     public void insert() {
-        User user = new User(6L, "zhouba", 23, "suzhou");
-        int insertAffect = userMapper.insert(user);
-        log.info(">>>>> INSERT_AFFECT: [{}]", insertAffect);
+        // User user = new User(6L, "zhouba", 23, "suzhou");
+        // int insertAffect = userMapper.insert(user);
+        // log.info(">>>>> INSERT_AFFECT: [{}]", insertAffect);
+        int affect = 0;
+        for (int i = 0; i < 10000; i++) {
+            affect += userMapper.insert(new User((long) i, i + "", i, i + ""));
+        }
+        // Assert.isTrue(affect == 10000, "userMapper.insert failed");
+        Assert.assertEquals("userMapper.insert failed", 10000, affect);
     }
 
     @Test
@@ -75,6 +84,19 @@ public class UserMapperTest {
     public void delete() {
         int deleteAffect = userMapper.delete(new QueryWrapper<User>().lambda().eq(User::getAddress, "wuhan"));
         log.info(">>>>> DELETE_AFFECT: [{}]", deleteAffect);
+    }
+
+    @Test
+    public void batchUpdate() {
+        List<User> users = new ArrayList<>();
+        for (int i = 0; i < 10000; i++) {
+            users.add(new User((long) i, (i + 1) + "", i + 1, (i + 1) + ""));
+        }
+        Lists.partition(users, 1000).forEach(list -> {
+            int affect = userMapper.batchUpdate(list);
+            // Assert.isTrue(affect == 100, "userMapper.batchUpdate failed");
+            Assert.assertEquals("userMapper.batchUpdate failed", 100, affect);
+        });
     }
 
 }

@@ -14,6 +14,9 @@ import java.util.function.Function;
 @Slf4j
 public class ReflectUtil {
 
+    private ReflectUtil() {
+    }
+
     public static final String CLASS_NAME = "className";
     public static final String METHOD_NAME = "methodName";
     public static final String PARAM_TYPE_NAME_2_PARAM_BEAN_JSON = "paramTypeName2ParamBeanJson";
@@ -31,7 +34,7 @@ public class ReflectUtil {
     public static Object invoke(String value, Function<Class<?>, ?> function) throws ClassNotFoundException,
             NoSuchMethodException, InvocationTargetException, IllegalAccessException {
         // {"paramTypeName2ParamBeanJson":{"com.springboot.example.domain.User":"{\"address\":\"6\",\"age\":6,\"id\":9,\"name\":\"6\"}"},"methodName":"create","className":"com.springboot.example.service.UserService"}
-        JSONObject jsonObject = JSONObject.parseObject(value);
+        JSONObject jsonObject = JSON.parseObject(value);
         String className = jsonObject.getString(CLASS_NAME);
         String methodName = jsonObject.getString(METHOD_NAME);
         JSONObject jsonObjOfParamTypeName2ParamBeanJson = jsonObject.getJSONObject(PARAM_TYPE_NAME_2_PARAM_BEAN_JSON);
@@ -42,7 +45,7 @@ public class ReflectUtil {
             return method.invoke(function.apply(clazz));
         }
 
-        Map<String, String> paramTypeName2ParamBeanJsonMap = (Map<String, String>) JSON.parseObject(JSON
+        Map<String, String> paramTypeName2ParamBeanJsonMap = JSON.parseObject(JSON
                 .toJSONString(jsonObjOfParamTypeName2ParamBeanJson), Map.class);
 
         List<Class<?>> paramTypeList = new ArrayList<>();

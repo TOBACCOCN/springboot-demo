@@ -33,6 +33,9 @@ public class HttpClientUtil {
 
     // private static Logger logger = LoggerFactory.getLogger(HttpClientUtil.class);
 
+    private HttpClientUtil() {
+    }
+
     /**
      * GET 请求
      *

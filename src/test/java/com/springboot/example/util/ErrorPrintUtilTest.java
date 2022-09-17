@@ -1,6 +1,7 @@
 package com.springboot.example.util;
 
 import lombok.extern.slf4j.Slf4j;
+import org.junit.Assert;
 import org.junit.Test;
 
 import java.io.File;
@@ -20,10 +21,11 @@ public class ErrorPrintUtilTest {
     @Test
     public void printErrorMsg() {
         try {
-            FileInputStream fis = new FileInputStream(new File(""));
+            FileInputStream fis = new FileInputStream("");
             fis.close();
         } catch (Exception e) {
             ErrorPrintUtil.printErrorMsg(log, e);
+            Assert.assertNotNull(e);
         }
     }
 

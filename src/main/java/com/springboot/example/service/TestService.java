@@ -13,9 +13,9 @@ import java.util.List;
  */
 public interface TestService {
 
-    int create(Test test) throws RuntimeException;
+    int create(Test test);
 
-    int createEx(Test test) throws RuntimeException;
+    int createEx(Test test);
 
     Test findById(Long id);
 

@@ -1,8 +1,5 @@
 package com.springboot.example.service;
 
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.springboot.example.dao.TestMapper;
 import com.springboot.example.domain.Test;
 import lombok.extern.slf4j.Slf4j;
@@ -11,15 +8,13 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.util.List;
 
 /**
- * 学生接口实现
+ * 测试接口实现
  *
  * @author zhangyonghong
- * @date 2019.9.19
+ * @date 2022.7.23
  */
 @Service
 @Slf4j
@@ -27,22 +22,17 @@ public class TestServiceImpl implements TestService {
 
     @Autowired
     private TestMapper testMapper;
+    @Autowired
+    private TestService testService;
 
     @Transactional/*(propagation = Propagation.REQUIRES_NEW)*/
     public int create(Test test) {
         return testMapper.insert(test);
-        // return createEx(test);
     }
 
     @Transactional
-    public void test() {
-        createEx(new Test(23L, "hello"));
-    }
-
-    @Transactional
-    public int createEx(Test test) {
-        // int insert = testMapper.insert(test);
-        int insert = create(test);
+    public int createEx(String name) {
+        int insert = create(new Test((long) (Math.random()* 1000), name));
         try (FileInputStream ignored = new FileInputStream("D:/TEST")) {
             log.info("NO EXCEPTION OCCUR");
         } catch (IOException e) {
@@ -56,20 +46,17 @@ public class TestServiceImpl implements TestService {
         public MyRuntimeException(String message) {
             super(message);
         }
+
     }
 
-    public Test findById(Long id) {
-        return testMapper.selectById(id);
+    // 在非事务方法 test() 中调用事务方法 createEx()，createEx() 的事务失效
+    public int transactionNotWork(String name) {
+        return createEx(name);
     }
 
-    public List<Test> findAll() {
-        return testMapper.selectList(new QueryWrapper<>());
-    }
-
-    public IPage<Test> findPage(long current, long size) {
-        // sharding-jdbc 分页暂时有问题，https://github.com/apache/incubator-shardingsphere/issues/2926
-        Page<Test> page = new Page<>(current, size);
-        return testMapper.selectPage(page, new QueryWrapper<>());
+    // 通过注入自己(TestService)，使事务生效
+    public int transactionWork(String name) {
+        return testService.createEx(name);
     }
 
 }

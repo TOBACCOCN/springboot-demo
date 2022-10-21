@@ -51,8 +51,15 @@
     <!-- 指定项目中某个包，当有日志操作行为时的日志记录级别 -->
     <!-- 级别依次为【从高到低】：FATAL > ERROR > WARN > INFO > DEBUG > TRACE  -->
 
-    <!-- addtivity：是否向上级 logger 传递打印信息。默认是true。
-    设置为 false 时，就不会将 name 中指定的几个package 的日志输出到 root 级别指定的log文件或STDOUT中  -->
-    <logger name="com.springboot.example" level="DEBUG" additivity="true">
+    <!-- addtivity：是否向上级 logger 传递打印信息。默认是 true。
+    设置为 false 时，就不会将 name 中指定的几个 package 的日志输出到 root 级别指定的 log 文件或 STDOUT 中  -->
+    <logger name="com.springboot.example" level="INFO" additivity="true">
     </logger>
+
+    <logger name="jdbc.connection" level="OFF" />
+    <logger name="jdbc.audit" level="OFF" />
+    <logger name="jdbc.resultset" level="OFF" />
+    <logger name="jdbc.sqlonly" level="OFF" />
+    <logger name="jdbc.sqltiming" level="INFO" />
+    <logger name="jdbc.resultsettable" level="INFO"/>
 </configuration>  

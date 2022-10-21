@@ -42,6 +42,7 @@ public class UserServiceImpl implements UserService {
     public IPage<User> findPage(long current, long size) {
         // sharding-jdbc 分页暂时有问题，https://github.com/apache/incubator-shardingsphere/issues/2926
         Page<User> page = new Page<>(current, size);
+        // current 表示当前页
         return userMapper.selectPage(page, new QueryWrapper<>());
     }
 

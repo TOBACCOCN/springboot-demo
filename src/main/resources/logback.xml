@@ -63,4 +63,11 @@
     <logger name="com.springboot.example" level="DEBUG" additivity="true">
     </logger>
 
+    <logger name="jdbc.connection" level="OFF" />
+    <logger name="jdbc.audit" level="OFF" />
+    <logger name="jdbc.resultset" level="OFF" />
+    <logger name="jdbc.sqlonly" level="OFF" />
+    <logger name="jdbc.sqltiming" level="INFO" />
+    <logger name="jdbc.resultsettable" level="INFO"/>
+
 </configuration>  

@@ -1,15 +1,15 @@
-spring:
-  profiles:
-    active: prod
-
----
-spring:
-  profiles: dev
-server:
-  port: 8008
-
----
-spring:
-  profiles: prod
-server:
-  port: 8009
+#spring:
+#  profiles:
+#    active: @profileActive@
+#
+#---
+#spring:
+#  profiles: dev
+#server:
+#  port: 8008
+#
+#---
+#spring:
+#  profiles: pro
+#server:
+#  port: 8009

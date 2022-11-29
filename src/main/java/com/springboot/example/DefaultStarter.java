@@ -1,8 +1,8 @@
 package com.springboot.example;
 
 import com.springboot.example.domain.User;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -22,6 +22,7 @@ import java.lang.management.ManagementFactory;
  */
 @SpringBootApplication
 @PropertySource(value = "classpath:application.properties", encoding = "UTF-8")
+@RequiredArgsConstructor
 @EnableCaching
 @EnableScheduling
 @EnableJms
@@ -40,8 +41,7 @@ public class DefaultStarter {
 
     private static String staticSecondProfile;
 
-    @Autowired
-    private User user;
+    private final User user;
 
     private static User staticUser;
 

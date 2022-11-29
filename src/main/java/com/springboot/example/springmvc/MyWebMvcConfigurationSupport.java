@@ -22,10 +22,13 @@ public class MyWebMvcConfigurationSupport extends WebMvcConfigurationSupport {
     @Override
     protected void addResourceHandlers(ResourceHandlerRegistry registry) {
         registry.addResourceHandler("/static/**").addResourceLocations("classpath:/static/");
+        registry.addResourceHandler("/swagger-ui.html").addResourceLocations("classpath:/META-INF/resources/");  // 允许访问 swagger-ui.html
+        registry.addResourceHandler("/webjars/**").addResourceLocations("classpath:/META-INF/resources/webjars/");  // 允许访问 swagger-ui.html
     }
 
     @Override
     protected void configureMessageConverters(List<HttpMessageConverter<?>> converters) {
+        // 配置 alibaba fastjson 消息转换器
         FastJsonConfig fastJsonConfig = new FastJsonConfig();
         if (responseMessageJsonPrettyFormat) {
             fastJsonConfig.setSerializerFeatures(SerializerFeature.PrettyFormat);

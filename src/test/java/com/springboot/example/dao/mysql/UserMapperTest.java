@@ -1,9 +1,11 @@
-package com.springboot.example.dao;
+package com.springboot.example.dao.mysql;
 
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.google.common.collect.Lists;
+import com.springboot.example.dao.mysql.UserMapper;
 import com.springboot.example.domain.User;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Assert;
@@ -14,7 +16,9 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * 用户 DAO 单元测试
@@ -35,6 +39,33 @@ public class UserMapperTest {
 
     @Autowired
     private UserMapper userMapper;
+
+    @Test
+    public void queryById() {
+        Map<String, Object> map = userMapper.queryById(1L);
+        log.info(">>>>> MAP: [{}]", map);
+    }
+
+    @Test
+    public void queryByIdAndName() {
+        Map<String, Object> map = userMapper.queryByIdAndName(1L, "2");
+        log.info(">>>>> map: [{}]", map);
+    }
+
+    @Test
+    public void queryByIds() {
+        List<Map<String, Object>> maps = userMapper.queryByIds(Lists.newArrayList(1L, 2L));
+        log.info(">>>>> MAPS: [{}]", maps);
+    }
+
+    @Test
+    public void queryByMap() {
+        Map<String, String> map = new HashMap<>();
+        map.put("name", "2");
+        map.put("address", "2");
+        Map<String, Object> result = userMapper.queryByMap(map);
+        log.info(">>>>> RESULT: [{}]", result);
+    }
 
     @Test
     public void insert() {
@@ -60,6 +91,19 @@ public class UserMapperTest {
     public void selectList() {
         List<User> users = userMapper.selectList(new QueryWrapper<User>().lambda().eq(User::getAddress, "shanghai")
                 .or().eq(User::getName, "zhangsan"));
+        log.info(">>>>> USERS: [{}]", users);
+    }
+
+    @Test
+    public void selectConditionList() {
+        List<User> users = userMapper.selectList(new LambdaQueryWrapper<User>().eq(User::getAddress, "2")
+                .and(wrapper -> wrapper.gt(User::getAge, 3))
+                .or(wrapper -> wrapper.eq(User::getName, "5").or().eq(User::getName, "6")));
+        // SELECT id,name,age,address FROM user WHERE (address = '2' AND (age > 3) OR (name = '5' OR name = '6'))
+
+        // List<User> users = userMapper.selectList(new LambdaQueryWrapper<User>().eq(User::getAddress, "2")
+        //         .or().gt(User::getAge, 3).eq(User::getAddress, "5"));
+        // SELECT id,name,age,address FROM user WHERE (address = '2' OR age > 3 AND address = '5')
         log.info(">>>>> USERS: [{}]", users);
     }
 

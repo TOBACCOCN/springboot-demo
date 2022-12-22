@@ -1,11 +1,8 @@
-package com.springboot.example.dao;
+package com.springboot.example.dao.oracle;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.google.common.collect.Lists;
 import com.springboot.example.domain.DudiPawnBaseInfo;
-import com.springboot.example.domain.User;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Test;
 import org.junit.runner.RunWith;

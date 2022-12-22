@@ -1,11 +1,9 @@
-package com.springboot.example.dao;
+package com.springboot.example.dao.oracle;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.springboot.example.domain.DudiPawnBaseInfo;
-import com.springboot.example.domain.User;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
-import org.springframework.stereotype.Component;
 
 import java.util.List;
 
@@ -15,8 +13,8 @@ import java.util.List;
  * @author zhangyonghong
  * @date 2019.9.20
  */
-@Component
 @Mapper
+// @DS("oracle")
 public interface DudiPawnBaseInfoMapper extends BaseMapper<DudiPawnBaseInfo> {
 
     int batchUpdate(@Param("dudiPawnBaseInfos") List<DudiPawnBaseInfo> dudiPawnBaseInfos);

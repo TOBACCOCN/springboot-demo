@@ -1,4 +1,4 @@
-package com.springboot.example.dao;
+package com.springboot.example.dao.mysql;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;

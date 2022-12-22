@@ -1,4 +1,4 @@
-package com.springboot.example.dao;
+package com.springboot.example.dao.mysql;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.springboot.example.domain.Student;
@@ -11,7 +11,6 @@ import org.springframework.stereotype.Component;
  * @author zhangyonghong
  * @date 2019.9.19
  */
-@Component
 @Mapper
 public interface StudentMapper extends BaseMapper<Student> {
 }

@@ -3,7 +3,7 @@ package com.springboot.example.service;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.springboot.example.dao.UserMapper;
+import com.springboot.example.dao.mysql.UserMapper;
 import com.springboot.example.domain.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;

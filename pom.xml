@@ -31,6 +31,12 @@
             <artifactId>spring-boot-starter-web</artifactId>
         </dependency>
 
+        <!--aop-->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-aop</artifactId>
+        </dependency>
+
         <!--webflux-->
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -57,7 +63,7 @@
         <dependency>
             <groupId>com.oracle.database.jdbc</groupId>
             <artifactId>ojdbc8</artifactId>
-            <version>21.6.0.0.1</version>
+            <version>21.8.0.0</version>
         </dependency>
 
         <dependency>
@@ -76,8 +82,21 @@
         <dependency>
             <groupId>com.baomidou</groupId>
             <artifactId>mybatis-plus-generator</artifactId>
-            <version>3.5.2</version>
+            <version>3.5.3</version>
         </dependency>
+
+<!--        <dependency>-->
+<!--            <groupId>com.alibaba</groupId>-->
+<!--            <artifactId>druid-spring-boot-starter</artifactId>-->
+<!--            <version>1.2.6</version>-->
+<!--        </dependency>-->
+
+        <!-- mybatis 动态数据源 -->
+        <!--        <dependency>-->
+        <!--            <groupId>com.baomidou</groupId>-->
+        <!--            <artifactId>dynamic-datasource-spring-boot-starter</artifactId>-->
+        <!--            <version>3.6.1</version>-->
+        <!--        </dependency>-->
 
         <!--sharding-jdbc-->
         <!--        <dependency>-->
@@ -96,13 +115,13 @@
         <dependency>
             <groupId>org.apache.shiro</groupId>
             <artifactId>shiro-spring</artifactId>
-            <version>1.7.1</version>
+            <version>1.10.0</version>
         </dependency>
         <!-- shiro redis cache-->
         <dependency>
             <groupId>org.crazycake</groupId>
             <artifactId>shiro-redis</artifactId>
-            <version>3.2.3</version>
+            <version>3.3.1</version>
             <exclusions>
                 <exclusion>
                     <groupId>org.apache.shiro</groupId>
@@ -127,14 +146,14 @@
         <dependency>
             <groupId>com.ibeetl</groupId>
             <artifactId>beetl-framework-starter</artifactId>
-            <version>1.2.14.RELEASE</version>
+            <version>1.2.40.Beetl.RELEASE</version>
         </dependency>
 
         <!--enjoy-->
         <dependency>
             <groupId>com.jfinal</groupId>
             <artifactId>enjoy</artifactId>
-            <version>4.5</version>
+            <version>5.0.3</version>
         </dependency>
 
         <!--lombok 通过注解给 javaBean 编译后的字节码文件自动构建常用方法，settter、getter、toString、hashCode、equals 等等-->
@@ -147,7 +166,7 @@
         <dependency>
             <groupId>com.github.ulisesbocchio</groupId>
             <artifactId>jasypt-spring-boot-starter</artifactId>
-            <version>2.1.1</version>
+            <version>3.0.5</version>
         </dependency>
 
         <!--mail-->
@@ -160,7 +179,7 @@
         <dependency>
             <groupId>com.alibaba</groupId>
             <artifactId>fastjson</artifactId>
-            <version>1.2.69</version>
+            <version>2.0.21</version>
         </dependency>
 
         <!--工具包-->
@@ -173,7 +192,7 @@
         <dependency>
             <groupId>com.squareup.okhttp3</groupId>
             <artifactId>okhttp</artifactId>
-            <version>3.12.0</version>
+            <version>4.10.0</version>
         </dependency>
 
         <!--httpclient-->
@@ -186,12 +205,12 @@
         <dependency>
             <groupId>com.google.zxing</groupId>
             <artifactId>core</artifactId>
-            <version>3.3.0</version>
+            <version>3.5.1</version>
         </dependency>
         <dependency>
             <groupId>com.google.zxing</groupId>
             <artifactId>javase</artifactId>
-            <version>3.3.0</version>
+            <version>3.5.1</version>
         </dependency>
 
         <!--swagger2-->
@@ -215,7 +234,7 @@
         <dependency>
             <groupId>org.java-websocket</groupId>
             <artifactId>Java-WebSocket</artifactId>
-            <version>1.5.0</version>
+            <version>1.5.3</version>
         </dependency>
 
         <!--kafka-->
@@ -243,14 +262,14 @@
         <dependency>
             <groupId>org.apache.activemq</groupId>
             <artifactId>activemq-pool</artifactId>
-            <version>5.9.1</version>
+            <version>5.17.0</version>
         </dependency>
 
         <!--rocketmq-->
         <dependency>
             <groupId>org.apache.rocketmq</groupId>
             <artifactId>rocketmq-client</artifactId>
-            <version>4.7.1</version>
+            <version>4.9.4</version>
         </dependency>
 
         <!--MQTT-->
@@ -266,7 +285,7 @@
         <dependency>
             <groupId>org.apache.curator</groupId>
             <artifactId>curator-recipes</artifactId>
-            <version>5.2.1</version>
+            <version>5.3.0</version>
         </dependency>
 
         <dependency>
@@ -287,7 +306,7 @@
         <dependency>
             <groupId>org.apache.velocity</groupId>
             <artifactId>velocity-engine-core</artifactId>
-            <version>2.2</version>
+            <version>2.3</version>
         </dependency>
 
         <!--log4jdbc-->
@@ -393,7 +412,7 @@
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
-                <version>2.1.8.RELEASE</version>
+                <version>2.2.5.RELEASE</version>
 <!--                <configuration>-->
 <!--                    <fork>true</fork>-->
 <!--                    <addResources>true</addResources>-->

@@ -1,6 +1,6 @@
 package com.springboot.example.service;
 
-import com.springboot.example.dao.TestMapper;
+import com.springboot.example.dao.mysql.TestMapper;
 import com.springboot.example.domain.Test;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;

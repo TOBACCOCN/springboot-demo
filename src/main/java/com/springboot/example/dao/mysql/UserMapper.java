@@ -25,7 +25,7 @@ public interface UserMapper extends BaseMapper<User> {
     // @Select("select * from user where id = #{ids}")
     Map<String, Object> queryById(Long id);
 
-    // 多个入参，sql 中取对应根据 param1, param2 取对应参数的值, 或者直接用入参参数名取值(一定的版本后才支持，如果是低版本的 mybatis或mybatis-plus,可以加注解 @Param 指定 sql 中的参数名)
+    // 多个入参，sql 中根据 param1, param2 取对应参数的值, 或者直接用入参参数名取值(一定的版本后才支持，如果是低版本的 mybatis或mybatis-plus,可以加注解 @Param 指定 sql 中的参数名)
     // @Select("select * from user where id = #{param1} and name = #{param2}")
     // @Select("select * from user where id = #{id} and name = #{name}")
     Map<String, Object> queryByIdAndName(Long id, String name);

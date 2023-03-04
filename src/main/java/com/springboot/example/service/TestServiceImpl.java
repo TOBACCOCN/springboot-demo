@@ -2,6 +2,7 @@ package com.springboot.example.service;
 
 import com.springboot.example.dao.mysql.TestMapper;
 import com.springboot.example.domain.Test;
+import com.springboot.example.util.SimpleApplicationContextAware;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -22,8 +23,6 @@ public class TestServiceImpl implements TestService {
 
     @Autowired
     private TestMapper testMapper;
-    @Autowired
-    private TestService testService;
 
     @Transactional/*(propagation = Propagation.REQUIRES_NEW)*/
     public int create(Test test) {
@@ -56,7 +55,7 @@ public class TestServiceImpl implements TestService {
 
     // 通过注入自己(TestService)，使事务生效
     public int transactionWork(String name) {
-        return testService.createEx(name);
+        return SimpleApplicationContextAware.getApplicationContext().getBean(TestService.class).createEx(name);
     }
 
 }

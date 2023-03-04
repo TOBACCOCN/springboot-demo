@@ -1,13 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <configuration>
     <property name="CHARSET" value="UTF-8"/>
+    <property name="PATTERN" value="%d %p %t %logger : %m%n"/>
 
     <!-- %m 输出的信息,%p 日志级别,%t 线程名,%d 日期,%c 类的全名,%i 索引【从数字0开始递增】,,, -->
     <!-- appender 是 configuration 的子节点，是负责写日志的组件。 -->
     <!-- ConsoleAppender：把日志输出到控制台 -->
-    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+    <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
         <encoder>
-            <pattern>%d %p [%t] %file:%line : %m%n</pattern>
+            <pattern>${PATTERN}</pattern>
             <!-- 控制台也要使用 UTF-8，不要使用 GBK，否则会中文乱码 -->
             <charset>${CHARSET}</charset>
         </encoder>
@@ -26,7 +27,7 @@
             </timeBasedFileNamingAndTriggeringPolicy>
         </rollingPolicy>
         <encoder>
-            <pattern>%d %p %file:%line : %m%n</pattern>
+            <pattern>${PATTERN}</pattern>
             <charset>${CHARSET}</charset>
         </encoder>
         <!-- 接收指定级别及以上级别日志 -->
@@ -42,9 +43,9 @@
     </appender>
 
     <!-- 控制台输出日志级别 -->
-    <!-- windows 开发环境使用 STDOUT 、 INFO -->
+    <!-- windows 开发环境使用 CONSOLE 、 INFO -->
     <root level="INFO">
-        <appender-ref ref="STDOUT"/>
+        <appender-ref ref="CONSOLE"/>
         <appender-ref ref="FILE"/>
     </root>
 
@@ -52,8 +53,8 @@
     <!-- 级别依次为【从高到低】：FATAL > ERROR > WARN > INFO > DEBUG > TRACE  -->
 
     <!-- addtivity：是否向上级 logger 传递打印信息。默认是 true。
-    设置为 false 时，就不会将 name 中指定的几个 package 的日志输出到 root 级别指定的 log 文件或 STDOUT 中  -->
-    <logger name="com.springboot.example" level="INFO" additivity="true">
+    设置为 false 时，就不会将 name 中指定的几个 package 的日志输出到 root 级别指定的 log 文件或 CONSOLE 中  -->
+    <logger name="com.springboot.example" level="info" additivity="true">
     </logger>
 
     <logger name="jdbc.connection" level="OFF" />

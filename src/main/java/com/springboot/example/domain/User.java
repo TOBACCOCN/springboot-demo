@@ -5,7 +5,6 @@ import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.apache.ibatis.annotations.MapKey;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.stereotype.Component;
@@ -46,7 +45,7 @@ public class User implements Serializable {
     private Integer age;
 
     @ApiModelProperty("address")
-    @ByteLength(min = 3, max = 20, message = "地址字节数为 3 到 20")
+    @ByteLength(min = 3, max = 20, message = "地址字节数最小为 3, 最大为 20")
     private String address;
 
 }

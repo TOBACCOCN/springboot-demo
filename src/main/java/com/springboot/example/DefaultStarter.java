@@ -1,6 +1,8 @@
 package com.springboot.example;
 
+import com.google.common.collect.Lists;
 import com.springboot.example.domain.User;
+import demo.MathGame;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
@@ -10,6 +12,7 @@ import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.jms.annotation.EnableJms;
 import org.springframework.scheduling.annotation.EnableScheduling;
+import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 
 import javax.annotation.PostConstruct;
 import java.lang.management.ManagementFactory;
@@ -59,6 +62,7 @@ public class DefaultStarter {
         log.info(">>>>> STATIC_SECOND_PROFILE: [{}]", staticSecondProfile);
         // pid
         log.info(">>>>> PID: [{}]",  ManagementFactory.getRuntimeMXBean().getName().split("@")[0]);
+        MathGame.print(2, Lists.newArrayList(1, 2));
     }
 
 }

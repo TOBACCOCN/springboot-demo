@@ -67,7 +67,7 @@ public class ActiveMQConfiguration {
         return factory;
     }
 
-    //在 Topic 模式中，对消息的监听需要对 containerFactory 进行配置
+    // 在 Topic 模式中，对消息的监听需要对 containerFactory 进行配置
     @Bean("topicListener")
     public JmsListenerContainerFactory<?> topicJmsListenerContainerFactory(ConnectionFactory connectionFactory) {
         SimpleJmsListenerContainerFactory factory = new SimpleJmsListenerContainerFactory();

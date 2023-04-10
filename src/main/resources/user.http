@@ -1,0 +1,6 @@
+GET http://localhost:9527/users?foo=bar&bar=barz
+
+###
+GET http://localhost:9527/user/2
+
+###

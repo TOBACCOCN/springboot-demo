@@ -2,6 +2,7 @@ package com.springboot.example.web.controller;
 
 import com.alibaba.fastjson.JSONObject;
 import com.springboot.example.service.UserService;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.IncorrectCredentialsException;
@@ -9,7 +10,6 @@ import org.apache.shiro.authc.LockedAccountException;
 import org.apache.shiro.authc.UnknownAccountException;
 import org.apache.shiro.authc.UsernamePasswordToken;
 import org.apache.shiro.subject.Subject;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Mono;
@@ -22,12 +22,12 @@ import java.util.Map;
  * @author zhangyonghong
  * @date 2019.7.16
  */
-@Controller
 @Slf4j
+@Controller
+@RequiredArgsConstructor
 public class UserController {
 
-    @Autowired
-    private UserService userService;
+    private final UserService userService;
 
     @PostMapping("/login")
     @ResponseBody
@@ -64,7 +64,8 @@ public class UserController {
         return Mono.create(monoSink -> monoSink.success(userService.findById(id)));
     }
 
-    @GetMapping("/users")
+    // 请求中 , 必须有参数 foo 且等于 bar，必须有参数 bar，必须没有参数 barz
+    @GetMapping(value = "/users", params = {"foo=bar", "bar", "!barz"})
     @ResponseBody
     // public Object findAll() {
     public Mono<Object> findAll() {

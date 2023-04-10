@@ -11,16 +11,16 @@ import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
 
 /**
- * http 请求控制器
+ * validation 请求控制器
  *
  * @author zhangyonghong
  * @date 2019.6.1
  */
 @Validated
 @RestController
-@RequestMapping("/simple")
+@RequestMapping("/validation")
 @Slf4j
-public class SimpleController {
+public class ValidationController {
 
     @GetMapping("/single")
     @ResponseBody

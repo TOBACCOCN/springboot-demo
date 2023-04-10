@@ -1,14 +1,14 @@
-GET http://localhost:9527/simple/single?nae=99&age=9
+GET http://localhost:9527/validation/single?nae=99&age=9
 Accept: application/json
 
 ###
-POST http://localhost:9527/simple/form
+POST http://localhost:9527/validation/form
 Content-Type: application/x-www-form-urlencoded
 
 id=99&age=1
 
 ###
-POST http://localhost:9527/simple/json
+POST http://localhost:9527/validation/json
 Content-Type: application/json
 
 {

@@ -3,11 +3,9 @@ package com.springboot.example.service;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.springboot.example.domain.Student;
 import lombok.extern.slf4j.Slf4j;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.List;
 
@@ -17,9 +15,8 @@ import java.util.List;
  * @author zhangyonghong
  * @date 2019.9.19
  */
-@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-@RunWith(SpringRunner.class)
 @Slf4j
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 public class StudentServiceTest {
 
     // student 表不分片

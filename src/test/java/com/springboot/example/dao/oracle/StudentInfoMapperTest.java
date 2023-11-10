@@ -1,12 +1,9 @@
 package com.springboot.example.dao.oracle;
 
-import junit.framework.TestCase;
 import lombok.extern.slf4j.Slf4j;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.Map;
 
@@ -18,8 +15,7 @@ import java.util.Map;
  */
 @Slf4j
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-@RunWith(SpringRunner.class)
-public class StudentInfoMapperTest extends TestCase {
+public class StudentInfoMapperTest {
 
     @Autowired
     private StudentInfoMapper studentInfoMapper;

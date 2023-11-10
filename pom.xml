@@ -126,6 +126,12 @@
                     <groupId>org.apache.shiro</groupId>
                     <artifactId>shiro-core</artifactId>
                 </exclusion>
+                <!-- 排除 sisu-inject-plexus 包下的 ContainerConfiguration，cat 需要使用 plexus-container-default 包下的 ContainerConfiguration-->
+                <!-- https://www.jianshu.com/p/7998212c8314-->
+                <exclusion>
+                    <groupId>org.sonatype.sisu</groupId>
+                    <artifactId>sisu-inject-plexus</artifactId>
+                </exclusion>
             </exclusions>
         </dependency>
 
@@ -327,7 +333,30 @@
         <dependency>
             <groupId>com.dianping.cat</groupId>
             <artifactId>cat-client</artifactId>
-            <version>4.0-RC1</version>
+            <version>3.1.0</version>
+        </dependency>
+
+        <!--jjwt-->
+        <dependency>
+            <groupId>io.jsonwebtoken</groupId>
+            <artifactId>jjwt-api</artifactId>
+            <version>0.11.2</version>
+        </dependency>
+        <dependency>
+            <groupId>io.jsonwebtoken</groupId>
+            <artifactId>jjwt-impl</artifactId>
+            <version>0.11.2</version>
+        </dependency>
+        <dependency>
+            <groupId>io.jsonwebtoken</groupId>
+            <artifactId>jjwt-jackson</artifactId>
+            <version>0.11.2</version>
+        </dependency>
+        <dependency>
+            <groupId>org.bouncycastle</groupId>
+            <artifactId>bcprov-jdk15on</artifactId>
+            <version>1.70</version>
+            <scope>runtime</scope>
         </dependency>
 
         <!--test-->

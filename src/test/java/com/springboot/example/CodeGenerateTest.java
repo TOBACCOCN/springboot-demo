@@ -1,11 +1,9 @@
 package com.springboot.example;
 
 import com.baomidou.mybatisplus.generator.FastAutoGenerator;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.junit4.SpringRunner;
 
 /**
  * 生成代码
@@ -14,7 +12,6 @@ import org.springframework.test.context.junit4.SpringRunner;
  * @date 2022.10.7
  */
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-@RunWith(SpringRunner.class)
 public class CodeGenerateTest {
 
     @Value("${spring.datasource.url}")

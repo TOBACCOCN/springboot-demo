@@ -20,6 +20,9 @@
     <include resource="org/springframework/boot/logging/logback/console-appender.xml"/>
     <include resource="logback-debug.xml"/>
     <include resource="logback-warn.xml"/>
+    <include resource="logback-socket.xml"/>
+
+    <appender name="CAT_APPENDER" class="com.springboot.example.cat.CatLogbackAppender"/>
 
     <!-- 全局输出日志级别 -->
     <!-- 级别依次为【从高到低】：OFF  > ERROR > WARN > INFO > DEBUG > TRACE > ALL  -->
@@ -28,11 +31,13 @@
         <appender-ref ref="CONSOLE"/>
         <appender-ref ref="DEBUG_APPENDER"/>
         <appender-ref ref="WARN_APPENDER"/>
+        <appender-ref ref="SOCKET"/>
+        <appender-ref ref="CAT_APPENDER"/>
     </root>
 
     <!-- 指定项目中某个包，当有日志操作行为时的日志记录级别 -->
     <!-- addtivity：是否将日志输出到 root 指定的 appender-ref，默认是 true，为 false 时，需要单独指定自己的 appender-ref  -->
-    <!-- 如下配置，也就是指定包下的日志会输出到 CONSOLE 和 FILE  -->
+    <!-- 如下配置，也就是指定包下的日志会输出到 CONSOLE 和 DEBUG_APPENDER、WARN_APPENDER、CatAppender -->
     <logger name="com.springboot.example" level="DEBUG" additivity="true"/>
 
     <logger name="jdbc.connection" level="OFF"/>

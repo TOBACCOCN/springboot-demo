@@ -5,11 +5,9 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.springboot.example.domain.Student;
 import lombok.extern.slf4j.Slf4j;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.List;
 
@@ -19,11 +17,10 @@ import java.util.List;
  * @author zhangyonghong
  * @date 2019.9.19
  */
+@Slf4j
 // 工程中开启有 websocket 时，@SpringBootTest 注解需要添加参数 webEnvironment，
 // 否者会抛异常：javax.websocket.server.ServerContainer not available
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-@RunWith(SpringRunner.class)
-@Slf4j
 public class StudentMapperTest {
 
     // student 表不分片

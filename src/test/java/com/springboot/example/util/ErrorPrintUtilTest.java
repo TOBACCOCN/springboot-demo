@@ -1,8 +1,8 @@
 package com.springboot.example.util;
 
 import lombok.extern.slf4j.Slf4j;
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -25,7 +25,7 @@ public class ErrorPrintUtilTest {
             fis.close();
         } catch (Exception e) {
             ErrorPrintUtil.printErrorMsg(log, e);
-            Assert.assertNotNull(e);
+            Assertions.assertNotNull(e);
         }
     }
 

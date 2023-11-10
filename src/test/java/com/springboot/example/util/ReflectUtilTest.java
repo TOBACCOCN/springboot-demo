@@ -5,13 +5,11 @@ import com.alibaba.fastjson.JSONObject;
 import com.springboot.example.domain.User;
 import com.springboot.example.service.UserService;
 import lombok.extern.slf4j.Slf4j;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.redis.core.HashOperations;
 import org.springframework.data.redis.core.RedisTemplate;
-import org.springframework.test.context.junit4.SpringRunner;
 
 import java.lang.reflect.Method;
 import java.util.UUID;
@@ -23,9 +21,8 @@ import java.util.function.Function;
  * @author TOBACCO
  * @date 2020.08.23
  */
-@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-@RunWith(SpringRunner.class)
 @Slf4j
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 public class ReflectUtilTest {
 
     @Autowired

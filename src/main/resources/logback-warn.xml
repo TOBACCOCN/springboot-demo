@@ -2,7 +2,7 @@
 <included>
     <appender name="WARN_APPENDER" class="ch.qos.logback.core.rolling.RollingFileAppender">
         <!-- 日志文件路径 -->
-        <File>logs/warn.log</File>
+        <file>logs/warn.log</file>
         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
             <fileNamePattern>logs/warn.%d.%i.log</fileNamePattern>
             <!-- 日志文件的保存期限 -->

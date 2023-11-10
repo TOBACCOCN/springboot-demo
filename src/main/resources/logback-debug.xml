@@ -2,7 +2,7 @@
 <included>
     <appender name="DEBUG_APPENDER" class="ch.qos.logback.core.rolling.RollingFileAppender">
         <!-- 日志文件路径 -->
-        <File>logs/debug.log</File>
+        <file>logs/debug.log</file>
         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
             <fileNamePattern>logs/debug.%d.%i.log</fileNamePattern>
             <!-- 日志文件的保存期限 -->

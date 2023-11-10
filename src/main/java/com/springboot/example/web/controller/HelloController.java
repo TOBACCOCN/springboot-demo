@@ -1,9 +1,11 @@
 package com.springboot.example.web.controller;
 
 import com.springboot.example.domain.User;
+import com.springboot.example.service.UserService;
 import com.springboot.example.util.ParamUtil;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.stereotype.Controller;
@@ -27,14 +29,17 @@ import java.util.Map;
 @Controller
 @Api("springboot example api")
 @Slf4j
+@RequiredArgsConstructor
 public class HelloController {
 
     // private static Logger logger = LoggerFactory.getLogger(HelloController.class);
 
+    private final UserService userService;
+
     @ApiOperation(value = "GET 请求")
     @RequiresPermissions("hello")
     // GET 请求
-    @GetMapping("/hello")
+    @GetMapping("/batch/hello")
     // 不加 @ResponseBody 就会被 thymeleaf 视图解析器解析到 html 页面
     @ResponseBody
     // public Object helloGET(HttpServletRequest request) {
@@ -42,6 +47,7 @@ public class HelloController {
         Map<String, String> map = ParamUtil.getMap(request.getParameterMap());
         log.info(">>>>> PARAM_MAP: [{}]", map);
         map.put("hello", "java");
+        userService.findAll();
         // return map;
         // TimeUnit.DAYS.sleep(4);
         return Mono.create(monoSink -> monoSink.success(map));

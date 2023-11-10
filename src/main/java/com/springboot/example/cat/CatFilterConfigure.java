@@ -1,6 +1,6 @@
 package com.springboot.example.cat;
 
-import com.dianping.cat.support.servlet.CatFilter;
+import com.dianping.cat.servlet.CatFilter;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;

@@ -4,10 +4,8 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.springboot.example.domain.StudentInfo;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.junit4.SpringRunner;
 
 import javax.annotation.Resource;
 import java.util.Date;
@@ -19,9 +17,8 @@ import java.util.List;
  * @author TOBACCO
  * @date 2022.12.19
  */
-@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-@RunWith(SpringRunner.class)
 @Slf4j
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @RequiredArgsConstructor
 public class StudentInfoServiceTest {
 
@@ -32,7 +29,7 @@ public class StudentInfoServiceTest {
     public void insert() {
         for (int i = 0; i < 4; i++) {
             StudentInfo studentInfo = new StudentInfo();
-            studentInfo.setId(i + 3);
+            studentInfo.setId((long) (i + 3));
             studentInfo.setName("zhouba");
             studentInfo.setSex("M");
             studentInfo.setCreateDate(new Date());

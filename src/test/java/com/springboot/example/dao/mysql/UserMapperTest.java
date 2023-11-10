@@ -8,12 +8,10 @@ import com.google.common.collect.Lists;
 import com.springboot.example.dao.mysql.UserMapper;
 import com.springboot.example.domain.User;
 import lombok.extern.slf4j.Slf4j;
-import org.junit.Assert;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -26,11 +24,10 @@ import java.util.Map;
  * @author zhangyonghong
  * @date 2019.6.3
  */
+@Slf4j
 // 工程中开启有 websocket 时，@SpringBootTest 注解需要添加参数 webEnvironment，
 // 否者会抛异常：javax.websocket.server.ServerContainer not available
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-@RunWith(SpringRunner.class)
-@Slf4j
 public class UserMapperTest {
 
     // user 表要分片，库也要分片
@@ -77,7 +74,7 @@ public class UserMapperTest {
             affect += userMapper.insert(new User((long) i, i + "", i, i + ""));
         }
         // Assert.isTrue(affect == 10000, "userMapper.insert failed");
-        Assert.assertEquals("userMapper.insert failed", 10000, affect);
+        Assertions.assertEquals( 10000, affect, "userMapper.insert failed");
     }
 
     @Test
@@ -139,7 +136,7 @@ public class UserMapperTest {
         Lists.partition(users, 1000).forEach(list -> {
             int affect = userMapper.batchUpdate(list);
             // Assert.isTrue(affect == 100, "userMapper.batchUpdate failed");
-            Assert.assertEquals("userMapper.batchUpdate failed", 100, affect);
+            Assertions.assertEquals(100, affect, "userMapper.batchUpdate failed");
         });
     }
 

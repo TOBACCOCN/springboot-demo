@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!-- ==================================================================== -->
+<!-- This config file is intended to be used by a SocketServer that logs  -->
+<!-- events received from various clients on the console and to a file    -->
+<!-- that is rolled over when appropriate. The interesting point to note  -->
+<!-- is that it is a configuration file like any other.                   -->
+<!-- ==================================================================== -->
+
+<configuration>
+
+    <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger - %msg%n</pattern>
+        </encoder>
+    </appender>
+
+    <appender name="DEBUG_APPENDER" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <!-- 日志文件路径 -->
+        <file>C:/Users/TOBACCO/Desktop/logs/debug.log</file>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>C:/Users/TOBACCO/Desktop/logs/debug.%d.%i.log</fileNamePattern>
+            <!-- 日志文件的保存期限 -->
+            <maxHistory>30</maxHistory>
+            <timeBasedFileNamingAndTriggeringPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+                <!-- 日志文件的大小，默认值是10MB -->
+                <maxFileSize>10MB</maxFileSize>
+            </timeBasedFileNamingAndTriggeringPolicy>
+        </rollingPolicy>
+        <encoder>
+            <pattern>%d -%5p ${PID:- } --- [%15.15t] %-40.40logger{39} : %m%n%wEx</pattern>
+            <charset>UTF-8</charset>
+        </encoder>
+        <!-- 接收指定级别及以上级别日志 -->
+        <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+            <level>DEBUG</level>
+        </filter>
+        <!-- 接收指定级别日志 -->
+        <!--<filter class="ch.qos.logback.classic.filter.LevelFilter">
+            <level>debug</level>
+            <onMatch>ACCEPT</onMatch>
+            <onMismatch>DENY</onMismatch>
+        </filter>-->
+    </appender>
+
+    <root level="debug">
+        <appender-ref ref="DEBUG_APPENDER" />
+        <appender-ref ref="CONSOLE" />
+    </root>
+
+</configuration>

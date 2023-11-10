@@ -10,7 +10,7 @@ import java.util.Date;
 @TableName("STUDENT_INFO")
 public class StudentInfo {
 
-    private long id;
+    private Long id;
 
     private String name;
 

@@ -1,12 +1,10 @@
 package com.springboot.example;
 
 import lombok.extern.slf4j.Slf4j;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.redis.core.*;
-import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.HashSet;
 import java.util.List;
@@ -20,9 +18,8 @@ import java.util.concurrent.TimeUnit;
  * @author zhangyonghong
  * @date 2019.6.1
  */
-@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-@RunWith(SpringRunner.class)
 @Slf4j
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 public class RedisTest {
 
     // private static Logger logger = LoggerFactory.getLogger(RedisTests.class);

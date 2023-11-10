@@ -39,7 +39,7 @@ public class MqttConfiguration {
 
     @Bean
     public MqttClient mqttClient() throws MqttException {
-        String clientId = UUID.randomUUID().toString().replaceAll("-", "");
+        String clientId = "java_" + UUID.randomUUID().toString().replaceAll("-", "").substring(0, 8);
         MqttClient mqttClient = new MqttClient(serverURI, clientId, new MemoryPersistence());
 
         // MQTT 连接选项
@@ -57,7 +57,7 @@ public class MqttConfiguration {
         mqttClient.connect(options);
 
         // 订阅，用于测试，通常是作为设备的客户端才会订阅
-        // mqttClient.subscribe(topicFilter);
+        mqttClient.subscribe(topicFilter);
         return mqttClient;
     }
 }

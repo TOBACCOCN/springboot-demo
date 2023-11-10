@@ -1,16 +1,13 @@
 package com.springboot.example.web.controller;
 
 import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.JSONObject;
 import lombok.extern.slf4j.Slf4j;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
-import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
@@ -21,7 +18,6 @@ import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -30,9 +26,8 @@ import java.util.List;
  * @author zhangyonghong
  * @date 2019.9.20
  */
-@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-@RunWith(SpringRunner.class)
 @Slf4j
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 public class HelloControllerTest {
 
     // private static Logger logger = LoggerFactory.getLogger(HelloControllerTests.class);
@@ -42,7 +37,7 @@ public class HelloControllerTest {
 
     private MockMvc mockMvc;
 
-    @Before
+    @BeforeEach
     public void setup() {
         mockMvc = MockMvcBuilders.standaloneSetup(helloController).build();
     }
@@ -66,7 +61,7 @@ public class HelloControllerTest {
         // controller 返回 Mono<T> 时，通过 getAsyncResult 获取结果
         Object asyncResult = mvcResult.getAsyncResult();
         log.info(">>>>> RESULT: [{}]", asyncResult);
-        Assert.assertEquals("{\"bar\":\"barz\",\"foo\":\"barz\",\"hello\":\"java\"}", JSON.toJSONString(asyncResult));
+        Assertions.assertEquals("{\"bar\":\"barz\",\"foo\":\"barz\",\"hello\":\"java\"}", JSON.toJSONString(asyncResult));
     }
 
     @Test
@@ -89,7 +84,7 @@ public class HelloControllerTest {
         // controller 返回 Mono<T> 时，通过 getAsyncResult 获取结果
         Object asyncResult = mvcResult.getAsyncResult();
         log.info(">>>>> RESULT: [{}]", asyncResult);
-        Assert.assertEquals("{\"bar\":\"barz\",\"foo\":\"bar\"}", JSON.toJSONString(asyncResult));
+        Assertions.assertEquals("{\"bar\":\"barz\",\"foo\":\"bar\"}", JSON.toJSONString(asyncResult));
     }
 
     @Test
@@ -112,7 +107,7 @@ public class HelloControllerTest {
         // controller 返回 Mono<T> 时，通过 getAsyncResult 获取结果
         Object asyncResult = mvcResult.getAsyncResult();
         log.info(">>>>> RESULT: [{}]", asyncResult);
-        Assert.assertEquals("{\"age\":17,\"name\":\"zhangsan\"}", JSON.toJSONString(asyncResult));
+        Assertions.assertEquals("{\"age\":17,\"name\":\"zhangsan\"}", JSON.toJSONString(asyncResult));
     }
 
     @Test
@@ -134,7 +129,7 @@ public class HelloControllerTest {
 
         String result = mvcResult.getResponse().getContentAsString();
         log.info(">>>>> RESULT: [{}]", result);
-        Assert.assertEquals(JSON.toJSONString(map), result);
+        Assertions.assertEquals(JSON.toJSONString(map), result);
     }
 
 }

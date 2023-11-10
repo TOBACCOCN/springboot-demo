@@ -6,8 +6,8 @@ import com.springboot.example.util.SignUtil;
 import com.springboot.example.util.SimpleX509TrustManager;
 import lombok.extern.slf4j.Slf4j;
 import org.java_websocket.client.WebSocketClient;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.springframework.util.DigestUtils;
 
 import javax.net.ssl.SSLContext;
@@ -37,7 +37,7 @@ public class SimpleWebSocketClientTest {
 
     private static final int BUFFER_LENGTH = 1024 * 8;
 
-    @Before
+    @BeforeEach
     public void connect() {
         new Thread(() -> {
             try {

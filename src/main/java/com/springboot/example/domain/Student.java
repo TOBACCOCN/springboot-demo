@@ -5,6 +5,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.io.Serializable;
+import java.util.Date;
 
 /**
  * 学生实体类
@@ -26,5 +27,7 @@ public class Student implements Serializable {
     private Integer age;
 
     private String address;
+
+    private Date birthday;
 
 }

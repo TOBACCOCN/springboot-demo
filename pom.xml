@@ -114,7 +114,7 @@
         <dependency>
             <groupId>org.apache.shiro</groupId>
             <artifactId>shiro-spring</artifactId>
-            <version>1.10.0</version>
+            <version>1.13.0</version>
         </dependency>
         <!-- shiro redis cache-->
         <dependency>
@@ -203,7 +203,7 @@
         <dependency>
             <groupId>com.squareup.okhttp3</groupId>
             <artifactId>okhttp</artifactId>
-            <version>4.10.0</version>
+            <version>3.12.0</version>
         </dependency>
 
         <!--httpclient-->
@@ -357,6 +357,12 @@
             <artifactId>bcprov-jdk15on</artifactId>
             <version>1.70</version>
             <scope>runtime</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>com.influxdb</groupId>
+            <artifactId>influxdb-client-java</artifactId>
+            <version>6.10.0</version>
         </dependency>
 
         <!--test-->

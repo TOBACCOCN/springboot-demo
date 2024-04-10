@@ -14,7 +14,9 @@ import org.apache.http.impl.client.HttpClients;
 import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.util.EntityUtils;
 
+import javax.net.ssl.HostnameVerifier;
 import javax.net.ssl.SSLContext;
+import javax.net.ssl.SSLSession;
 import javax.net.ssl.TrustManager;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
@@ -61,7 +63,7 @@ public class HttpClientUtil {
             SSLContext sslContext = SSLContext.getInstance("TLS");
             TrustManager[] trustManager = {new SimpleX509TrustManager()};
             sslContext.init(null, trustManager, null);
-            return HttpClients.custom().setSSLContext(sslContext).setSSLHostnameVerifier(new SimpleHostnameVerifier()).build();
+            return HttpClients.custom().setSSLContext(sslContext).setSSLHostnameVerifier((s, sslSession) -> true).build();
         } else {
             return HttpClients.createDefault();
         }

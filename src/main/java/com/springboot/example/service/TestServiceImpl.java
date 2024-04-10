@@ -31,7 +31,7 @@ public class TestServiceImpl implements TestService {
 
     @Transactional
     public int createEx(String name) {
-        int insert = create(new Test((long) (Math.random()* 1000), name));
+        int insert = testMapper.insert(new Test((long) (Math.random()* 1000), name));
         try (FileInputStream ignored = new FileInputStream("D:/TEST")) {
             log.info("NO EXCEPTION OCCUR");
         } catch (IOException e) {
@@ -48,12 +48,12 @@ public class TestServiceImpl implements TestService {
 
     }
 
-    // 在非事务方法 test() 中调用事务方法 createEx()，createEx() 的事务失效
+    // 在非事务方法中直接调用事务方法 createEx()，createEx() 的事务失效
     public int transactionNotWork(String name) {
         return createEx(name);
     }
 
-    // 通过注入自己(TestService)，使事务生效
+    // 通过 spring 容器拿到当前类对象(即为代理对象)使事务生效
     public int transactionWork(String name) {
         return SimpleApplicationContextAware.getApplicationContext().getBean(TestService.class).createEx(name);
     }

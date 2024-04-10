@@ -30,7 +30,7 @@ public class StudentMapperTest {
 
     @Test
     public void insert() {
-        Student student = new Student(6L, "zhouba", 23, "suzhou");
+        Student student = new Student(6L, "zhouba", 23, "suzhou", null);
         int insertAffect = studentMapper.insert(student);
         log.info(">>>>> INSERT_AFFECT: [{}]", insertAffect);
     }

@@ -27,7 +27,7 @@ public class HttpURLConnectionUtilTest {
     @Test
     public void httpPost() throws Exception {
         // String url = "http://127.0.0.1:9527/hello";
-        String url = "https://127.0.0.1:9527/hello";
+        String url = "https://sample:9527/hello";
         Map<String, String> headerMap = new HashMap<>();
         headerMap.put("Authorization", UUID.randomUUID().toString().replaceAll("-", ""));
         headerMap.put("Content-Type", "application/x-www-form-urlencoded");

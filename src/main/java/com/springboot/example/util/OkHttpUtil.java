@@ -47,7 +47,7 @@ public class OkHttpUtil {
             SimpleX509TrustManager simpleX509TrustManager = new SimpleX509TrustManager();
             TrustManager[] trustManager = {simpleX509TrustManager};
             sslContext.init(null, trustManager, null);
-            builder.hostnameVerifier(new SimpleHostnameVerifier())
+            builder.hostnameVerifier((s, sslSession) -> true)
                     .sslSocketFactory(sslContext.getSocketFactory(), simpleX509TrustManager);
         }
         return builder.build();

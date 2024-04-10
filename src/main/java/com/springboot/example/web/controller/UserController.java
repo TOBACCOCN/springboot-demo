@@ -31,8 +31,8 @@ public class UserController {
 
     @PostMapping("/login")
     @ResponseBody
-    // public Object findById(@RequestBody Map<String, String> paramMap) {
-    public Mono<Object> login(@RequestBody Map<String, String> paramMap) {
+    public Object findById(@RequestBody Map<String, String> paramMap) {
+    // public Mono<Object> login(@RequestBody Map<String, String> paramMap) {
         log.debug(">>>>> LOGIN_PARAM: [{}]", paramMap);
 
         // return userService.findById(id);
@@ -52,33 +52,33 @@ public class UserController {
         }
 
         subject.getSession().setAttribute("LOGGED", true);
-        return Mono.create(monoSink -> monoSink.success(jsonObject));
-        // return jsonObject;
+        // return Mono.create(monoSink -> monoSink.success(jsonObject));
+        return jsonObject;
     }
 
     @GetMapping("/user/{id}")
     @ResponseBody
-    // public Object findById(@PathVariable("id") Long id) {
-    public Mono<Object> findById(@PathVariable("id") Long id) {
-        // return userService.findById(id);
-        return Mono.create(monoSink -> monoSink.success(userService.findById(id)));
+    public Object findById(@PathVariable("id") Long id) {
+    // public Mono<Object> findById(@PathVariable("id") Long id) {
+        return userService.findById(id);
+        // return Mono.create(monoSink -> monoSink.success(userService.findById(id)));
     }
 
     // 请求中 , 必须有参数 foo 且等于 bar，必须有参数 bar，必须没有参数 barz
     @GetMapping(value = "/users", params = {"foo=bar", "bar", "!barz"})
     @ResponseBody
-    // public Object findAll() {
-    public Mono<Object> findAll() {
-        // return userService.findAll();
-        return Mono.create(monoSink -> monoSink.success(userService.findAll()));
+    public Object findAll() {
+    // public Mono<Object> findAll() {
+        return userService.findAll();
+        // return Mono.create(monoSink -> monoSink.success(userService.findAll()));
     }
 
     @GetMapping("/usersByOffsetLimit")
     @ResponseBody
-    // public Object findAll(long offset, long limit) {
-    public Mono<Object> findPage(long offset, long limit) {
-        // return userService.findPage(offset, limit);
-        return Mono.create(monoSink -> monoSink.success(userService.findPage(offset, limit)));
+    public Object findAll(long offset, long limit) {
+    // public Mono<Object> findPage(long offset, long limit) {
+        return userService.findPage(offset, limit);
+        // return Mono.create(monoSink -> monoSink.success(userService.findPage(offset, limit)));
     }
 
 }

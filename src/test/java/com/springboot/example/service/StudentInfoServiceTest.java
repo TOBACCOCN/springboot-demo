@@ -2,7 +2,6 @@ package com.springboot.example.service;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.springboot.example.domain.StudentInfo;
-import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -19,7 +18,6 @@ import java.util.List;
  */
 @Slf4j
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-@RequiredArgsConstructor
 public class StudentInfoServiceTest {
 
     @Resource

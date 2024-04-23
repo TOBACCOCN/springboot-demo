@@ -38,16 +38,13 @@ public class HelloController {
     @ApiOperation(value = "GET 请求")
     @RequiresPermissions("hello")
     // GET 请求
-    @GetMapping("/batch/hello")
+    @GetMapping("/hello")
     // 不加 @ResponseBody 就会被 thymeleaf 视图解析器解析到 html 页面
     @ResponseBody
     public Object helloGET(HttpServletRequest request) {
     // public Mono<Object> helloGET(HttpServletRequest request) throws InterruptedException {
-        Map<String, String> map = ParamUtil.getMap(request.getParameterMap());
-        log.info(">>>>> PARAM_MAP: [{}]", map);
-        map.put("hello", "java");
-        userService.findAll();
-        return map;
+        log.info(">>>>> PARAM_MAP: [{}]", ParamUtil.getMap(request.getParameterMap()));
+	    return userService.queryByIdAndName(1L, "zhangsan");
         // TimeUnit.DAYS.sleep(4);
         // return Mono.create(monoSink -> monoSink.success(map));
     }

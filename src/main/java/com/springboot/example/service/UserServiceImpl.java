@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Map;
 
 @Service
 @Transactional
@@ -44,6 +45,11 @@ public class UserServiceImpl implements UserService {
         Page<User> page = new Page<>(current, size);
         // current 表示当前页
         return userMapper.selectPage(page, new QueryWrapper<>());
+    }
+
+    @Override
+    public Map<String, Object> queryByIdAndName(Long id, String name) {
+        return userMapper.queryByIdAndName(id, name);
     }
 
 }
